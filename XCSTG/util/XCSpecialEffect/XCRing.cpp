@@ -78,12 +78,13 @@ bool xc_se::XCRing::SpecialEffectRender(float x,float y,float z)
 		auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
 		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
-		if(ring_type== RingLightColor)
+		NowSize += 0.5*deltaTime;
+	/*	if(ring_type== RingLightColor)
 			NowSize +=0.005;
 		else {
 			NowSize += 0.004;
 			NowTime += deltaTime;
-		}
+		}*/
 			
 		return false;
 	}

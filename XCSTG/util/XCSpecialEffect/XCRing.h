@@ -11,7 +11,7 @@ namespace xc_se {
 		float RenderX, RenderY, RenderZ;
 		float NowSize = 0.015f,NowTime=0.0f;
 		bool should_se_render = true,first_run=true;
-		const float alive_time = 0.25f;
+		const float alive_time = 0.2f;
 		float deltaTime = 0.0f, lastFrame = 0.0f;
 		GLuint vao, vbo, program;
 		void ShaderInit();

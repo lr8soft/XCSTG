@@ -40,6 +40,12 @@
     <Filter Include="源文件\util\XCSpecialEffect">
       <UniqueIdentifier>{375d6dff-03cf-4ddc-8423-84c633133ae9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\util\XCBullet">
+      <UniqueIdentifier>{c644a1a9-2cb1-468a-8312-f3db08a78b6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\util\XCBullet">
+      <UniqueIdentifier>{08aa73ff-c8ef-4475-84d9-1bb90e1dba2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="util\AppFrameWork.cpp">
@@ -84,6 +90,9 @@
     <ClCompile Include="util\XCGame\XCTraceAttack.cpp">
       <Filter>源文件\util\XCGame</Filter>
     </ClCompile>
+    <ClCompile Include="util\XCBullet\XCCircleBullet.cpp">
+      <Filter>源文件\util\XCBullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util\AppFrameWork.h">
@@ -124,6 +133,12 @@
     </ClInclude>
     <ClInclude Include="util\XCGame\XCTraceAttack.h">
       <Filter>头文件\util\XCGame</Filter>
+    </ClInclude>
+    <ClInclude Include="util\XCBullet\XCBullet.h">
+      <Filter>头文件\util\XCBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="util\XCBullet\XCCircleBullet.h">
+      <Filter>头文件\util\XCBullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

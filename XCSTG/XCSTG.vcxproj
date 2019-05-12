@@ -126,6 +126,7 @@
     <ClCompile Include="BackGroundRenderGroup.cpp" />
     <ClCompile Include="EnemyRenderGroup.cpp" />
     <ClCompile Include="gl3w.c" />
+    <ClCompile Include="util\XCBullet\XCCircleBullet.cpp" />
     <ClCompile Include="util\XCEnemyInfo.cpp" />
     <ClCompile Include="util\XCGame\XCTraceAttack.cpp" />
     <ClCompile Include="util\XCSpecialEffect\XCExplode.cpp" />
@@ -145,6 +146,8 @@
     <ClInclude Include="util\AppFrameWork.h" />
     <ClInclude Include="util\ImageLoader.h" />
     <ClInclude Include="util\ShaderReader.h" />
+    <ClInclude Include="util\XCBullet\XCBullet.h" />
+    <ClInclude Include="util\XCBullet\XCCircleBullet.h" />
     <ClInclude Include="util\XCGame\Enemy\XCNormalEnemy.h" />
     <ClInclude Include="util\XCGame\XCNormalAttack.h" />
     <ClInclude Include="util\XCEnemyInfo.h" />

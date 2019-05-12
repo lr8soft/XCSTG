@@ -46,10 +46,12 @@ void xc_game::XCTrackAttack::ReCalcParameter()
 		if (*destX != NowX) {
 			temp_k = (*destY - NowY) / (*destX - NowX);
 			temp_b = NowY - (temp_k*NowX);
+			temp_theta = acosf(abs(*destX-NowX)/sqrtf(pow(*destX-NowX,2)+ pow(*destY - NowY, 2)));
 		}
 		else {
 			temp_k = 0;
 			temp_b = NowY;
+			temp_theta = 3.1415926f/2.0f;
 		}
 	}
 }
@@ -84,15 +86,18 @@ void xc_game::XCTrackAttack::AttackRender(float nowFrame)
 		}
 		case FOLLOW_PLAYER_MODE:
 		{
-			NowX = *playerX + offset_posX; NowY = *playerY + 0.15f; NowZ = *playerZ;
-			transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
+			NowX = *playerX; NowY = *playerY; NowZ = *playerZ;
+			transform_mat = glm::translate(transform_mat, glm::vec3(NowX + offset_posX , NowY + 0.15f, NowZ));
 
 			break;
 		}
 		case FOLLOW_ENEMY_MODE: {
 			if (have_enemy_lock) {
 				NowX = *destX; NowY = *destY; NowZ = *destZ;
-				transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
+				transform_mat = glm::translate(transform_mat, glm::vec3(NowX + offset_posX, NowY, NowZ));
+				if (require_mode== FOLLOW_PLAYER_MODE) {//异常：本应跟随敌人，却收到了跟随玩家的请求
+					SetAttackMode_Inside(FOLLOW_PLAYER_MODE);
+				}
 			}
 			else {//destXYZ还是空值
 				SetAttackMode_Inside(FOLLOW_PLAYER_MODE);
@@ -105,21 +110,20 @@ void xc_game::XCTrackAttack::AttackRender(float nowFrame)
 				ReCalcParameter();
 
 				if (should_positive) {//NowX初始值比destX小，每次递增NowX逼近destX
-					NowX += velocity * deltaTime + offset_posX;
+					NowX += (velocity *cosf(temp_theta));
 					if(NowX>=*destX)//超过了destX，越界即碰撞了
 						SetAttackMode_Inside(FOLLOW_ENEMY_MODE);
 				}
 				else {//NowX初始值比destX大，每次递减NowX逼近destX
-					NowX -= velocity * deltaTime + offset_posX;
+					NowX -= (velocity *cosf(temp_theta) );
 					if (NowX <= *destX)//比destX还小，越界即碰撞了
 						SetAttackMode_Inside(FOLLOW_ENEMY_MODE);
 				}
 				UpdateCoordY();
-				if(NowX>1.2||NowX<-1.2||NowY>1.2||NowX<-1.2)//越界了
+				if(NowX>1.1||NowX<-1.1||NowY>1.1||NowX<-1.1)//越界了
 					SetAttackMode_Inside(FOLLOW_PLAYER_MODE);
 					
-				transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
-				std::cout << "X:" << NowX << " DestX:" << *destX << " Y:" << NowY << " DestY:" << *destY << std::endl;
+				transform_mat = glm::translate(transform_mat, glm::vec3(NowX + offset_posX, NowY, NowZ));
 			}
 			else {//destXYZ还是空值
 				SetAttackMode_Inside(FOLLOW_PLAYER_MODE);
@@ -175,34 +179,33 @@ void xc_game::XCTrackAttack::CheckCollisionWithEnemy(XCEnemy * enemy)
 	float *tx = *(enemy_coord), *ty = *(enemy_coord + 1), *tz = *(enemy_coord + 2);
 	float x = *(tx), y = *(ty), z = *(tz);
 	float distance = sqrtf(pow(x-NowX,2)+ pow(y - NowY, 2));
-	if (distance <= attack_radius) {
-		enemy->SetDamage(attack_damage);
-		switch (runtime_mode) {
-			case FOLLOW_PLAYER_MODE://本来跟着的你主动贴上去
-				break;
+	if (runtime_mode!= FOLLOW_PLAYER_MODE) {//跟随模式没有攻击性
+		if (distance <= attack_radius) {
+			enemy->SetDamage(attack_damage);
+			switch (runtime_mode) {
 			case FOLLOW_ENEMY_MODE:
-				if(enemy->IsDead()) {
+				if (enemy->IsDead()) {
 					SetAttackMode_Inside(FORCE_RETURN);
 					have_enemy_lock = false;
 				}
 				break;
 			case MOVEING_MODE://路上碰到新的，追他
 				SetAttackMode_Inside(FOLLOW_ENEMY_MODE);
-				SetTarget(tx,ty,tz);
+				SetTarget(tx, ty, tz);
 				break;
-			
+
+			}
 		}
-	}
-	else {
-		switch (runtime_mode) {
+		else {
+			switch (runtime_mode) {
 			case FOLLOW_ENEMY_MODE:
 				SetAttackMode_Inside(FOLLOW_PLAYER_MODE);
 				have_enemy_lock = false;
 				break;
 			case MOVEING_MODE:
-				
 				break;
 
+			}
 		}
 	}
 }
@@ -218,12 +221,6 @@ void xc_game::XCTrackAttack::SetAttackMode_Inside(size_t mode)
 {
 	runtime_mode = mode;
 	switch (runtime_mode) {
-	case FOLLOW_ENEMY_MODE:
-		break;
-	case FOLLOW_PLAYER_MODE:
-		break;
-	case MOVEING_MODE:
-		break;
 	case FORCE_RETURN:
 		have_enemy_lock = false;
 		destX = destY = destZ = nullptr;
@@ -234,6 +231,7 @@ void xc_game::XCTrackAttack::SetAttackMode_Inside(size_t mode)
 /*!FORCE_RETURN模式强制回归*/
 void xc_game::XCTrackAttack::SetAttackMode(size_t mode)
 {
+	require_mode = mode;
 	if (mode==FORCE_RETURN) {
 		SetAttackMode_Inside(FORCE_RETURN);
 	}

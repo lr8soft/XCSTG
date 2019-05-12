@@ -21,7 +21,8 @@ namespace xc_game {
 		xc_se::XCRing dead_se, damage_se;
 		static bool have_resource_init;
 		static GLuint tbo[2];
-		bool should_render=false,should_positive,first_move=true,is_dead=true;
+		bool should_render = false, should_positive, first_move = true, is_dead = true, be_attack = false;
+		float full_enemy_life = 5.0f;
 		float enemy_life = 5.0f;
 		float deltaX, deltaY, deltaZ;
 		float destX, destY, destZ, velocity;//velocity是相对x而言

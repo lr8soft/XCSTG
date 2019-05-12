@@ -89,8 +89,10 @@ void xc_game::XCEnemy::EnemyInit()
 	ShaderInit();
 	BufferInit();
 	TextureInit();
-	dead_se.SpecialEffectInit(dead_se.RingDeepColor);
-	damage_se.SpecialEffectInit(damage_se.RingLightColor);
+	dead_se.SpecialEffectInit(dead_se.RingLightColor);
+	damage_se.SpecialEffectInit(damage_se.RingDeepColor);
+	enemy_life = full_enemy_life;
+	be_attack = false;
 }
 
 void xc_game::XCEnemy::EnemyRender(float nowFrame)
@@ -127,6 +129,13 @@ void xc_game::XCEnemy::EnemyRender(float nowFrame)
 			auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
 			glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 			glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
+			if (be_attack) {
+			//	damage_se.SpecialEffectRender(deltaX, deltaY, deltaZ);
+				be_attack=false;
+			}
+			else {
+			//	damage_se.SpecialEffectRenderFinish();
+			}
 			CheckShouldEnd();
 		}
 		OGLSettingRenderEnd();	
@@ -165,8 +174,10 @@ void xc_game::XCEnemy::SetDamage(float damage)
 		is_dead = true;
 	}
 	else {
-	//	damage_se.SpecialEffectRender(deltaX,deltaY,deltaZ);
+		be_attack = true;
 	}
+
+		//damage_se.SpecialEffectRender(deltaX,deltaY,deltaZ);
 }
 
 bool xc_game::XCEnemy::IsRendering()
