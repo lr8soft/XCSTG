@@ -1,0 +1,36 @@
+﻿  BackGroundRenderGroup.cpp
+j:\xcstg\ogl_test7\util\xcshape\xcdefaultshape.h(23): warning C4305: “初始化”: 从“double”到“float”截断
+  EnemyRenderGroup.cpp
+  XCustomizedSTGMain.cpp
+j:\xcstg\ogl_test7\xcustomizedstgmain.cpp(14): warning C4326: “main”的返回类型应为“int”而非“void”
+  PlayerRenderGroup.cpp
+j:\xcstg\ogl_test7\util\xcshape\xcdefaultshape.h(23): warning C4305: “初始化”: 从“double”到“float”截断
+j:\xcstg\ogl_test7\playerrendergroup.cpp(124): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+j:\xcstg\ogl_test7\playerrendergroup.cpp(161): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+  AppFrameWork.cpp
+  ImageLoader.cpp
+  ShaderReader.cpp
+  XCNormalEnemy.cpp
+j:\xcstg\ogl_test7\util\xcshape\xcdefaultshape.h(23): warning C4305: “初始化”: 从“double”到“float”截断
+j:\xcstg\ogl_test7\util\xcgame\enemy\xcnormalenemy.cpp(91): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+  XCNormalAttack.cpp
+j:\xcstg\ogl_test7\util\xcshape\xcdefaultshape.h(23): warning C4305: “初始化”: 从“double”到“float”截断
+j:\xcstg\ogl_test7\util\xcgame\xcnormalattack.cpp(60): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+  正在生成代码...
+  gl3w.c
+BackGroundRenderGroup.obj : error LNK2019: 无法解析的外部符号 glfwGetKey，该符号在函数 "public: void __cdecl BackGroundRenderGroup::GroupKeyCheck(struct GLFWwindow *)" (?GroupKeyCheck@BackGroundRenderGroup@@QEAAXPEAUGLFWwindow@@@Z) 中被引用
+PlayerRenderGroup.obj : error LNK2001: 无法解析的外部符号 glfwGetKey
+PlayerRenderGroup.obj : error LNK2019: 无法解析的外部符号 glfwSetWindowShouldClose，该符号在函数 "public: void __cdecl PlayerRenderGroup::GroupKeyCheck(struct GLFWwindow *)" (?GroupKeyCheck@PlayerRenderGroup@@QEAAXPEAUGLFWwindow@@@Z) 中被引用
+PlayerRenderGroup.obj : error LNK2019: 无法解析的外部符号 glfwGetTime，该符号在函数 "public: void __cdecl PlayerRenderGroup::GroupKeyCheck(struct GLFWwindow *)" (?GroupKeyCheck@PlayerRenderGroup@@QEAAXPEAUGLFWwindow@@@Z) 中被引用
+XCNormalEnemy.obj : error LNK2001: 无法解析的外部符号 glfwGetTime
+XCNormalAttack.obj : error LNK2001: 无法解析的外部符号 glfwGetTime
+AppFrameWork.obj : error LNK2019: 无法解析的外部符号 glfwInit，该符号在函数 "public: void __cdecl xc_ogl::AppFrameWork::init(void)" (?init@AppFrameWork@xc_ogl@@QEAAXXZ) 中被引用
+AppFrameWork.obj : error LNK2019: 无法解析的外部符号 glfwTerminate，该符号在函数 "public: void __cdecl xc_ogl::AppFrameWork::finalizer(void)" (?finalizer@AppFrameWork@xc_ogl@@QEAAXXZ) 中被引用
+AppFrameWork.obj : error LNK2019: 无法解析的外部符号 glfwCreateWindow，该符号在函数 "public: void __cdecl xc_ogl::AppFrameWork::init(void)" (?init@AppFrameWork@xc_ogl@@QEAAXXZ) 中被引用
+AppFrameWork.obj : error LNK2019: 无法解析的外部符号 glfwDestroyWindow，该符号在函数 "public: void __cdecl xc_ogl::AppFrameWork::finalizer(void)" (?finalizer@AppFrameWork@xc_ogl@@QEAAXXZ) 中被引用
+AppFrameWork.obj : error LNK2019: 无法解析的外部符号 glfwWindowShouldClose，该符号在函数 "private: void __cdecl xc_ogl::AppFrameWork::display(void)" (?display@AppFrameWork@xc_ogl@@AEAAXXZ) 中被引用
+AppFrameWork.obj : error LNK2019: 无法解析的外部符号 glfwSetFramebufferSizeCallback，该符号在函数 "public: void __cdecl xc_ogl::AppFrameWork::init(void)" (?init@AppFrameWork@xc_ogl@@QEAAXXZ) 中被引用
+AppFrameWork.obj : error LNK2019: 无法解析的外部符号 glfwPollEvents，该符号在函数 "private: void __cdecl xc_ogl::AppFrameWork::display(void)" (?display@AppFrameWork@xc_ogl@@AEAAXXZ) 中被引用
+AppFrameWork.obj : error LNK2019: 无法解析的外部符号 glfwMakeContextCurrent，该符号在函数 "public: void __cdecl xc_ogl::AppFrameWork::init(void)" (?init@AppFrameWork@xc_ogl@@QEAAXXZ) 中被引用
+AppFrameWork.obj : error LNK2019: 无法解析的外部符号 glfwSwapBuffers，该符号在函数 "private: void __cdecl xc_ogl::AppFrameWork::display(void)" (?display@AppFrameWork@xc_ogl@@AEAAXXZ) 中被引用
+J:\XCSTG\x64\Debug\XCSTG.exe : fatal error LNK1120: 12 个无法解析的外部命令

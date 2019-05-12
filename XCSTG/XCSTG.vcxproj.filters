@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\util">
+      <UniqueIdentifier>{eb599ca8-ca6e-4ee5-a47c-f7e19a5d6878}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\util\XCShape">
+      <UniqueIdentifier>{9e95c7d6-3e79-4d1c-8be8-57ceae9e44e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\util">
+      <UniqueIdentifier>{8d8a9343-c1ee-4788-87ea-f1e1b1852a3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\util\XCGame">
+      <UniqueIdentifier>{4554a622-247b-45e2-afb3-c33d84e8800e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\util\XCGame\Enemy">
+      <UniqueIdentifier>{a982d316-cc24-495a-b76e-429606ee0874}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\util\XCGame">
+      <UniqueIdentifier>{289cd25d-3525-4061-b9f1-aa1f6843716f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\util\XCGame\Enemy">
+      <UniqueIdentifier>{5fe4416e-2e74-4707-ab35-b2cf313fc5ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\util\XCSpecialEffect">
+      <UniqueIdentifier>{bf5365ca-5771-458e-883c-72c2068c5829}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\util\XCSpecialEffect">
+      <UniqueIdentifier>{375d6dff-03cf-4ddc-8423-84c633133ae9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="util\AppFrameWork.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="util\ImageLoader.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="util\ShaderReader.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="gl3w.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="util\XCGame\XCNormalAttack.cpp">
+      <Filter>源文件\util\XCGame</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRenderGroup.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGroundRenderGroup.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="util\XCGame\Enemy\XCNormalEnemy.cpp">
+      <Filter>源文件\util\XCGame\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyRenderGroup.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XCustomizedSTGMain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="util\XCEnemyInfo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="util\XCSpecialEffect\XCRing.cpp">
+      <Filter>源文件\util\XCSpecialEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="util\XCSpecialEffect\XCExplode.cpp">
+      <Filter>源文件\util\XCSpecialEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="util\XCGame\XCTraceAttack.cpp">
+      <Filter>源文件\util\XCGame</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="util\AppFrameWork.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="util\ImageLoader.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="util\ShaderReader.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="util\XCShape\XCDefaultShape.h">
+      <Filter>头文件\util\XCShape</Filter>
+    </ClInclude>
+    <ClInclude Include="util\XCGame\XCNormalAttack.h">
+      <Filter>头文件\util\XCGame</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRenderGroup.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGroundRenderGroup.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="util\XCGame\Enemy\XCNormalEnemy.h">
+      <Filter>头文件\util\XCGame\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyRenderGroup.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="util\XCEnemyInfo.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="util\XCSpecialEffect\XCRing.h">
+      <Filter>头文件\util\XCSpecialEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="util\XCSpecialEffect\XCExplode.h">
+      <Filter>头文件\util\XCSpecialEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="util\XCGame\XCTraceAttack.h">
+      <Filter>头文件\util\XCGame</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
