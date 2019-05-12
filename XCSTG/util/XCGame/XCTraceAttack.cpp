@@ -79,8 +79,6 @@ void xc_game::XCTrackAttack::AttackRender(float nowFrame)
 	switch (runtime_mode) {
 		case FORCE_RETURN: 
 		{
-			NowX = *playerX + offset_posX; NowY = *playerY + 0.15f; NowZ = *playerZ;
-			transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
 			SetAttackMode_Inside(FOLLOW_PLAYER_MODE);
 			break;
 		}
@@ -88,6 +86,7 @@ void xc_game::XCTrackAttack::AttackRender(float nowFrame)
 		{
 			NowX = *playerX + offset_posX; NowY = *playerY + 0.15f; NowZ = *playerZ;
 			transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
+
 			break;
 		}
 		case FOLLOW_ENEMY_MODE: {
@@ -104,16 +103,23 @@ void xc_game::XCTrackAttack::AttackRender(float nowFrame)
 		{
 			if (have_enemy_lock) {
 				ReCalcParameter();
-				if (should_positive)//每次递增
+
+				if (should_positive) {//NowX初始值比destX小，每次递增NowX逼近destX
 					NowX += velocity * deltaTime + offset_posX;
-				else
-					NowX -= velocity * deltaTime +offset_posX;
+					if(NowX>=*destX)//超过了destX，越界即碰撞了
+						SetAttackMode_Inside(FOLLOW_ENEMY_MODE);
+				}
+				else {//NowX初始值比destX大，每次递减NowX逼近destX
+					NowX -= velocity * deltaTime + offset_posX;
+					if (NowX <= *destX)//比destX还小，越界即碰撞了
+						SetAttackMode_Inside(FOLLOW_ENEMY_MODE);
+				}
 				UpdateCoordY();
 				if(NowX>1.2||NowX<-1.2||NowY>1.2||NowX<-1.2)//越界了
 					SetAttackMode_Inside(FOLLOW_PLAYER_MODE);
-				if (abs(NowX - *destX)<1e-2&&abs(NowY - *destY) < 1e-2)
-					SetAttackMode_Inside(FOLLOW_ENEMY_MODE);
+					
 				transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
+				std::cout << "X:" << NowX << " DestX:" << *destX << " Y:" << NowY << " DestY:" << *destY << std::endl;
 			}
 			else {//destXYZ还是空值
 				SetAttackMode_Inside(FOLLOW_PLAYER_MODE);
@@ -121,8 +127,7 @@ void xc_game::XCTrackAttack::AttackRender(float nowFrame)
 			break;
 		}
 	}
-	std::cout << "mode:" << runtime_mode << " lock:" << have_enemy_lock << " x:"<<NowX<<" y:"<<NowY <<
-		" ADD:"<< this<<std::endl;
+	
 	transform_mat = glm::rotate(transform_mat, glm::radians(nowFrame*180.0f), glm::vec3(0, 0, 1));
 	transform_mat = glm::scale(transform_mat, glm::vec3(0.03f, 0.03f, 0.03f));
 	auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
@@ -177,7 +182,7 @@ void xc_game::XCTrackAttack::CheckCollisionWithEnemy(XCEnemy * enemy)
 				break;
 			case FOLLOW_ENEMY_MODE:
 				if(enemy->IsDead()) {
-					SetAttackMode_Inside(FOLLOW_PLAYER_MODE);
+					SetAttackMode_Inside(FORCE_RETURN);
 					have_enemy_lock = false;
 				}
 				break;
