@@ -11,7 +11,7 @@ bool xc_game::XCEnemy::have_resource_init = false;//static memeber init
 GLuint xc_game::XCEnemy::tbo[2];
 float xc_game::XCEnemy::GetCoordY()
 {
-	return slope_k * deltaX + parameter_b;
+	return slope_k * NowX + parameter_b;
 }
 void xc_game::XCEnemy::ShaderInit()
 {
@@ -56,16 +56,16 @@ void xc_game::XCEnemy::SetUseTBO(GLuint tbo)
 void xc_game::XCEnemy::CheckShouldEnd()
 {
 	if (should_positive) {
-		if (deltaX > destX) {
+		if (NowX > destX) {
 			should_render = false;
 		}
 	}
 	else {
-		if (destX > deltaX) {
+		if (destX > NowX) {
 			should_render = false;
 		}
 	}
-	if (deltaX>1|| deltaX<-1|| deltaY>1|| deltaY<-1) {
+	if (NowX>1.1|| NowX<-1.1|| NowY>1.1|| NowY<-1.1) {
 		should_render = false;
 	}
 	if (is_dead) {
@@ -84,7 +84,7 @@ void xc_game::XCEnemy::OGLSettingRenderEnd()
 	glDisable(GL_BLEND);
 }
 
-void xc_game::XCEnemy::EnemyInit()
+void xc_game::XCEnemy::EnemyInit(size_t type)
 {
 	ShaderInit();
 	BufferInit();
@@ -93,6 +93,7 @@ void xc_game::XCEnemy::EnemyInit()
 	damage_se.SpecialEffectInit(damage_se.RingDeepColor);
 	enemy_life = full_enemy_life;
 	be_attack = false;
+	move_type = type;
 }
 
 void xc_game::XCEnemy::EnemyRender(float nowFrame)
@@ -103,7 +104,7 @@ void xc_game::XCEnemy::EnemyRender(float nowFrame)
 	if (should_render) {
 		OGLSettingRenderStart();
 		if (is_dead) {
-			if (dead_se.SpecialEffectRender(deltaX,deltaY,deltaZ))//Íê³É±¬Õ¨äÖÈ¾
+			if (dead_se.SpecialEffectRender(NowX, NowY, NowZ))//Íê³É±¬Õ¨äÖÈ¾
 				should_render = false;
 		}
 		else {
@@ -114,17 +115,17 @@ void xc_game::XCEnemy::EnemyRender(float nowFrame)
 			glBindTexture(GL_TEXTURE_2D, use_tbo);
 			glm::mat4 transform_mat;
 			if (first_move) {
-				transform_mat = glm::translate(transform_mat, glm::vec3(deltaX, deltaY, deltaZ));
+				transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
 				first_move = false;
 			}
 			else {
-				transform_mat = glm::translate(transform_mat, glm::vec3(deltaX, GetCoordY(), deltaZ));
-				deltaY = GetCoordY();
+				transform_mat = glm::translate(transform_mat, glm::vec3(NowX, GetCoordY(), NowZ));
+				NowY = GetCoordY();
 			}
 			if (should_positive)
-				deltaX += velocity * deltaTime;
+				NowX += velocity * cosf(parameter_theta)* deltaTime;
 			else
-				deltaX -= velocity * deltaTime;
+				NowX -= velocity * cosf(parameter_theta)* deltaTime;
 			transform_mat = glm::scale(transform_mat, glm::vec3(0.06f, 0.06f, 0.06f));
 			auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
 			glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
@@ -148,13 +149,18 @@ void xc_game::XCEnemy::SetGenerateAndVelocity(float x, float y, float z, float d
 {
 	if (!should_render) {
 		destX = dx, destY = dy, destZ = dz;
-		deltaX = x, deltaY = y, deltaZ = z;
+		NowX = x, NowY = y, NowZ = z;
 		velocity = v;
-		slope_k = (destY - deltaY) / (destX - deltaX);
-		parameter_b = deltaY - slope_k * deltaX;
+		slope_k = (destY - NowY) / (destX - NowX);
+		parameter_b = NowY - slope_k * NowX;
 		should_render = true;
 		is_dead = false;
-		if (destX > deltaX)
+		if(destX != NowX)
+			parameter_theta = acosf(abs(destX - NowX) / sqrtf(pow(destX - NowX, 2) + pow(destY - NowY, 2)));
+		else
+			parameter_theta = 3.1415926f / 2.0f;
+
+		if (destX > NowX)
 			should_positive = true;
 		else
 			should_positive = false;
@@ -193,8 +199,8 @@ bool xc_game::XCEnemy::IsDead()
 float ** xc_game::XCEnemy::GetNowCoord()
 {
 	float *coord_temp[3];
-	*(coord_temp) = &deltaX;
-	*(coord_temp+1) = &deltaY;
-	*(coord_temp+2) = &deltaZ;
+	*(coord_temp) = &NowX;
+	*(coord_temp+1) = &NowY;
+	*(coord_temp+2) = &NowZ;
 	return coord_temp;
 }

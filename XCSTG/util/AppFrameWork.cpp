@@ -54,6 +54,8 @@ void xc_ogl::AppFrameWork::shader_init()
 	eygroup.GroupInit();
 	rendergroup.GroupInitInfo(eygroup.GetEnemyInfoGroup());
 	rendergroup.GroupInit();
+	blgroup.GroupInit();
+	blgroup.GroupInitInfo(&rendergroup);
 }
 void xc_ogl::AppFrameWork::render()
 {
@@ -62,7 +64,10 @@ void xc_ogl::AppFrameWork::render()
 	bggroup.GroupRender();
 	eygroup.GroupRender(nowFrame);
 	rendergroup.GroupRender(nowFrame);
+	blgroup.GroupRender(nowFrame);
 	rendergroup.GroupUpdateInfo();
+	blgroup.GroupUpdateInfo();
+	
 }
 
 

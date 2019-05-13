@@ -3,7 +3,7 @@
 void EnemyRenderGroup::GroupInit()
 {
 	for (int i = 0; i < 25;i++) {
-		test_enemy[i].EnemyInit();
+		test_enemy[i].EnemyInit(xc_game::XCEnemy::SINGLE_COORD);
 		if(i%2==0)
 			test_enemy[i].SetGenerateAndVelocity(rand()/double(RAND_MAX), rand() / double(RAND_MAX), 0.0f, 0.8f, 0.8f, 0.0f, 0.015f);
 		else if(i%3==0)
@@ -26,7 +26,7 @@ void EnemyRenderGroup::GroupKeyCheck(GLFWwindow * screen)
 {
 	if (glfwGetKey(screen, GLFW_KEY_G) == GLFW_PRESS) {
 		for (int i = 0; i < 16;i++) {
-			test_enemy[i].EnemyInit();
+			test_enemy[i].EnemyInit(xc_game::XCEnemy::SINGLE_COORD);
 			if (i % 2 == 0)
 				test_enemy[i].SetGenerateAndVelocity(rand() / double(RAND_MAX), rand() / double(RAND_MAX), 0.0f, 0.8f, 0.8f, 0.0f, 0.015f);
 			else if (i % 3 == 0)

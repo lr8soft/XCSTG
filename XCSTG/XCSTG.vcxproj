@@ -124,6 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BackGroundRenderGroup.cpp" />
+    <ClCompile Include="BulletRenderGroup.cpp" />
     <ClCompile Include="EnemyRenderGroup.cpp" />
     <ClCompile Include="gl3w.c" />
     <ClCompile Include="util\XCBullet\XCCircleBullet.cpp" />
@@ -141,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackGroundRenderGroup.h" />
+    <ClInclude Include="BulletRenderGroup.h" />
     <ClInclude Include="EnemyRenderGroup.h" />
     <ClInclude Include="PlayerRenderGroup.h" />
     <ClInclude Include="util\AppFrameWork.h" />

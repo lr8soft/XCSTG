@@ -1,39 +1,27 @@
-﻿D:\vs2017\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: 中间目录(Release\)包含从另一个项目(ogl_test7.vcxproj)共享的文件。   这会导致错误的清除和重新生成行为。
-  XCNormalAttack.cpp
-h:\xcstg\xcstg\util\xcspecialeffect\xcring.h(12): warning C4305: “初始化”: 从“double”到“float”截断
-h:\xcstg\xcstg\util\xcshape\xcdefaultshape.h(23): warning C4305: “初始化”: 从“double”到“float”截断
-h:\xcstg\xcstg\util\xcgame\xcnormalattack.cpp(61): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-  XCRing.cpp
-h:\xcstg\xcstg\util\xcshape\xcdefaultshape.h(23): warning C4305: “初始化”: 从“double”到“float”截断
-h:\xcstg\xcstg\util\xcspecialeffect\xcring.h(12): warning C4305: “初始化”: 从“double”到“float”截断
-h:\xcstg\xcstg\util\xcspecialeffect\xcring.cpp(47): warning C4305: “=”: 从“double”到“float”截断
-h:\xcstg\xcstg\util\xcspecialeffect\xcring.cpp(49): warning C4305: “=”: 从“double”到“float”截断
-h:\xcstg\xcstg\util\xcspecialeffect\xcring.cpp(56): warning C4305: “=”: 从“double”到“float”截断
-h:\xcstg\xcstg\util\xcspecialeffect\xcring.cpp(58): warning C4305: “-=”: 从“double”到“float”截断
-h:\xcstg\xcstg\util\xcspecialeffect\xcring.cpp(66): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-h:\xcstg\xcstg\util\xcspecialeffect\xcring.cpp(70): warning C4305: “=”: 从“double”到“float”截断
-h:\xcstg\xcstg\util\xcspecialeffect\xcring.cpp(87): warning C4305: “+=”: 从“double”到“float”截断
-h:\xcstg\xcstg\util\xcspecialeffect\xcring.cpp(89): warning C4305: “-=”: 从“double”到“float”截断
-    正在创建库 H:\XCSTG\Release\XCSTG.lib 和对象 H:\XCSTG\Release\XCSTG.exp
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: 中间目录(Release\)包含从另一个项目(ogl_test7.vcxproj)共享的文件。   这会导致错误的清除和重新生成行为。
+  AppFrameWork.cpp
+g:\xcustomized_stg_ogl\xcstg\xcstg\util\appframework.cpp(62): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+    正在创建库 G:\xcustomized_stg_ogl\XCSTG\Release\XCSTG.lib 和对象 G:\xcustomized_stg_ogl\XCSTG\Release\XCSTG.exp
 LINK : warning LNK4098: 默认库“MSVCRTD”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
   正在生成代码
-  2 of 518 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+g:\xcustomized_stg_ogl\xcstg\xcstg\playerrendergroup.cpp(251): warning C4172: 返回局部变量或临时变量的地址: playerCoord
+  97 of 646 functions (15.0%) were compiled, the rest were copied from previous compilation.
+    18 functions were new in current compilation
+    6 functions had inline decision re-evaluated but remain unchanged
   已完成代码的生成
-glfw3.lib(context.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(context.obj)”或在“H:\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-glfw3.lib(init.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(init.obj)”或在“H:\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-glfw3.lib(input.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(input.obj)”或在“H:\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-glfw3.lib(monitor.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(monitor.obj)”或在“H:\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-glfw3.lib(vulkan.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(vulkan.obj)”或在“H:\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-glfw3.lib(window.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(window.obj)”或在“H:\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-glfw3.lib(win32_init.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_init.obj)”或在“H:\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-glfw3.lib(win32_joystick.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_joystick.obj)”或在“H:\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-glfw3.lib(win32_monitor.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_monitor.obj)”或在“H:\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-glfw3.lib(win32_time.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_time.obj)”或在“H:\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-glfw3.lib(win32_thread.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_thread.obj)”或在“H:\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-glfw3.lib(win32_window.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_window.obj)”或在“H:\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-glfw3.lib(wgl_context.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(wgl_context.obj)”或在“H:\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-glfw3.lib(egl_context.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(egl_context.obj)”或在“H:\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-glfw3.lib(osmesa_context.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(osmesa_context.obj)”或在“H:\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-  XCSTG.vcxproj -> H:\XCSTG\Release\XCSTG.exe
+glfw3.lib(context.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(context.obj)”或在“G:\xcustomized_stg_ogl\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(init.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(init.obj)”或在“G:\xcustomized_stg_ogl\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(input.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(input.obj)”或在“G:\xcustomized_stg_ogl\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(monitor.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(monitor.obj)”或在“G:\xcustomized_stg_ogl\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(vulkan.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(vulkan.obj)”或在“G:\xcustomized_stg_ogl\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(window.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(window.obj)”或在“G:\xcustomized_stg_ogl\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(win32_init.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_init.obj)”或在“G:\xcustomized_stg_ogl\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(win32_joystick.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_joystick.obj)”或在“G:\xcustomized_stg_ogl\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(win32_monitor.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_monitor.obj)”或在“G:\xcustomized_stg_ogl\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(win32_time.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_time.obj)”或在“G:\xcustomized_stg_ogl\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(win32_thread.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_thread.obj)”或在“G:\xcustomized_stg_ogl\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(win32_window.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(win32_window.obj)”或在“G:\xcustomized_stg_ogl\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(wgl_context.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(wgl_context.obj)”或在“G:\xcustomized_stg_ogl\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(egl_context.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(egl_context.obj)”或在“G:\xcustomized_stg_ogl\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+glfw3.lib(osmesa_context.obj) : warning LNK4099: 未找到 PDB“glfw.pdb”(使用“glfw3.lib(osmesa_context.obj)”或在“G:\xcustomized_stg_ogl\XCSTG\Release\glfw.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+  XCSTG.vcxproj -> G:\xcustomized_stg_ogl\XCSTG\Release\XCSTG.exe

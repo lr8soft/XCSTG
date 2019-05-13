@@ -48,24 +48,60 @@ void xc_bullet::XCCircleBullet::BufferInit()
 
 void xc_bullet::XCCircleBullet::DataInit()
 {
-
+	rotate_angle = 0.0f; 
+	deltaTime = 0.0f;
+	if (have_start_pos == true && have_velocity == true && have_xyfunc == true) {
+		should_render = true;
+	}
+	else {
+		should_render = false;
+	}
 }
 
 void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 {
-	glEnable(GL_BLEND);
-	glUseProgram(program);
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D,tbo);
-	glm::mat4 transform_mat;
-	auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
-	glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
-	glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
+	if (should_render) 
+	{
+/////////////////OGL TIME!!!//////////////////
+		XCBullet::BulletRender(nowFrame);
+		glEnable(GL_BLEND);
+		glUseProgram(program);
+		glBindVertexArray(vao);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, tbo);
+		/////////////////////////////////////////////
+		NowX = coordx_func(NowX,nowFrame);
+		NowY = coordy_func(NowX,NowY);
+		if (NowX>1.1f||NowX<-1.1f||NowY>1.1f||NowZ<-1.1f) 
+		{
+			should_render = false;
+		}
+		glm::mat4 transform_mat;
+		transform_mat = glm::rotate(transform_mat, glm::radians(rotate_angle*nowFrame), glm::vec3(0,0,1));
+		transform_mat = glm::translate(transform_mat, glm::vec3(NowX,NowY,NowZ));
+		transform_mat = glm::scale(transform_mat,glm::vec3(0.03f,0.03f,0.03f));
+		auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
+		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
+		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
+	}
+	else {
+		DataReset();
+	}
+
 
 }
 
 void xc_bullet::XCCircleBullet::BulletCollisionWithPlayer(PlayerRenderGroup * player)
 {
+	if (should_render)
+	{
+		auto player_coord = player->GetPlayerCoord();
+		float x = **player_coord,y=**(player_coord+1), z = **(player_coord + 2);
+		float dist = sqrt(pow(x-NowX,2)+pow(y-NowY,2));
+		if (dist< attack_radius) {
+			player->SetDead();
+			should_render = false;
+		}
+	}
 }

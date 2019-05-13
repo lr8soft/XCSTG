@@ -93,6 +93,9 @@
     <ClCompile Include="util\XCBullet\XCCircleBullet.cpp">
       <Filter>源文件\util\XCBullet</Filter>
     </ClCompile>
+    <ClCompile Include="BulletRenderGroup.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util\AppFrameWork.h">
@@ -139,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="util\XCBullet\XCCircleBullet.h">
       <Filter>头文件\util\XCBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletRenderGroup.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

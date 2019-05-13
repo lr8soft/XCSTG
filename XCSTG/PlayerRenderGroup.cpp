@@ -91,6 +91,7 @@ void PlayerRenderGroup::GroupInit()
 		else
 			trace_attack[j].SetOffsizeX(-j *(0.035));
 	}
+	dead_se.SpecialEffectInit(dead_se.RingPlayerDead);
 }
 
 void PlayerRenderGroup::GroupRender(float nowFrame)
@@ -139,6 +140,9 @@ void PlayerRenderGroup::GroupRender(float nowFrame)
 	}
 	for (int j = 0; j < trace_count; j++) {
 		trace_attack[j].AttackRender(nowFrame);
+	}
+	if (dead_time) {
+		dead_time=!dead_se.SpecialEffectRender(NowX,NowY,NowZ);
 	}
 	OGLSettingRenderEnd();
 }
@@ -235,4 +239,19 @@ void PlayerRenderGroup::GroupKeyCheck(GLFWwindow* screen)
 void PlayerRenderGroup::GroupInitInfo(xc_game::XCEnemyInfo * info)
 {
 	enemy_info = info;
+}
+
+void PlayerRenderGroup::SetDead()
+{
+	std::cout << "AWSL" << std::endl;
+	dead_time = true;
+}
+
+const float ** PlayerRenderGroup::GetPlayerCoord()
+{
+	const float *playerCoord[3];
+	playerCoord[0] = &NowX;
+	playerCoord[1] = &NowY;
+	playerCoord[2] = &NowZ;
+	return playerCoord;
 }

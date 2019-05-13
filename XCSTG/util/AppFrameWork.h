@@ -1,10 +1,11 @@
 #pragma once
-#ifndef _ogl_class_
-#define _ogl_class_
+#ifndef _XCSTG_RENDER_MAIN_
+#define _XCSTG_RENDER_MAIN_
 #include <GLFW/glfw3.h>
 #include "../PlayerRenderGroup.h"
 #include "../BackGroundRenderGroup.h"
 #include "../EnemyRenderGroup.h"
+#include "../BulletRenderGroup.h"
 namespace xc_ogl {
 	class AppFrameWork
 	{
@@ -12,6 +13,7 @@ namespace xc_ogl {
 		EnemyRenderGroup eygroup;
 		BackGroundRenderGroup bggroup;
 		PlayerRenderGroup rendergroup;
+		BulletRenderGroup blgroup;
 		static AppFrameWork* app_ptr;
 		const char* title;
 		int width, height;

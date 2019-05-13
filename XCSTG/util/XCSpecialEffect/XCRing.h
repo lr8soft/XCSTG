@@ -23,7 +23,7 @@ namespace xc_se {
 		~XCRing() = default;
 		void SpecialEffectInit(int type);
 		/*Return true if reset*/
-		enum { RingLightColor, RingDeepColor};
+		enum { RingLightColor, RingDeepColor,RingPlayerDead};
 		bool SpecialEffectRender(float x, float y, float z);
 	};
 }

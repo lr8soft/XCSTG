@@ -71,14 +71,20 @@ bool xc_se::XCRing::SpecialEffectRender(float x,float y,float z)
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D,tbo[ring_type]);
+		if (ring_type != RingPlayerDead)
+			glBindTexture(GL_TEXTURE_2D,tbo[ring_type]);
+		else
+			glBindTexture(GL_TEXTURE_2D, tbo[RingLightColor]);
 		glm::mat4 transform_mat;
 		transform_mat = glm::translate(transform_mat, glm::vec3(x, y, z));
 		transform_mat = glm::scale(transform_mat, glm::vec3(NowSize));
 		auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
 		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
-		NowSize += 0.5*deltaTime;
+		if(ring_type!= RingPlayerDead)
+			NowSize += 0.5*deltaTime;
+		else
+			NowSize += deltaTime;
 	/*	if(ring_type== RingLightColor)
 			NowSize +=0.005;
 		else {
