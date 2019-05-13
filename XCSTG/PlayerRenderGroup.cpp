@@ -154,20 +154,24 @@ void PlayerRenderGroup::GroupUpdateInfo()
 	int base_attack_count = sizeof(base_attack) / sizeof(xc_game::XCAttack);
 	int trace_attack_count = sizeof(trace_attack) / sizeof(xc_game::XCTrackAttack);
 	if (enemy_render->empty()) {//当没有敌人的时候
+#pragma omp parallel for
 		for (int k = 0; k < trace_attack_count; k++) {
 		//	trace_attack[k].SetAttackMode(xc_game::XCTrackAttack::FORCE_RETURN);
 			trace_attack[k].SetAttackMode(xc_game::XCTrackAttack::FOLLOW_PLAYER_MODE);
 		}
 	}
 	else {
+
 		for (auto iter = enemy_render->begin(); iter != enemy_render->end(); iter++) {//Get each alive enemy
 			auto enemy = *(iter);
+#pragma omp parallel for
 			for (int k = 0; k < trace_attack_count; k++) {
 				trace_attack[k].CheckCollisionWithEnemy(enemy);
 			}
 		}
 		for (auto iter = enemy_render->begin(); iter != enemy_render->end(); iter++) {
 			auto enemy = *(iter);
+#pragma omp parallel for
 			for (int i = 0; i < base_attack_count; i++) {
 				if (base_attack[i].IsRunning())
 					base_attack[i].CheckCollisionWithEnemy(enemy);
@@ -189,7 +193,7 @@ void PlayerRenderGroup::GroupKeyCheck(GLFWwindow* screen)
 	}
 	float moveSpeed = base_speed *deltaTime; // adjust accordingly
 	if (glfwGetKey(screen, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-		moveSpeed = moveSpeed / 1.5f * 0.5f;
+		moveSpeed = moveSpeed / 1.5f * 0.40f;
 		RenderDecisionPoint = true;
 	}
 	if (glfwGetKey(screen, GLFW_KEY_UP) == GLFW_PRESS) {

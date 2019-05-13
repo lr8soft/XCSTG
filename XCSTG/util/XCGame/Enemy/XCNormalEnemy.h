@@ -9,23 +9,19 @@ namespace xc_game {
 	public:
 		XCEnemy() = default;
 		~XCEnemy() = default;
-		/*{
-			if (have_resource_init) {
-				have_resource_init = false;
-				glDeleteVertexArrays(1,&vao);
-				glDeleteBuffers(1, &vbo);
-				glDeleteTextures(2, tbo);
-			}
-		}*/
-
 		virtual void EnemyInit(size_t type);
 		virtual void EnemyRender(float nowFrame);
 		/*TYPE:SINGLE_COORD*/
 		virtual void SetGenerateAndVelocity(float x, float y, float z, float dx, float dy, float dz, float v);
-
+		/*TYPE:FUNCTION_PATH*/
+		void SetMoveFunc(std::function<float(float, float)> xfunc, std::function<float(float, float)> yfunc);
+		/*TYPE:FUNCTION_PATH*/
+		void SetStartPoint(float x, float y, float z);
+		/*TYPE:FUNCTION_PATH*/
+		void SetVelocity(float v);
 		virtual void SetDead();
 		virtual void SetDamage(float damage);
-		enum {SINGLE_COORD, MULTIPE_COORD,FUNCTION_PATH};
+		enum {SINGLE_COORD,FUNCTION_PATH};
 		bool IsRendering();
 		bool IsDead();
 		float** GetNowCoord();
@@ -34,7 +30,8 @@ namespace xc_game {
 		static GLuint tbo[2];
 		xc_se::XCRing dead_se, damage_se;
 		size_t move_type;
-		std::function<float(float)> coordx_func,coordy_func;
+		bool have_start_pos = false, have_xyfunc = false, have_velocity = false;
+		std::function<float(float,float)> coordx_func,coordy_func;
 		bool should_render = false, should_positive, first_move = true, is_dead = true, be_attack = false;
 		float full_enemy_life = 5.0f;
 		float enemy_life = 5.0f;

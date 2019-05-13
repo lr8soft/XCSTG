@@ -114,18 +114,28 @@ void xc_game::XCEnemy::EnemyRender(float nowFrame)
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, use_tbo);
 			glm::mat4 transform_mat;
-			if (first_move) {
-				transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
-				first_move = false;
+			switch (move_type) {
+				case SINGLE_COORD:
+					if (first_move) {
+						transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
+						first_move = false;
+					}
+					else {
+						transform_mat = glm::translate(transform_mat, glm::vec3(NowX, GetCoordY(), NowZ));
+						NowY = GetCoordY();
+					}
+					if (should_positive)
+						NowX += velocity * cosf(parameter_theta)* deltaTime;
+					else
+						NowX -= velocity * cosf(parameter_theta)* deltaTime;
+					
+					break;
+				case FUNCTION_PATH:
+					NowX = coordx_func(NowX, nowFrame);
+					NowY = coordy_func(NowX, NowY);
+					transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
+					break;
 			}
-			else {
-				transform_mat = glm::translate(transform_mat, glm::vec3(NowX, GetCoordY(), NowZ));
-				NowY = GetCoordY();
-			}
-			if (should_positive)
-				NowX += velocity * cosf(parameter_theta)* deltaTime;
-			else
-				NowX -= velocity * cosf(parameter_theta)* deltaTime;
 			transform_mat = glm::scale(transform_mat, glm::vec3(0.06f, 0.06f, 0.06f));
 			auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
 			glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
@@ -165,6 +175,23 @@ void xc_game::XCEnemy::SetGenerateAndVelocity(float x, float y, float z, float d
 		else
 			should_positive = false;
 	}
+}
+
+void xc_game::XCEnemy::SetMoveFunc(std::function<float(float, float)> xfunc, std::function<float(float, float)> yfunc)
+{
+	coordx_func = xfunc; coordy_func = yfunc;
+}
+
+void xc_game::XCEnemy::SetStartPoint(float x, float y, float z)
+{
+	NowX = x; NowY = y; NowZ = z;
+	have_start_pos = true;
+}
+
+void xc_game::XCEnemy::SetVelocity(float v)
+{
+	velocity = v;
+	have_velocity = true;
 }
 
 void xc_game::XCEnemy::SetDead()

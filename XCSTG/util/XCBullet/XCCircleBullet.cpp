@@ -71,8 +71,8 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, tbo);
 		/////////////////////////////////////////////
-		NowX = coordx_func(NowX,nowFrame);
-		NowY = coordy_func(NowX,NowY);
+		NowX = coordx_func(NowX, NowY,nowFrame,deltaTime,velocity,0);
+		NowY = coordy_func(NowX, NowY,nowFrame,deltaTime,velocity,0);
 		if (NowX>1.1f||NowX<-1.1f||NowY>1.1f||NowZ<-1.1f) 
 		{
 			should_render = false;
