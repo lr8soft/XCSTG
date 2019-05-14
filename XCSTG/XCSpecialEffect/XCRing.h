@@ -5,8 +5,8 @@
 namespace xc_se {
 	class XCRing {
 	private:
-		static bool have_tbo_init;
-		static GLuint tbo[2];
+		static bool have_tbo_init,have_program_init;
+		static GLuint tbo[2],program_static;
 		int ring_type;
 		float RenderX, RenderY, RenderZ;
 		float NowSize = 0.015f,NowTime=0.0f;

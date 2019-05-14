@@ -9,8 +9,8 @@ namespace xc_bullet {
 		float rotate_angle = 0.0f, velocity = 0.0f;
 		std::function<float(float)> coordx_func, coordy_func;*/
 		const float attack_radius = 0.038f;
-		static bool have_resource_init;
-		static GLuint temp_tbo[5];
+		static bool have_resource_init,have_program_init;
+		static GLuint temp_tbo[5],program_static;
 		void SetRenderTBO(GLuint tbo);
 		void ShaderInit() override;
 		void TextureInit() override;

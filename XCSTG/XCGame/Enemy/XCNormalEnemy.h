@@ -26,8 +26,8 @@ namespace xc_game {
 		bool IsDead();
 		float** GetNowCoord();
 	protected:
-		static bool have_resource_init;
-		static GLuint tbo[2];
+		static bool have_resource_init, have_program_init;
+		static GLuint tbo[2],program_static;
 		xc_se::XCRing dead_se, damage_se;
 		size_t move_type;
 		bool have_start_pos = false, have_xyfunc = false, have_velocity = false;

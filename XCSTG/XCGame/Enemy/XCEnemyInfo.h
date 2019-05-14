@@ -5,7 +5,7 @@
 #include <mutex>
 #include <vector>
 #include <gl/glcorearb.h>
-#include "XCGame/Enemy/XCNormalEnemy.h"
+#include "XCNormalEnemy.h"
 namespace xc_game {
 	class XCEnemyInfo {
 	private:

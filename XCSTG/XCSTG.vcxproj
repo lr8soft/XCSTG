@@ -77,7 +77,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <OpenMPSupport>true</OpenMPSupport>
+      <OpenMPSupport>false</OpenMPSupport>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -102,6 +102,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <OpenMPSupport>
+      </OpenMPSupport>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -124,40 +126,45 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BackGroundRenderGroup.cpp" />
-    <ClCompile Include="BulletRenderGroup.cpp" />
-    <ClCompile Include="EnemyRenderGroup.cpp" />
-    <ClCompile Include="gl3w.c" />
-    <ClCompile Include="util\XCBullet\XCCircleBullet.cpp" />
-    <ClCompile Include="util\XCEnemyInfo.cpp" />
-    <ClCompile Include="util\XCGame\XCTraceAttack.cpp" />
-    <ClCompile Include="util\XCSpecialEffect\XCExplode.cpp" />
-    <ClCompile Include="util\XCSpecialEffect\XCRing.cpp" />
+    <ClCompile Include="rendergroup\BackGroundRenderGroup.cpp" />
+    <ClCompile Include="rendergroup\BulletRenderGroup.cpp" />
+    <ClCompile Include="rendergroup\EnemyRenderGroup.cpp" />
+    <ClCompile Include="rendergroup\PlayerRenderGroup.cpp" />
+    <ClCompile Include="util\gl3w.c" />
+    <ClCompile Include="XCBullet\XCCircleBullet.cpp" />
+    <ClCompile Include="XCGame\Enemy\XCEnemyInfo.cpp" />
+    <ClCompile Include="XCGame\Enemy\XCNormalEnemy.cpp" />
+    <ClCompile Include="XCGame\XCNormalAttack.cpp" />
+    <ClCompile Include="XCGame\XCTraceAttack.cpp" />
+    <ClCompile Include="XCSpecialEffect\XCExplode.cpp" />
+    <ClCompile Include="XCSpecialEffect\XCRing.cpp" />
+    <ClCompile Include="XCTask\XCTaskLoop.cpp" />
     <ClCompile Include="XCustomizedSTGMain.cpp" />
-    <ClCompile Include="PlayerRenderGroup.cpp" />
     <ClCompile Include="util\AppFrameWork.cpp" />
     <ClCompile Include="util\ImageLoader.cpp" />
     <ClCompile Include="util\ShaderReader.cpp" />
-    <ClCompile Include="util\XCGame\Enemy\XCNormalEnemy.cpp" />
-    <ClCompile Include="util\XCGame\XCNormalAttack.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BackGroundRenderGroup.h" />
-    <ClInclude Include="BulletRenderGroup.h" />
-    <ClInclude Include="EnemyRenderGroup.h" />
-    <ClInclude Include="PlayerRenderGroup.h" />
+    <ClInclude Include="rendergroup\BackGroundRenderGroup.h" />
+    <ClInclude Include="rendergroup\BulletRenderGroup.h" />
+    <ClInclude Include="rendergroup\EnemyRenderGroup.h" />
+    <ClInclude Include="rendergroup\PlayerRenderGroup.h" />
     <ClInclude Include="util\AppFrameWork.h" />
     <ClInclude Include="util\ImageLoader.h" />
     <ClInclude Include="util\ShaderReader.h" />
-    <ClInclude Include="util\XCBullet\XCBullet.h" />
-    <ClInclude Include="util\XCBullet\XCCircleBullet.h" />
-    <ClInclude Include="util\XCGame\Enemy\XCNormalEnemy.h" />
-    <ClInclude Include="util\XCGame\XCNormalAttack.h" />
-    <ClInclude Include="util\XCEnemyInfo.h" />
-    <ClInclude Include="util\XCGame\XCTraceAttack.h" />
-    <ClInclude Include="util\XCShape\XCDefaultShape.h" />
-    <ClInclude Include="util\XCSpecialEffect\XCExplode.h" />
-    <ClInclude Include="util\XCSpecialEffect\XCRing.h" />
+    <ClInclude Include="XCBullet\XCBullet.h" />
+    <ClInclude Include="XCBullet\XCCircleBullet.h" />
+    <ClInclude Include="XCGame\Enemy\XCEnemyInfo.h" />
+    <ClInclude Include="XCGame\Enemy\XCNormalEnemy.h" />
+    <ClInclude Include="XCGame\XCNormalAttack.h" />
+    <ClInclude Include="XCGame\XCTraceAttack.h" />
+    <ClInclude Include="XCShape\XCDefaultShape.h" />
+    <ClInclude Include="XCSpecialEffect\XCExplode.h" />
+    <ClInclude Include="XCSpecialEffect\XCRing.h" />
+    <ClInclude Include="XCTask\XCTask.h" />
+    <ClInclude Include="XCTask\XCTaskCollisonInfo.h" />
+    <ClInclude Include="XCTask\XCTaskLoop.h" />
+    <ClInclude Include="XCTask\XCTaskRenderInfo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

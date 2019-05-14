@@ -9,20 +9,22 @@ void xc_ogl::ShaderReader::show_failed_info(string sre)
 {
 	GLsizei len;
 	glGetProgramiv(temp_program, GL_INFO_LOG_LENGTH, &len);
-
 	char* log = new char[len + 1];
+	char* show_info = new char[len + 256];
 	glGetProgramInfoLog(temp_program, len, &len, log);
-	std::cerr <<"[ERROR]" <<sre <<" failed: " << log << std::endl;
-	delete[] log;
+	sprintf_s(show_info,len+256,"[ERROR]%s failed.\n%s",sre.c_str(),log);
+	MessageBox(NULL, show_info,"ERROR", MB_OKCANCEL| MB_ICONERROR);
+	delete[] log; delete[] show_info;
 }
 const GLchar * xc_ogl::ShaderReader::read_from_file(const char* path)
 {
 	GLchar *ret = nullptr;
 	ifstream io(path);
 	if (!io) {
-#ifdef _DEBUG
-		std::cerr << "[ERROR]Unable to open file '" << path << "'" << std::endl;
-#endif /* DEBUG */
+		char *log = new char[256];
+		sprintf_s(log,256,"[ERROR]Unable to open file %s",path);
+		MessageBox(NULL, log, "ERROR", MB_OKCANCEL | MB_ICONERROR);
+		delete[] log;
 	}
 	else {
 		string info, temp_info;
@@ -35,9 +37,7 @@ const GLchar * xc_ogl::ShaderReader::read_from_file(const char* path)
 			info += temp_info;
 		}
 		io.close();
-#ifdef _DEBUG
-		std::cout <<"[INFO]Load shader from file " <<path<<std::endl;
-#endif
+
 		ret =new GLchar[info.length()+1];
 		memcpy_s(ret,info.length(),info.c_str(),info.length());
 		ret[info.length()] = '\0';
@@ -64,11 +64,9 @@ GLboolean xc_ogl::ShaderReader::load_from_file(const char *path, GLenum type)
 	GLint success;
 	glGetShaderiv(temp_shader, GL_COMPILE_STATUS, &success);
 	if (!success) {
-#ifdef _DEBUG
 		char error_log[512] = {'\0'};
 		sprintf_s(error_log,"Shader \"%s\" compilation", path);
 		show_failed_info(error_log);
-#endif // DEBUG Mode
 	}
 	else {
 		glAttachShader(temp_program, temp_shader);
@@ -127,15 +125,10 @@ GLboolean xc_ogl::ShaderReader::link_all_shader()
 		GLint success;
 		glGetProgramiv(temp_program, GL_LINK_STATUS, &success);
 		if (!success) {
-#ifdef _DEBUG
 			show_failed_info("Shader linking");
-#endif /* DEBUG */
 			return GL_FALSE;
 		}
 		else {
-#ifdef _DEBUG
-			std::cout << "[INFO]Link all shader files" << std::endl;
-#endif /* DEBUG */
 			return GL_TRUE;
 		}
 	}

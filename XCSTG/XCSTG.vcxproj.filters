@@ -16,35 +16,50 @@
     <Filter Include="头文件\util">
       <UniqueIdentifier>{eb599ca8-ca6e-4ee5-a47c-f7e19a5d6878}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\util\XCShape">
-      <UniqueIdentifier>{9e95c7d6-3e79-4d1c-8be8-57ceae9e44e1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\util">
       <UniqueIdentifier>{8d8a9343-c1ee-4788-87ea-f1e1b1852a3f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\util\XCGame">
-      <UniqueIdentifier>{4554a622-247b-45e2-afb3-c33d84e8800e}</UniqueIdentifier>
+    <Filter Include="头文件\XCBullet">
+      <UniqueIdentifier>{05a02868-4bac-4a2b-9fc2-8b816d9799b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\util\XCGame\Enemy">
-      <UniqueIdentifier>{a982d316-cc24-495a-b76e-429606ee0874}</UniqueIdentifier>
+    <Filter Include="源文件\XCBullet">
+      <UniqueIdentifier>{2c3d4d72-913f-42c2-9181-eb0a8e07e2f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\util\XCGame">
-      <UniqueIdentifier>{289cd25d-3525-4061-b9f1-aa1f6843716f}</UniqueIdentifier>
+    <Filter Include="头文件\XCGame">
+      <UniqueIdentifier>{ca4c3328-21c8-46c8-b9b1-31621d55ba28}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\util\XCGame\Enemy">
-      <UniqueIdentifier>{5fe4416e-2e74-4707-ab35-b2cf313fc5ec}</UniqueIdentifier>
+    <Filter Include="源文件\XCGame">
+      <UniqueIdentifier>{b650d3f9-0cea-4df9-bff4-eeaf71851ad1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\util\XCSpecialEffect">
-      <UniqueIdentifier>{bf5365ca-5771-458e-883c-72c2068c5829}</UniqueIdentifier>
+    <Filter Include="头文件\XCShape">
+      <UniqueIdentifier>{baba3fa5-89a5-4f8d-971d-da06981905b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\util\XCSpecialEffect">
-      <UniqueIdentifier>{375d6dff-03cf-4ddc-8423-84c633133ae9}</UniqueIdentifier>
+    <Filter Include="源文件\XCShape">
+      <UniqueIdentifier>{62d166b3-7e80-41ca-9a3b-3158978eaf82}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\util\XCBullet">
-      <UniqueIdentifier>{c644a1a9-2cb1-468a-8312-f3db08a78b6e}</UniqueIdentifier>
+    <Filter Include="头文件\XCSpecialEffect">
+      <UniqueIdentifier>{ac54a096-eca6-4f64-a101-a374e8712e9a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\util\XCBullet">
-      <UniqueIdentifier>{08aa73ff-c8ef-4475-84d9-1bb90e1dba2a}</UniqueIdentifier>
+    <Filter Include="源文件\XCSpecialEffect">
+      <UniqueIdentifier>{8a0322c5-cf36-4cea-9065-48fec2ebed87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\XCGame\Enemy">
+      <UniqueIdentifier>{e7d6aa5a-5e67-4bf6-8272-3dd29f0d59ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\XCGame\Enemy">
+      <UniqueIdentifier>{906ab26a-f867-4406-ac2c-ae2aaf755d23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\RenderGroup">
+      <UniqueIdentifier>{ceec9f41-8aed-47a1-8dea-2ef83d4c9ba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\RenderGroup">
+      <UniqueIdentifier>{6481d8cc-2edf-42f7-986b-ef56606ba050}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\XCTask">
+      <UniqueIdentifier>{92a0022a-dca1-47e3-b4cf-d734ab600635}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\XCTask">
+      <UniqueIdentifier>{d1e65255-99bb-43ac-8698-fba5c9b3281d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -57,44 +72,47 @@
     <ClCompile Include="util\ShaderReader.cpp">
       <Filter>源文件\util</Filter>
     </ClCompile>
-    <ClCompile Include="gl3w.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="util\XCGame\XCNormalAttack.cpp">
-      <Filter>源文件\util\XCGame</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerRenderGroup.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="BackGroundRenderGroup.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="util\XCGame\Enemy\XCNormalEnemy.cpp">
-      <Filter>源文件\util\XCGame\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyRenderGroup.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="XCustomizedSTGMain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="util\XCEnemyInfo.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="rendergroup\BackGroundRenderGroup.cpp">
+      <Filter>源文件\RenderGroup</Filter>
     </ClCompile>
-    <ClCompile Include="util\XCSpecialEffect\XCRing.cpp">
-      <Filter>源文件\util\XCSpecialEffect</Filter>
+    <ClCompile Include="rendergroup\BulletRenderGroup.cpp">
+      <Filter>源文件\RenderGroup</Filter>
     </ClCompile>
-    <ClCompile Include="util\XCSpecialEffect\XCExplode.cpp">
-      <Filter>源文件\util\XCSpecialEffect</Filter>
+    <ClCompile Include="rendergroup\EnemyRenderGroup.cpp">
+      <Filter>源文件\RenderGroup</Filter>
     </ClCompile>
-    <ClCompile Include="util\XCGame\XCTraceAttack.cpp">
-      <Filter>源文件\util\XCGame</Filter>
+    <ClCompile Include="rendergroup\PlayerRenderGroup.cpp">
+      <Filter>源文件\RenderGroup</Filter>
     </ClCompile>
-    <ClCompile Include="util\XCBullet\XCCircleBullet.cpp">
-      <Filter>源文件\util\XCBullet</Filter>
+    <ClCompile Include="XCSpecialEffect\XCExplode.cpp">
+      <Filter>源文件\XCSpecialEffect</Filter>
     </ClCompile>
-    <ClCompile Include="BulletRenderGroup.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="XCSpecialEffect\XCRing.cpp">
+      <Filter>源文件\XCSpecialEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="XCGame\XCNormalAttack.cpp">
+      <Filter>源文件\XCGame</Filter>
+    </ClCompile>
+    <ClCompile Include="XCGame\XCTraceAttack.cpp">
+      <Filter>源文件\XCGame</Filter>
+    </ClCompile>
+    <ClCompile Include="XCGame\Enemy\XCNormalEnemy.cpp">
+      <Filter>源文件\XCGame\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="XCBullet\XCCircleBullet.cpp">
+      <Filter>源文件\XCBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="XCGame\Enemy\XCEnemyInfo.cpp">
+      <Filter>源文件\XCGame\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="util\gl3w.c">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="XCTask\XCTaskLoop.cpp">
+      <Filter>源文件\XCTask</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,44 +125,56 @@
     <ClInclude Include="util\ShaderReader.h">
       <Filter>头文件\util</Filter>
     </ClInclude>
-    <ClInclude Include="util\XCShape\XCDefaultShape.h">
-      <Filter>头文件\util\XCShape</Filter>
+    <ClInclude Include="rendergroup\BackGroundRenderGroup.h">
+      <Filter>头文件\RenderGroup</Filter>
     </ClInclude>
-    <ClInclude Include="util\XCGame\XCNormalAttack.h">
-      <Filter>头文件\util\XCGame</Filter>
+    <ClInclude Include="rendergroup\BulletRenderGroup.h">
+      <Filter>头文件\RenderGroup</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerRenderGroup.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="rendergroup\EnemyRenderGroup.h">
+      <Filter>头文件\RenderGroup</Filter>
     </ClInclude>
-    <ClInclude Include="BackGroundRenderGroup.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="rendergroup\PlayerRenderGroup.h">
+      <Filter>头文件\RenderGroup</Filter>
     </ClInclude>
-    <ClInclude Include="util\XCGame\Enemy\XCNormalEnemy.h">
-      <Filter>头文件\util\XCGame\Enemy</Filter>
+    <ClInclude Include="XCSpecialEffect\XCExplode.h">
+      <Filter>头文件\XCSpecialEffect</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyRenderGroup.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="XCSpecialEffect\XCRing.h">
+      <Filter>头文件\XCSpecialEffect</Filter>
     </ClInclude>
-    <ClInclude Include="util\XCEnemyInfo.h">
-      <Filter>头文件\util</Filter>
+    <ClInclude Include="XCShape\XCDefaultShape.h">
+      <Filter>头文件\XCShape</Filter>
     </ClInclude>
-    <ClInclude Include="util\XCSpecialEffect\XCRing.h">
-      <Filter>头文件\util\XCSpecialEffect</Filter>
+    <ClInclude Include="XCGame\XCNormalAttack.h">
+      <Filter>头文件\XCGame</Filter>
     </ClInclude>
-    <ClInclude Include="util\XCSpecialEffect\XCExplode.h">
-      <Filter>头文件\util\XCSpecialEffect</Filter>
+    <ClInclude Include="XCGame\XCTraceAttack.h">
+      <Filter>头文件\XCGame</Filter>
     </ClInclude>
-    <ClInclude Include="util\XCGame\XCTraceAttack.h">
-      <Filter>头文件\util\XCGame</Filter>
+    <ClInclude Include="XCGame\Enemy\XCNormalEnemy.h">
+      <Filter>头文件\XCGame\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="util\XCBullet\XCBullet.h">
-      <Filter>头文件\util\XCBullet</Filter>
+    <ClInclude Include="XCBullet\XCBullet.h">
+      <Filter>头文件\XCBullet</Filter>
     </ClInclude>
-    <ClInclude Include="util\XCBullet\XCCircleBullet.h">
-      <Filter>头文件\util\XCBullet</Filter>
+    <ClInclude Include="XCBullet\XCCircleBullet.h">
+      <Filter>头文件\XCBullet</Filter>
     </ClInclude>
-    <ClInclude Include="BulletRenderGroup.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="XCGame\Enemy\XCEnemyInfo.h">
+      <Filter>头文件\XCGame\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="XCTask\XCTaskLoop.h">
+      <Filter>头文件\XCTask</Filter>
+    </ClInclude>
+    <ClInclude Include="XCTask\XCTask.h">
+      <Filter>头文件\XCTask</Filter>
+    </ClInclude>
+    <ClInclude Include="XCTask\XCTaskCollisonInfo.h">
+      <Filter>头文件\XCTask</Filter>
+    </ClInclude>
+    <ClInclude Include="XCTask\XCTaskRenderInfo.h">
+      <Filter>头文件\XCTask</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

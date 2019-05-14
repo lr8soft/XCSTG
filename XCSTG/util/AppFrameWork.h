@@ -2,10 +2,10 @@
 #ifndef _XCSTG_RENDER_MAIN_
 #define _XCSTG_RENDER_MAIN_
 #include <GLFW/glfw3.h>
-#include "../PlayerRenderGroup.h"
-#include "../BackGroundRenderGroup.h"
-#include "../EnemyRenderGroup.h"
-#include "../BulletRenderGroup.h"
+#include "../rendergroup/PlayerRenderGroup.h"
+#include "../rendergroup/BackGroundRenderGroup.h"
+#include "../rendergroup/EnemyRenderGroup.h"
+#include "../rendergroup/BulletRenderGroup.h"
 namespace xc_ogl {
 	class AppFrameWork
 	{

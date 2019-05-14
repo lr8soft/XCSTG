@@ -3,19 +3,24 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "../ImageLoader.h"
-#include "../ShaderReader.h"
+#include "../util/ImageLoader.h"
+#include "../util/ShaderReader.h"
 using namespace xc_ogl;
+bool xc_game::XCAttack::have_program_init = false;
 bool xc_game::XCAttack::have_resource_init = false;
-GLuint xc_game::XCAttack::tbo[4];
+GLuint xc_game::XCAttack::tbo[4]; 
+GLuint xc_game::XCAttack::program_static;
 void xc_game::XCAttack::ShaderInit()
 {
-	ShaderReader SELoader;
-	SELoader.load_from_file("shader/se/GeneralSE.vert",GL_VERTEX_SHADER);
-	SELoader.load_from_file("shader/se/GeneralSE.frag",GL_FRAGMENT_SHADER);
-	SELoader.link_all_shader();
-	program = SELoader.get_program();
-	glUseProgram(program);
+	if (!have_program_init) {
+		ShaderReader SELoader;
+		SELoader.load_from_file("shader/se/GeneralSE.vert", GL_VERTEX_SHADER);
+		SELoader.load_from_file("shader/se/GeneralSE.frag", GL_FRAGMENT_SHADER);
+		SELoader.link_all_shader();
+		program_static = SELoader.get_program();
+		have_program_init = true;
+	}
+	program = program_static;
 }
 
 void xc_game::XCAttack::TextureInit()
@@ -31,9 +36,8 @@ void xc_game::XCAttack::TextureInit()
 		tbo[END] = SEEnd.GetTBO();
 		tbo[FINISH] = SEFinish.GetTBO();
 		have_resource_init = true;
-		glUniform1i(glGetUniformLocation(program,"tex"),0);
 	}
-	
+	glUniform1i(glGetUniformLocation(program,"tex"),0);
 }
 
 void xc_game::XCAttack::BufferInit()

@@ -6,8 +6,8 @@
 namespace xc_game {
 	class XCAttack {
 	protected:
-		static bool have_resource_init;
-		static GLuint tbo[4];
+		static bool have_resource_init,have_program_init;
+		static GLuint tbo[4],program_static;
 		bool should_render;
 		const float finish_dist = 2.0f;
 		const float attack_width = 0.1f,attack_height=0.1f;

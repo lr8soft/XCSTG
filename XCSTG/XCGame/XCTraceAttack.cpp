@@ -3,19 +3,24 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "../ImageLoader.h"
-#include "../ShaderReader.h"
+#include "../util/ImageLoader.h"
+#include "../util/ShaderReader.h"
 using namespace xc_ogl;
 bool xc_game::XCTrackAttack::have_resource_init = false;
+bool xc_game::XCTrackAttack::have_program_init = false;
 GLuint xc_game::XCTrackAttack::tbo;
+GLuint xc_game::XCTrackAttack::program_static;
 void xc_game::XCTrackAttack::ShaderInit()
 {
-	ShaderReader SELoader;
-	SELoader.load_from_file("shader/se/GeneralSE.vert", GL_VERTEX_SHADER);
-	SELoader.load_from_file("shader/se/GeneralSE.frag", GL_FRAGMENT_SHADER);
-	SELoader.link_all_shader();
-	program = SELoader.get_program();
-	glUseProgram(program);
+	if (!have_program_init) {
+		ShaderReader SELoader;
+		SELoader.load_from_file("shader/se/GeneralSE.vert", GL_VERTEX_SHADER);
+		SELoader.load_from_file("shader/se/GeneralSE.frag", GL_FRAGMENT_SHADER);
+		SELoader.link_all_shader();
+		program_static = SELoader.get_program();
+		have_program_init = true;
+	}
+	program = program_static;
 }
 
 void xc_game::XCTrackAttack::TextureInit()
@@ -110,7 +115,7 @@ void xc_game::XCTrackAttack::AttackRender(float nowFrame)
 				ReCalcParameter();
 
 				if (should_positive) {//NowX初始值比destX小，每次递增NowX逼近destX
-					NowX += (velocity *cosf(temp_theta))*pow(deltaTime,0.15f);
+					NowX += (velocity *cosf(temp_theta))*pow(deltaTime, 0.15f);///deltaTime;//(velocity *cosf(temp_theta))*pow(deltaTime,0.15f);
 					if(NowX>=*destX)//超过了destX，越界即碰撞了
 						SetAttackMode_Inside(FOLLOW_ENEMY_MODE);
 				}

@@ -1,5 +1,5 @@
-#include "../ImageLoader.h"
-#include "../ShaderReader.h"
+#include "../util/ImageLoader.h"
+#include "../util/ShaderReader.h"
 #include "../XCShape/XCDefaultShape.h"
 #include <glfw/glfw3.h>
 #include <glm/glm.hpp>
@@ -8,15 +8,20 @@
 #include "XCRing.h"
 using namespace xc_ogl;
 GLuint xc_se::XCRing::tbo[2];
+GLuint xc_se::XCRing::program_static;
 bool xc_se::XCRing::have_tbo_init = false;
+bool xc_se::XCRing::have_program_init = false;
 void xc_se::XCRing::ShaderInit()
 {
-	ShaderReader SELoader;
-	SELoader.load_from_file("shader/se/GeneralSE.vert",GL_VERTEX_SHADER);
-	SELoader.load_from_file("shader/se/GeneralSE.frag",GL_FRAGMENT_SHADER);
-	SELoader.link_all_shader();
-	program = SELoader.get_program();
-	glUseProgram(program);
+	if (!have_program_init) {
+		ShaderReader SELoader;
+		SELoader.load_from_file("shader/se/GeneralSE.vert", GL_VERTEX_SHADER);
+		SELoader.load_from_file("shader/se/GeneralSE.frag", GL_FRAGMENT_SHADER);
+		SELoader.link_all_shader();
+		program_static = SELoader.get_program();
+		have_program_init = true;
+	}
+	program = program_static;
 }
 void xc_se::XCRing::TextureInit()
 {

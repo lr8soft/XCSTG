@@ -5,8 +5,8 @@
 namespace xc_game {
 	class XCTrackAttack{
 	protected:
-		static bool have_resource_init;
-		static GLuint tbo;
+		static bool have_resource_init,have_program_init;
+		static GLuint tbo,program_static;
 		bool should_positive,have_enemy_lock=false;
 		const float attack_damage = 0.01f;
 		const float attack_radius=0.03f;

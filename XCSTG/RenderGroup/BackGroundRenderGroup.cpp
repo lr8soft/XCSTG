@@ -1,7 +1,7 @@
 #include "BackGroundRenderGroup.h"
-#include "util/ImageLoader.h"
-#include "util/ShaderReader.h"
-#include "util/XCShape/XCDefaultShape.h"
+#include "../util/ImageLoader.h"
+#include "../util/ShaderReader.h"
+#include "../XCShape/XCDefaultShape.h"
 using namespace xc_ogl;
 void BackGroundRenderGroup::BufferLoader()
 {

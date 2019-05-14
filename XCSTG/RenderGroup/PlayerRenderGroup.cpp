@@ -1,7 +1,7 @@
 #include "PlayerRenderGroup.h"
-#include "util/ImageLoader.h"
-#include "util/ShaderReader.h"
-#include "util/XCShape/XCDefaultShape.h"
+#include "../util/ImageLoader.h"
+#include "../util/ShaderReader.h"
+#include "../XCShape/XCDefaultShape.h"
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

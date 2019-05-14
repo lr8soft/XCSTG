@@ -1,5 +1,5 @@
-#include "../../ImageLoader.h"
-#include "../../ShaderReader.h"
+#include "../../util/ImageLoader.h"
+#include "../../util/ShaderReader.h"
 #include "../../XCShape/XCDefaultShape.h"
 #include "XCNormalEnemy.h"
 
@@ -8,18 +8,24 @@
 #include <glm/gtc/type_ptr.hpp>
 using namespace xc_ogl;
 bool xc_game::XCEnemy::have_resource_init = false;//static memeber init
+bool xc_game::XCEnemy::have_program_init = false;
 GLuint xc_game::XCEnemy::tbo[2];
+GLuint xc_game::XCEnemy::program_static;
 float xc_game::XCEnemy::GetCoordY()
 {
 	return slope_k * NowX + parameter_b;
 }
 void xc_game::XCEnemy::ShaderInit()
 {
-	ShaderReader EYLoader;
-	EYLoader.load_from_file("shader/enemy/normal.vert",GL_VERTEX_SHADER);
-	EYLoader.load_from_file("shader/enemy/normal.frag",GL_FRAGMENT_SHADER);
-	EYLoader.link_all_shader();
-	program = EYLoader.get_program();
+	if (!have_program_init) {
+		ShaderReader EYLoader;
+		EYLoader.load_from_file("shader/enemy/normal.vert", GL_VERTEX_SHADER);
+		EYLoader.load_from_file("shader/enemy/normal.frag", GL_FRAGMENT_SHADER);
+		EYLoader.link_all_shader();
+		program_static = EYLoader.get_program();
+		have_program_init = true;
+	}
+	program = program_static;
 }
 
 void xc_game::XCEnemy::BufferInit()
@@ -43,8 +49,8 @@ void xc_game::XCEnemy::TextureInit()
 		tbo[FAIRY] = FairyLoader.GetTBO();
 		tbo[HAIRBALL] = HairBallLoader.GetTBO();
 		have_resource_init = true;
-		glUniform1i(glGetUniformLocation(program,"tex"),0);
 	}
+	glUniform1i(glGetUniformLocation(program,"tex"),0);
 	SetUseTBO(tbo[FAIRY]);//Default fairy
 }
 

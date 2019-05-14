@@ -1,5 +1,5 @@
-#include "../ImageLoader.h"
-#include "../ShaderReader.h"
+#include "../util/ImageLoader.h"
+#include "../util/ShaderReader.h"
 #include "../XCShape/XCDefaultShape.h"
 #include <glfw/glfw3.h>
 #include <glm/glm.hpp>

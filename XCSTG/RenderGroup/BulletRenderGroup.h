@@ -1,7 +1,7 @@
 #pragma once
 #ifndef _BULLET_RENDER_GROUP_
 #define _BULLET_RENDER_GROUP_
-#include "util/XCBullet/XCCircleBullet.h"
+#include "../XCBullet/XCCircleBullet.h"
 #include "PlayerRenderGroup.h"
 class BulletRenderGroup
 {

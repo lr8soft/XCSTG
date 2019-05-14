@@ -2,6 +2,7 @@
 #include "ImageLoader.h"
 #include <GL3/gl3w.h>
 #include <iostream>
+#include <windows.h>
 xc_ogl::ImageLoader::ImageLoader()
 {
 	stbi_set_flip_vertically_on_load(true);//µ¹Á¢À­s
@@ -35,9 +36,6 @@ void xc_ogl::ImageLoader::Release()
 	if (!have_release) {
 		stbi_image_free(texture_ptr);
 		have_release = true;
-#ifdef _DEBUG
-		std::cout << "[INFO]Now texture data released." << std::endl;
-#endif
 	}		
 }
 
@@ -51,9 +49,10 @@ void * xc_ogl::ImageLoader::LoadTextureData(const char * path)
 		have_release = false;
 	}
 	else {
-#ifdef _DEBUG
-		std::cerr << "[ERROR]Failed to load background." << std::endl;
-#endif
+		char *str = new char[256];
+		sprintf_s(str, 256, "[ERROR]Failed to load %s",path);
+		MessageBox(NULL, str,"XCSTG ERROR", MB_OKCANCEL);
+		delete[] str;
 	}
 	glBindTexture(texture_type, 0);//Bind nothing.
 	return texture_ptr;

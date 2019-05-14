@@ -3,11 +3,10 @@
 #define _Render_group_
 #include <gl/glcorearb.h>
 #include <GLFW/glfw3.h>
-#include "util/XCEnemyInfo.h"
-#include "util/XCGame/XCNormalAttack.h"
-#include "util/XCGame/XCTraceAttack.h"
-#include "util/XCEnemyInfo.h"
-#include "util/XCSpecialEffect/XCRing.h"
+#include "../XCGame/Enemy/XCEnemyInfo.h"
+#include "../XCGame/XCNormalAttack.h"
+#include "../XCGame/XCTraceAttack.h"
+#include "../XCSpecialEffect/XCRing.h"
 class PlayerRenderGroup {
 private:
 	xc_se::XCRing dead_se;

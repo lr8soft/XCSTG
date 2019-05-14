@@ -1,8 +1,8 @@
 #pragma once
 #ifndef _Enemy_Render_group_
 #define _Enemy_Render_group_
-#include "util/XCGame/Enemy/XCNormalEnemy.h"
-#include "util/XCEnemyInfo.h"
+#include "../XCGame/Enemy/XCNormalEnemy.h"
+#include "../XCGame/Enemy/XCEnemyInfo.h"
 #include <glfw/glfw3.h>
 class EnemyRenderGroup
 {

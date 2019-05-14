@@ -3,7 +3,7 @@
 #define _BULLET_BASE_H_
 #include <gl/glcorearb.h>
 #include <functional>
-#include "../../PlayerRenderGroup.h"
+#include "../rendergroup/PlayerRenderGroup.h"
 namespace xc_bullet {
 	/*²ÎÊý:NowX, NowY, nowTime, deltaTime, velocity, parameter*/
 	using BulletFunctionType=std::function<float(float, float, float, float, float, float)>;

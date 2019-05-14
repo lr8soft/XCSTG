@@ -1,5 +1,5 @@
-#include "../ImageLoader.h"
-#include "../ShaderReader.h"
+#include "../util/ImageLoader.h"
+#include "../util/ShaderReader.h"
 #include "../XCShape/XCDefaultShape.h"
 #include "XCCircleBullet.h"
 #include <glm/glm.hpp>
@@ -7,7 +7,9 @@
 #include <glm/gtc/type_ptr.hpp>
 using namespace xc_ogl;
 GLuint xc_bullet::XCCircleBullet::temp_tbo[5];
+GLuint xc_bullet::XCCircleBullet::program_static;
 bool xc_bullet::XCCircleBullet::have_resource_init = false;
+bool xc_bullet::XCCircleBullet::have_program_init = false;
 void xc_bullet::XCCircleBullet::SetRenderTBO(GLuint in_tbo)
 {
 	tbo = in_tbo;
@@ -15,11 +17,15 @@ void xc_bullet::XCCircleBullet::SetRenderTBO(GLuint in_tbo)
 
 void xc_bullet::XCCircleBullet::ShaderInit()
 {
-	ShaderReader BulletReader;
-	BulletReader.load_from_file("shader/bullet/GeneralBullet.vert",GL_VERTEX_SHADER);
-	BulletReader.load_from_file("shader/bullet/GeneralBullet.frag", GL_FRAGMENT_SHADER);
-	BulletReader.link_all_shader();
-	program = BulletReader.get_program();
+	if (!have_program_init) {
+		ShaderReader BulletReader;
+		BulletReader.load_from_file("shader/bullet/GeneralBullet.vert", GL_VERTEX_SHADER);
+		BulletReader.load_from_file("shader/bullet/GeneralBullet.frag", GL_FRAGMENT_SHADER);
+		BulletReader.link_all_shader();
+		program_static= BulletReader.get_program();
+		have_program_init = true;
+	}
+	program = program_static;
 }
 
 void xc_bullet::XCCircleBullet::TextureInit()
