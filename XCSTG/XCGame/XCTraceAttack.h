@@ -10,7 +10,7 @@ namespace xc_game {
 		bool should_positive,have_enemy_lock=false;
 		const float attack_damage = 0.01f;
 		const float attack_radius=0.03f;
-		const float return_velocity = 1.5f;
+		const float return_velocity = 6.0f;
 		unsigned int runtime_mode= FOLLOW_PLAYER_MODE,require_mode= NONE_MODE;
 		float offset_posX;
 		float *playerX, *playerY, *playerZ;//Íæ¼Ò×ø±êÖ¸Õë

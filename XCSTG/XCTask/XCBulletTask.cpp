@@ -4,7 +4,7 @@ using namespace xc_bullet;
 XCBulletTask::XCBulletTask()
 {
 	taskType = BulletType;
-	pBulletCount = 16;
+	pBulletCount = 2000;
 }
 void XCBulletTask::TaskInit()
 {
@@ -22,9 +22,10 @@ void XCBulletTask::TaskInit()
 		};
 		for (int i = 0; i < pBulletCount; i++) {
 			((XCCircleBullet*)pBullet)[i].SetRotateAngle(1440.0f);
-			((XCCircleBullet*)pBullet)[i].SetVelocity(1.0f);
+			((XCCircleBullet*)pBullet)[i].SetVelocity(0.5f);
 			((XCCircleBullet*)pBullet)[i].SetMoveFunc(xfunc, yfunc);
-			((XCCircleBullet*)pBullet)[i].SetStartingPoint(0.0f, 0.1f*i, 0.0f);
+			((XCCircleBullet*)pBullet)[i].SetStartingPoint( 0.001*i-0.5, 0.6f, 0.0f);
+			((XCCircleBullet*)pBullet)[i].SetAimToPlayer(true);
 			((XCCircleBullet*)pBullet)[i].BulletInit();
 		}
 		have_resource_init = true;
@@ -34,6 +35,8 @@ void XCBulletTask::TaskInit()
 void XCBulletTask::TaskRender(XCTaskRenderInfo * pInfo)
 {
 	for (int i = 0; i < pBulletCount; i++) {
+	//	if(((XCCircleBullet*)pBullet)[i].ShouldAimToPlayer())
+
 		((XCCircleBullet*)pBullet)[i].BulletRender(pInfo->nowFrame);
 	}
 }

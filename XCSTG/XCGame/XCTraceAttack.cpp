@@ -120,7 +120,7 @@ void xc_game::XCTrackAttack::AttackRender(float nowFrame)
 						SetAttackMode_Inside(FOLLOW_ENEMY_MODE);
 				}
 				else {//NowX初始值比destX大，每次递减NowX逼近destX
-					NowX -= (velocity *cosf(temp_theta) )*pow(deltaTime, 0.15f);
+					NowX -= (velocity *cosf(temp_theta))*pow(deltaTime, 0.15f);
 					if (NowX <= *destX)//比destX还小，越界即碰撞了
 						SetAttackMode_Inside(FOLLOW_ENEMY_MODE);
 				}

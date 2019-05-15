@@ -89,7 +89,7 @@ void PlayerEntity::GroupInit()
 	for (int j = 0; j < trace_count; j++) {
 		trace_attack[j].AttackInit();
 		trace_attack[j].SetPlayerPosition(&NowX, &NowY, &NowZ);
-		trace_attack[j].SetVelocity(0.006f);
+		trace_attack[j].SetVelocity(0.003f);
 		if (j %2==0)
 			trace_attack[j].SetOffsizeX((j +1)*(0.035));
 		else

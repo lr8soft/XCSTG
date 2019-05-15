@@ -66,9 +66,9 @@ void xc_bullet::XCCircleBullet::DataInit()
 
 void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 {
-	if (should_render) 
+	if (should_render)
 	{
-/////////////////OGL TIME!!!//////////////////
+		/////////////////OGL TIME!!!//////////////////
 		XCBullet::BulletRender(nowFrame);
 		glEnable(GL_BLEND);
 		glUseProgram(program);
@@ -77,9 +77,11 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, tbo);
 		/////////////////////////////////////////////
-		NowX = coordx_func(NowX, NowY,nowFrame,deltaTime,velocity,0);
-		NowY = coordy_func(NowX, NowY,nowFrame,deltaTime,velocity,0);
-		if (NowX>1.1f||NowX<-1.1f||NowY>1.1f||NowZ<-1.1f) 
+		UpdateAimToPlayerCoord();//if set AimToPlayer
+		NowX = coordx_func(NowX, NowY, nowFrame, deltaTime, velocity, 0);
+		NowY = coordy_func(NowX, NowY, nowFrame, deltaTime, velocity, 0);
+
+		if (NowX>1.15f||NowX<-1.15f||NowY>1.15f||NowY<-1.15f) 
 		{
 			should_render = false;
 		}
@@ -94,8 +96,6 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 	else {
 		DataReset();
 	}
-
-
 }
 
 void xc_bullet::XCCircleBullet::BulletCollisionWithPlayer(PlayerEntity * player)
@@ -111,4 +111,5 @@ void xc_bullet::XCCircleBullet::BulletCollisionWithPlayer(PlayerEntity * player)
 			should_render = false;
 		}
 	}
+	xc_bullet::XCBullet::BulletCollisionWithPlayer(player);
 }

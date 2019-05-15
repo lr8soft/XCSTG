@@ -3,7 +3,7 @@
 XCEnemyTask::XCEnemyTask()
 {
 	taskType = EnemyType;
-	pEnemyCount = 32;//default
+	pEnemyCount = 64;//default
 }
 
 XCEnemyTask::~XCEnemyTask()

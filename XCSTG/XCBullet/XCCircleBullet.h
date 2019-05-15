@@ -8,7 +8,7 @@ namespace xc_bullet {
 	  /*float deltaTime = 0.0f, lastFrame = 0.0f;
 		float rotate_angle = 0.0f, velocity = 0.0f;
 		std::function<float(float)> coordx_func, coordy_func;*/
-		const float attack_radius = 0.038f;
+		const float attack_radius = 0.035f;
 		static bool have_resource_init,have_program_init;
 		static GLuint temp_tbo[5],program_static;
 		void SetRenderTBO(GLuint tbo);

@@ -28,6 +28,7 @@ void xc_ogl::AppFrameWork::init()
 	screen = glfwCreateWindow(width, height, title, nullptr, nullptr);
 	glfwMakeContextCurrent(screen);
 	glfwSetFramebufferSizeCallback(screen, screen_resize);
+	
 	gl3wInit();
 	shader_init();
 }
