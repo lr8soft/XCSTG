@@ -3,7 +3,7 @@
 #define _BULLET_BASE_H_
 #include <gl/glcorearb.h>
 #include <functional>
-#include "../rendergroup/PlayerRenderGroup.h"
+#include "../rendergroup/PlayerEntity.h"
 namespace xc_bullet {
 	/*参数:NowX, NowY, nowTime, deltaTime, velocity, parameter*/
 	using BulletFunctionType=std::function<float(float, float, float, float, float, float)>;
@@ -46,7 +46,9 @@ namespace xc_bullet {
 		    yfunc:返回NowY,参数:NowX,NowY,nowTime,deltaTime,velocity,parameter*/
 		void SetMoveFunc(BulletFunctionType xfunc, BulletFunctionType yfunc)
 		{
-			coordx_func = xfunc; coordy_func = yfunc; have_xyfunc = true;
+			coordx_func = xfunc;
+			coordy_func = yfunc; 
+			have_xyfunc = true;
 		}
 		void SetStartingPoint(float x,float y,float z) {
 			NowX = x; NowY = y; NowZ = z;
@@ -64,7 +66,7 @@ namespace xc_bullet {
 			deltaTime = currentFrame - lastFrame;
 			lastFrame = currentFrame;
 		}
-		virtual void BulletCollisionWithPlayer(PlayerRenderGroup* player)=0;
+		virtual void BulletCollisionWithPlayer(PlayerEntity* player)=0;
 	};
 }
 #endif

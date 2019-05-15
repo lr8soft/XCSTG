@@ -8,7 +8,7 @@ namespace xc_game {
 	class XCEnemy {
 	public:
 		XCEnemy() = default;
-		~XCEnemy() = default;
+		~XCEnemy();
 		virtual void EnemyInit(size_t type);
 		virtual void EnemyRender(float nowFrame);
 		/*TYPE:SINGLE_COORD*/
@@ -21,6 +21,7 @@ namespace xc_game {
 		void SetVelocity(float v);
 		virtual void SetDead();
 		virtual void SetDamage(float damage);
+		virtual void ReleaseResource();
 		enum {SINGLE_COORD,FUNCTION_PATH};
 		bool IsRendering();
 		bool IsDead();

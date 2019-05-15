@@ -1,10 +1,12 @@
 #pragma once
 #ifndef _XCTASK_COLLISION_INFO_
 #define _XCTASK_COLLISION_INFO_
-#include "../RenderGroup/PlayerRenderGroup.h"
+#include "../RenderGroup/PlayerEntity.h"
+#include "../XCGame/Enemy/XCEnemyInfo.h"
 class XCTaskCollisionInfo {
 public:
 	float deltaTime,nowFrame;
-	PlayerRenderGroup* pPlayer=nullptr;
+	PlayerEntity* pPlayer=nullptr;
+	xc_game::XCEnemyInfo EnemyInfoGroup;
 };
 #endif

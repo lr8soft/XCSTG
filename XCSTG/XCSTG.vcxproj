@@ -127,9 +127,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="rendergroup\BackGroundRenderGroup.cpp" />
-    <ClCompile Include="rendergroup\BulletRenderGroup.cpp" />
-    <ClCompile Include="rendergroup\EnemyRenderGroup.cpp" />
-    <ClCompile Include="rendergroup\PlayerRenderGroup.cpp" />
+    <ClCompile Include="rendergroup\PlayerEntity.cpp" />
     <ClCompile Include="util\gl3w.c" />
     <ClCompile Include="XCBullet\XCCircleBullet.cpp" />
     <ClCompile Include="XCGame\Enemy\XCEnemyInfo.cpp" />
@@ -138,6 +136,9 @@
     <ClCompile Include="XCGame\XCTraceAttack.cpp" />
     <ClCompile Include="XCSpecialEffect\XCExplode.cpp" />
     <ClCompile Include="XCSpecialEffect\XCRing.cpp" />
+    <ClCompile Include="XCTask\XCBulletTask.cpp" />
+    <ClCompile Include="XCTask\XCEnemyTask.cpp" />
+    <ClCompile Include="XCTask\XCPlayerTask.cpp" />
     <ClCompile Include="XCTask\XCTaskLoop.cpp" />
     <ClCompile Include="XCustomizedSTGMain.cpp" />
     <ClCompile Include="util\AppFrameWork.cpp" />
@@ -146,9 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rendergroup\BackGroundRenderGroup.h" />
-    <ClInclude Include="rendergroup\BulletRenderGroup.h" />
-    <ClInclude Include="rendergroup\EnemyRenderGroup.h" />
-    <ClInclude Include="rendergroup\PlayerRenderGroup.h" />
+    <ClInclude Include="rendergroup\PlayerEntity.h" />
     <ClInclude Include="util\AppFrameWork.h" />
     <ClInclude Include="util\ImageLoader.h" />
     <ClInclude Include="util\ShaderReader.h" />
@@ -161,6 +160,9 @@
     <ClInclude Include="XCShape\XCDefaultShape.h" />
     <ClInclude Include="XCSpecialEffect\XCExplode.h" />
     <ClInclude Include="XCSpecialEffect\XCRing.h" />
+    <ClInclude Include="XCTask\XCBulletTask.h" />
+    <ClInclude Include="XCTask\XCEnemyTask.h" />
+    <ClInclude Include="XCTask\XCPlayerTask.h" />
     <ClInclude Include="XCTask\XCTask.h" />
     <ClInclude Include="XCTask\XCTaskCollisonInfo.h" />
     <ClInclude Include="XCTask\XCTaskLoop.h" />

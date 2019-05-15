@@ -6,9 +6,10 @@
 #include <GLFW/glfw3.h>
 class XCTask {
 protected:
-	bool task_should_run = false;
+	bool task_should_run = false,task_should_delete=false,have_resource_init=false;
+	int taskType;
 public:
-	enum TaskType { BulletType, PlayerType, EnemyType, AttackType };
+	enum TaskType { DefaultType,BulletType, PlayerType, EnemyType, AttackType };
 	virtual void TaskInit() = 0;
 	virtual void TaskRender(XCTaskRenderInfo* pInfo) = 0;
 	virtual void TaskCollisionCheck(XCTaskCollisionInfo* pInfo) = 0;
@@ -20,6 +21,14 @@ public:
 	bool TaskRunnable() 
 	{
 		return task_should_run;
+	}
+	bool TaskDeletable() 
+	{
+		return task_should_delete;
+	}
+	int GetTaskType() 
+	{
+		return taskType;
 	}
 };
 #endif

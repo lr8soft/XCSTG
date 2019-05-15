@@ -20,7 +20,7 @@ namespace xc_bullet {
 		/*void BulletInit();*/
 		
 		void BulletRender(float nowFrame) override;
-		void BulletCollisionWithPlayer(PlayerRenderGroup* player) override;
+		void BulletCollisionWithPlayer(PlayerEntity* player) override;
 	};
 }
 #endif

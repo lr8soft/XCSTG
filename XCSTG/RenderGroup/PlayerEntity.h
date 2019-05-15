@@ -7,11 +7,11 @@
 #include "../XCGame/XCNormalAttack.h"
 #include "../XCGame/XCTraceAttack.h"
 #include "../XCSpecialEffect/XCRing.h"
-class PlayerRenderGroup {
+class PlayerEntity {
 private:
 	xc_se::XCRing dead_se;
 	bool dead_time = false;
-	xc_game::XCEnemyInfo *enemy_info=nullptr;
+	xc_game::XCEnemyInfo *pEnemyInfo=nullptr;
 	xc_game::XCAttack base_attack[2];
 	xc_game::XCTrackAttack trace_attack[4];
 	const float base_speed = 1.45f, trace_interval = 0.05f;;
@@ -24,19 +24,19 @@ private:
 	/*PLAYER:decision point program TX:texture progrm*/
 	enum { DECISION, TX };
 	void EveryRenderInit();
+	void EveryFinishRender();
 	void OGLSettingRenderStart();
 	void OGLSettingRenderEnd();
 	void ShaderLoader();
 	void TextureLoader();
 	void MoveTexSet(GLuint id);
 public:
-	PlayerRenderGroup() = default;
-	~PlayerRenderGroup() = default;
+	PlayerEntity() = default;
+	~PlayerEntity() = default;
 	void GroupInit();
 	void GroupRender(float nowFrame);
-	void GroupUpdateInfo();
+	void PlayerCollisonEvent(xc_game::XCEnemyInfo *info);
 	void GroupKeyCheck(GLFWwindow* screen);
-	void GroupInitInfo(xc_game::XCEnemyInfo *info);
 	void SetDead();
 	const float** GetPlayerCoord();
 };

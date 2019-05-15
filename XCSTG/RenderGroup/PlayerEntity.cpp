@@ -1,4 +1,4 @@
-#include "PlayerRenderGroup.h"
+#include "PlayerEntity.h"
 #include "../util/ImageLoader.h"
 #include "../util/ShaderReader.h"
 #include "../XCShape/XCDefaultShape.h"
@@ -7,21 +7,25 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 using namespace xc_ogl;
-void PlayerRenderGroup::EveryRenderInit()
+void PlayerEntity::EveryRenderInit()
 {
 	MoveTexSet(TboPL[0]);
 	RenderDecisionPoint = false;
 }
-void PlayerRenderGroup::OGLSettingRenderStart()
+void PlayerEntity::EveryFinishRender()
+{
+	pEnemyInfo = nullptr;
+}
+void PlayerEntity::OGLSettingRenderStart()
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 }
-void PlayerRenderGroup::OGLSettingRenderEnd()
+void PlayerEntity::OGLSettingRenderEnd()
 {
 	glDisable(GL_BLEND);
 }
-void PlayerRenderGroup::ShaderLoader()
+void PlayerEntity::ShaderLoader()
 {
 	ShaderReader glpr,gltx;
 	gltx.load_from_file("shader/player/vertex_tx.glsl", GL_VERTEX_SHADER);
@@ -35,7 +39,7 @@ void PlayerRenderGroup::ShaderLoader()
 	program[DECISION] = glpr.get_program();
 
 }
-void PlayerRenderGroup::TextureLoader()
+void PlayerEntity::TextureLoader()
 {
 	ImageLoader PRNormal, PRRight, PRLeft,TXLoader;
 	PRNormal.LoadTextureData("image/rin/rin_0.png");
@@ -50,11 +54,11 @@ void PlayerRenderGroup::TextureLoader()
 	glUniform1i(glGetUniformLocation(program[DECISION],"tex"),0);
 	glUniform1i(glGetUniformLocation(program[TX], "tex"), 0);
 }
-void PlayerRenderGroup::MoveTexSet(GLuint id)
+void PlayerEntity::MoveTexSet(GLuint id)
 {
 	tboPL = id;
 }
-void PlayerRenderGroup::GroupInit()
+void PlayerEntity::GroupInit()
 {
 	ShaderLoader();
 	TextureLoader();
@@ -94,7 +98,7 @@ void PlayerRenderGroup::GroupInit()
 	dead_se.SpecialEffectInit(dead_se.RingPlayerDead);
 }
 
-void PlayerRenderGroup::GroupRender(float nowFrame)
+void PlayerEntity::GroupRender(float nowFrame)
 {
 	OGLSettingRenderStart();
 /////////////////////////////////////先渲染玩家贴图///////////////////////////////
@@ -147,21 +151,19 @@ void PlayerRenderGroup::GroupRender(float nowFrame)
 	OGLSettingRenderEnd();
 }
 
-void PlayerRenderGroup::GroupUpdateInfo()
+void PlayerEntity::PlayerCollisonEvent(xc_game::XCEnemyInfo *enemy_info)
 {
-	if (enemy_info == nullptr) return;
-	auto enemy_render=enemy_info->GetRenderingEnemy();
+	pEnemyInfo = enemy_info;
+	auto enemy_render = enemy_info->GetRenderingEnemy();
 	int base_attack_count = sizeof(base_attack) / sizeof(xc_game::XCAttack);
 	int trace_attack_count = sizeof(trace_attack) / sizeof(xc_game::XCTrackAttack);
 	if (enemy_render->empty()) {//当没有敌人的时候
 #pragma omp parallel for
 		for (int k = 0; k < trace_attack_count; k++) {
-		//	trace_attack[k].SetAttackMode(xc_game::XCTrackAttack::FORCE_RETURN);
 			trace_attack[k].SetAttackMode(xc_game::XCTrackAttack::FOLLOW_PLAYER_MODE);
 		}
 	}
 	else {
-
 		for (auto iter = enemy_render->begin(); iter != enemy_render->end(); iter++) {//Get each alive enemy
 			auto enemy = *(iter);
 #pragma omp parallel for
@@ -181,7 +183,7 @@ void PlayerRenderGroup::GroupUpdateInfo()
 
 }
 
-void PlayerRenderGroup::GroupKeyCheck(GLFWwindow* screen)
+void PlayerEntity::GroupKeyCheck(GLFWwindow* screen)
 {
 	EveryRenderInit();
 	float currentFrame = glfwGetTime();
@@ -222,36 +224,35 @@ void PlayerRenderGroup::GroupKeyCheck(GLFWwindow* screen)
 	if (glfwGetKey(screen, GLFW_KEY_Z) == GLFW_PRESS) {
 		auto attack_count = sizeof(base_attack) / sizeof(xc_game::XCAttack);
 		for (int i = 0; i < attack_count; i++) {//deltaX, deltaY + 0.12+0.3*i, deltaZ,12.0f
-			base_attack[i].SetPositionAndVelocity(NowX, NowY +0.3*i, NowZ, player_fire_power);
+			base_attack[i].SetPositionAndVelocity(NowX, NowY + 0.3*i, NowZ, player_fire_power);
 			base_attack[i].SetAttack();
 		}
-		auto trace_count = sizeof(trace_attack)/sizeof(xc_game::XCTrackAttack);
-		for (int i = 0; i < trace_count; i++) {
-			auto enemy_ptr = enemy_info->GetRenderingEnemy();
-			for (auto ptr = enemy_ptr->begin(); ptr != enemy_ptr->end();ptr++) {
-				if (!(*ptr)->IsDead()) {
-					float **temp_coord = (*(ptr))->GetNowCoord();
-					float *x = *(temp_coord), *y = *(temp_coord + 1), *z = *(temp_coord + 2);
-					trace_attack[i].SetTarget(x, y, z);
-					trace_attack[i].SetAttackMode(xc_game::XCTrackAttack::MOVEING_MODE);
+		auto trace_count = sizeof(trace_attack) / sizeof(xc_game::XCTrackAttack);
+		if (pEnemyInfo!=nullptr)
+		{
+			for (int i = 0; i < trace_count; i++) {
+				auto enemy_ptr = pEnemyInfo->GetRenderingEnemy();
+				for (auto ptr = enemy_ptr->begin(); ptr != enemy_ptr->end(); ptr++) {
+					if (!(*ptr)->IsDead()) {
+						float **temp_coord = (*(ptr))->GetNowCoord();
+						float *x = *(temp_coord), *y = *(temp_coord + 1), *z = *(temp_coord + 2);
+						trace_attack[i].SetTarget(x, y, z);
+						trace_attack[i].SetAttackMode(xc_game::XCTrackAttack::MOVEING_MODE);
+					}
 				}
 			}
 		}
 	}
+	EveryFinishRender();
 }
 
-void PlayerRenderGroup::GroupInitInfo(xc_game::XCEnemyInfo * info)
-{
-	enemy_info = info;
-}
-
-void PlayerRenderGroup::SetDead()
+void PlayerEntity::SetDead()
 {
 	std::cout << "AWSL" << std::endl;
 	dead_time = true;
 }
 
-const float ** PlayerRenderGroup::GetPlayerCoord()
+const float ** PlayerEntity::GetPlayerCoord()
 {
 	const float *playerCoord[3];
 	playerCoord[0] = &NowX;

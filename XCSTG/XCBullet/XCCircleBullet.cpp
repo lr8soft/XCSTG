@@ -98,8 +98,9 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 
 }
 
-void xc_bullet::XCCircleBullet::BulletCollisionWithPlayer(PlayerRenderGroup * player)
+void xc_bullet::XCCircleBullet::BulletCollisionWithPlayer(PlayerEntity * player)
 {
+	if (player == nullptr) return;
 	if (should_render)
 	{
 		auto player_coord = player->GetPlayerCoord();

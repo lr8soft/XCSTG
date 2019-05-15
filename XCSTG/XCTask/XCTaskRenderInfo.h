@@ -4,7 +4,7 @@
 class XCTaskRenderInfo {
 public:
 	long count = 0;
-	float deltaTime;
+	float deltaTime,lastFrame,nowFrame;
 	void* pScreen;
 };
 #endif

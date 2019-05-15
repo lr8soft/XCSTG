@@ -10,14 +10,18 @@ protected:	/*UUID   Task*/
 	size_t taskCount=0;
 	XCTaskCollisionInfo CollisionInfo;
 	XCTaskRenderInfo RenderInfo;
+	XCTask* pPlayerTask=nullptr,*pEnemyTask=nullptr;
+	void SetPlayer(XCTask* ptask);
+	void SetEnemy(XCTask* ptask);
+	void SetBullet(XCTask* ptask);
 public:
 	enum TaskCommand {COMMAND_NONE,CLEAN_ENEMY,CLEAN_BULLET};
 
 	void SetScreen(GLFWwindow* screen);
-	void SetPlayer(PlayerRenderGroup* player);
 	void AddTask(XCTask* task,std::string uuid);
 	void DeleteTask(std::string uuid);
 	void ActiveTask(std::string uuid);
-	void TaskProcess();
+	void TaskProcess(float nowFrame);
+	void TaskProcessCommand(int command);
 };
 #endif

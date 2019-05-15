@@ -35,7 +35,6 @@ void xc_ogl::AppFrameWork::init()
 void xc_ogl::AppFrameWork::display()
 {
 	while (!glfwWindowShouldClose(screen)) {
-	
 		key_check();
 		render();
 		glfwSwapBuffers(screen);
@@ -44,29 +43,24 @@ void xc_ogl::AppFrameWork::display()
 }
 void xc_ogl::AppFrameWork::key_check()
 {
-	rendergroup.GroupKeyCheck(screen);
-	bggroup.GroupKeyCheck(screen);
-	eygroup.GroupKeyCheck(screen);
 }
 void xc_ogl::AppFrameWork::shader_init()
 {
 	bggroup.GroupInit();
-	eygroup.GroupInit();
-	rendergroup.GroupInitInfo(eygroup.GetEnemyInfoGroup());
-	rendergroup.GroupInit();
-	blgroup.GroupInit();
-	blgroup.GroupInitInfo(&rendergroup);
+	bulletTask.TaskActive();
+	enemyTask.TaskActive();
+	playerTask.TaskActive();
+	taskLoop.SetScreen(screen);
+	taskLoop.AddTask(&enemyTask,"A");
+	taskLoop.AddTask(&playerTask,"B");
+	taskLoop.AddTask(&bulletTask,"C");
 }
 void xc_ogl::AppFrameWork::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	float nowFrame = glfwGetTime();
 	bggroup.GroupRender();
-	eygroup.GroupRender(nowFrame);
-	rendergroup.GroupRender(nowFrame);
-	blgroup.GroupRender(nowFrame);
-	rendergroup.GroupUpdateInfo();
-	blgroup.GroupUpdateInfo();
+	taskLoop.TaskProcess(nowFrame);
 	
 }
 

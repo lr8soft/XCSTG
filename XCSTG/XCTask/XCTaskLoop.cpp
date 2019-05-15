@@ -1,19 +1,55 @@
 #include <string>
 #include "XCTaskLoop.h"
+#include "XCPlayerTask.h"
+#include "XCEnemyTask.h"
+#include "XCBulletTask.h"
 using namespace std;
 void XCTaskLoop::SetScreen(GLFWwindow * screen)
 {
 	RenderInfo.pScreen = static_cast<void*>(screen);
 }
 
-void XCTaskLoop::SetPlayer(PlayerRenderGroup * player)
+void XCTaskLoop::SetPlayer(XCTask* ptask)
 {
-	CollisionInfo.pPlayer = player;
+	pPlayerTask = ptask;
+	CollisionInfo.pPlayer = ((XCPlayerTask*)ptask)->GetPlayerPointer();
+}
+
+void XCTaskLoop::SetEnemy(XCTask * ptask)
+{
+	pEnemyTask = ptask;
+	((XCEnemyTask*)ptask)->TaskInit();
+	((XCEnemyTask*)ptask)->AddEnemyToTaskLoop(&CollisionInfo);
+	//CollisionInfo.AllEnemyInfo
+}
+
+void XCTaskLoop::SetBullet(XCTask * ptask)
+{
+	((XCBulletTask*)ptask)->TaskInit();
+}
+
+void XCTaskLoop::TaskProcessCommand(int command)
+{
+
 }
 
 void XCTaskLoop::AddTask(XCTask * task, std::string uuid)
 {
 	tasklist[uuid] = task;
+	switch (task->GetTaskType())
+	{
+	case task->PlayerType:
+		SetPlayer(task);
+		break;
+	case task->AttackType:
+		break;
+	case task->BulletType:
+		SetBullet(task);
+		break;
+	case task->EnemyType:
+		SetEnemy(task);
+		break;
+	}
 	taskCount++;
 }
 
@@ -33,16 +69,25 @@ void XCTaskLoop::ActiveTask(std::string uuid)
 
 }
 
-void XCTaskLoop::TaskProcess()
+void XCTaskLoop::TaskProcess(float nowFrame)
 {
-	for (auto iter = tasklist.begin(); iter != tasklist.end();iter++) {
+	RenderInfo.nowFrame = nowFrame;
+	RenderInfo.deltaTime = RenderInfo.nowFrame - RenderInfo.lastFrame;
+	RenderInfo.lastFrame = RenderInfo.nowFrame;
+	for (auto iter = tasklist.begin(); iter != tasklist.end();) {
 		auto uuid = iter->first;
 		auto ptask = iter->second;
 		if (ptask->TaskRunnable()) 
 		{
-			ptask->TaskRender(&RenderInfo);
 			ptask->TaskCollisionCheck(&CollisionInfo);
 			ptask->TaskKeyCheck(static_cast<GLFWwindow*>(RenderInfo.pScreen));
+			ptask->TaskRender(&RenderInfo);
+			if (ptask->TaskDeletable()) 
+			{
+				tasklist.erase(iter++);
+				continue;
+			}
 		}
+		iter++;
 	}
 }

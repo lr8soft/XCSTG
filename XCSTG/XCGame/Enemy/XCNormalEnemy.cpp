@@ -90,6 +90,20 @@ void xc_game::XCEnemy::OGLSettingRenderEnd()
 	glDisable(GL_BLEND);
 }
 
+xc_game::XCEnemy::~XCEnemy()
+{
+/*	if (have_resource_init) {
+		glDeleteTextures(1, &tbo[FAIRY]);
+		glDeleteTextures(1, &tbo[HAIRBALL]);
+		have_resource_init = false;
+	}
+	if (have_program_init) {
+		glDeleteProgram(program_static);
+		have_program_init = false;
+	}*/
+
+}
+
 void xc_game::XCEnemy::EnemyInit(size_t type)
 {
 	ShaderInit();
@@ -217,6 +231,13 @@ void xc_game::XCEnemy::SetDamage(float damage)
 	}
 
 		//damage_se.SpecialEffectRender(deltaX,deltaY,deltaZ);
+}
+
+void xc_game::XCEnemy::ReleaseResource()
+{
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &vbo);
+	std::cout << "end" << std::endl;
 }
 
 bool xc_game::XCEnemy::IsRendering()

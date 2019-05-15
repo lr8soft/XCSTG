@@ -2,18 +2,21 @@
 #ifndef _XCSTG_RENDER_MAIN_
 #define _XCSTG_RENDER_MAIN_
 #include <GLFW/glfw3.h>
-#include "../rendergroup/PlayerRenderGroup.h"
+#include "../XCTask/XCTaskLoop.h"
+#include "../XCTask/XCEnemyTask.h"
+#include "../XCTask/XCPlayerTask.h"
+#include "../XCTask/XCBulletTask.h"
 #include "../rendergroup/BackGroundRenderGroup.h"
-#include "../rendergroup/EnemyRenderGroup.h"
-#include "../rendergroup/BulletRenderGroup.h"
 namespace xc_ogl {
 	class AppFrameWork
 	{
 	private:
-		EnemyRenderGroup eygroup;
+		XCEnemyTask enemyTask;
+		XCPlayerTask playerTask;
+		XCBulletTask bulletTask;
+		XCTaskLoop taskLoop;
 		BackGroundRenderGroup bggroup;
-		PlayerRenderGroup rendergroup;
-		BulletRenderGroup blgroup;
+
 		static AppFrameWork* app_ptr;
 		const char* title;
 		int width, height;
