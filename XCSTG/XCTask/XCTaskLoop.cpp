@@ -12,15 +12,15 @@ void XCTaskLoop::SetScreen(GLFWwindow * screen)
 void XCTaskLoop::SetPlayer(XCTask* ptask)
 {
 	pPlayerTask = ptask;
+	((XCPlayerTask*)ptask)->TaskInit();
 	CollisionInfo.pPlayer = ((XCPlayerTask*)ptask)->GetPlayerPointer();
 }
 
 void XCTaskLoop::SetEnemy(XCTask * ptask)
 {
 	pEnemyTask = ptask;
-	((XCEnemyTask*)ptask)->TaskInit();
+	//((XCEnemyTask*)ptask)->TaskInit();
 	((XCEnemyTask*)ptask)->AddEnemyToTaskLoop(&CollisionInfo);
-	//CollisionInfo.AllEnemyInfo
 }
 
 void XCTaskLoop::SetBullet(XCTask * ptask)
@@ -30,7 +30,7 @@ void XCTaskLoop::SetBullet(XCTask * ptask)
 
 void XCTaskLoop::TaskProcessCommand(int command)
 {
-
+	taskCommandList.push_back(command);
 }
 
 void XCTaskLoop::AddTask(XCTask * task, std::string uuid)
@@ -74,20 +74,37 @@ void XCTaskLoop::TaskProcess(float nowFrame)
 	RenderInfo.nowFrame = nowFrame;
 	RenderInfo.deltaTime = RenderInfo.nowFrame - RenderInfo.lastFrame;
 	RenderInfo.lastFrame = RenderInfo.nowFrame;
+	//////////////Time manager finish////////////////////////////
+	if (!taskCommandList.empty())
+	{
+		auto command_iter = taskCommandList.begin();
+		switch ((*command_iter)) {
+		case COMMAND_NONE:break;
+		case CLEAN_ENEMY: break;
+		case CLEAN_BULLET: break;
+		case STAGE_INIT: break;
+		case STAGE_RENDER: break;
+		case STAGE_END: break;
+		}
+		taskCommandList.erase(command_iter);
+	}
+	/////////////Command Manager finish///////////
 	for (auto iter = tasklist.begin(); iter != tasklist.end();) {
-		auto uuid = iter->first;
-		auto ptask = iter->second;
+		auto uuid = iter->first;auto ptask = iter->second;
 		if (ptask->TaskRunnable()) 
 		{
-			ptask->TaskCollisionCheck(&CollisionInfo);
-			ptask->TaskKeyCheck(static_cast<GLFWwindow*>(RenderInfo.pScreen));
-			ptask->TaskRender(&RenderInfo);
-			if (ptask->TaskDeletable()) 
-			{
-				tasklist.erase(iter++);
-				continue;
+			if (ptask->IsTaskInit()) {
+				ptask->TaskCollisionCheck(&CollisionInfo);
+				ptask->TaskKeyCheck(static_cast<GLFWwindow*>(RenderInfo.pScreen));
+				ptask->TaskRender(&RenderInfo);
+				if (ptask->TaskDeletable())
+				{
+					tasklist.erase(iter++);
+					continue;
+				}
 			}
 		}
 		iter++;
 	}
+	//////////////Sub running task finish////////////
 }

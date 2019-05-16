@@ -26,6 +26,10 @@ public:
 	{
 		return task_should_delete;
 	}
+	bool IsTaskInit() 
+	{
+		return have_resource_init;
+	}
 	int GetTaskType() 
 	{
 		return taskType;

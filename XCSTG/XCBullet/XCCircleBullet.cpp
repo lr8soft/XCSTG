@@ -31,11 +31,15 @@ void xc_bullet::XCCircleBullet::ShaderInit()
 void xc_bullet::XCCircleBullet::TextureInit()
 {
 	if (!have_resource_init) {
-		ImageLoader TexLoader0,TexLoader1;
+		ImageLoader TexLoader0,TexLoader1,TexLoader2,TexLoader3;
 		TexLoader0.LoadTextureData("image/bullet/normal_circle_bullet_0.png");
 		TexLoader1.LoadTextureData("image/bullet/largeish_circle_bullet_0.png");
+		TexLoader2.LoadTextureData("image/bullet/huge_circle_bullet_0.png");
+		TexLoader3.LoadTextureData("image/bullet/tiny_circle_bullet_0.png");
 		temp_tbo[NORMAL] = TexLoader0.GetTBO();
 		temp_tbo[LARGEISH] = TexLoader1.GetTBO();
+		temp_tbo[HUGE]= TexLoader2.GetTBO();
+		temp_tbo[TINY] = TexLoader3.GetTBO();
 		have_resource_init = true;
 	}
 
@@ -56,7 +60,6 @@ void xc_bullet::XCCircleBullet::BufferInit()
 
 void xc_bullet::XCCircleBullet::DataInit()
 {
-	rotate_angle = 0.0f; 
 	deltaTime = 0.0f;
 	if (have_start_pos == true && have_velocity == true && have_xyfunc == true) {
 		should_render = true;
@@ -96,9 +99,9 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 			should_render = false;
 		}
 		glm::mat4 transform_mat;
-		transform_mat = glm::rotate(transform_mat, glm::radians(rotate_angle*nowFrame), glm::vec3(0,0,1));
 		transform_mat = glm::translate(transform_mat, glm::vec3(NowX,NowY,NowZ));
-		transform_mat = glm::scale(transform_mat,glm::vec3(0.03f,0.03f,0.03f));
+		transform_mat = glm::rotate(transform_mat, glm::radians(rotate_angle*nowFrame), glm::vec3(0, 0, 1));
+		transform_mat = glm::scale(transform_mat,glm::vec3(tex_scale_rate[bulletType]));
 		auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
 		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));

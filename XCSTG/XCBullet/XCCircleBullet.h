@@ -10,7 +10,9 @@ namespace xc_bullet {
 		std::function<float(float)> coordx_func, coordy_func;*/
 		
 		size_t bulletType = 0;
-		const float attack_radius_group[3] = {0.035f,0.06f,0.06f};
+											/*NORMAL,LARGEISH, HUGE,TINY*/
+		const float attack_radius_group[4] = {0.035f,0.04f,0.18f,0.025f};
+		const float tex_scale_rate[4] =      {0.03f,0.035f,0.25f,0.02f};
 		float attack_radius = 0.035f;
 		static bool have_resource_init,have_program_init;
 		static GLuint temp_tbo[5],program_static;
@@ -20,7 +22,7 @@ namespace xc_bullet {
 		void BufferInit() override;
 		void DataInit() override;
 	public:
-		enum CircleBulletType { NORMAL, LARGEISH, HUGE };
+		enum CircleBulletType { NORMAL, LARGEISH, HUGE,TINY };
 		/*void BulletInit();*/
 		void SetBulletType(size_t type);
 		void BulletRender(float nowFrame) override;
