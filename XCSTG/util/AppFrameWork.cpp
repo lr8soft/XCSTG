@@ -24,8 +24,16 @@ void xc_ogl::AppFrameWork::screen_resize(GLFWwindow* screen, int w, int h)
 void xc_ogl::AppFrameWork::init()
 {
 	have_init = true;
+
 	glfwInit();
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);//No resizable.
+	glfwWindowHint(GLFW_REFRESH_RATE,60);
+	//glfwWindowHint(GLFW_SCALE_TO_MONITOR, GL_TRUE);//Auto change size
 	screen = glfwCreateWindow(width, height, title, nullptr, nullptr);
+	if (screen == nullptr) {
+		MessageBox(NULL, "无法创建窗口！","ERROR",MB_ICONERROR);
+		exit(-1);
+	}
 	glfwMakeContextCurrent(screen);
 	glfwSetFramebufferSizeCallback(screen, screen_resize);
 	

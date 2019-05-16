@@ -61,6 +61,12 @@
     <Filter Include="源文件\XCTask">
       <UniqueIdentifier>{d1e65255-99bb-43ac-8698-fba5c9b3281d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\XCStage">
+      <UniqueIdentifier>{3476c0b9-9fb7-42b4-a580-a03c103cd307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\XCStage">
+      <UniqueIdentifier>{74ac1ac1-c89a-427f-aff3-db8e9dbe6767}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="util\AppFrameWork.cpp">
@@ -105,17 +111,17 @@
     <ClCompile Include="XCTask\XCTaskLoop.cpp">
       <Filter>源文件\XCTask</Filter>
     </ClCompile>
-    <ClCompile Include="XCTask\XCEnemyTask.cpp">
-      <Filter>源文件\XCTask</Filter>
-    </ClCompile>
     <ClCompile Include="XCTask\XCPlayerTask.cpp">
       <Filter>源文件\XCTask</Filter>
     </ClCompile>
     <ClCompile Include="rendergroup\PlayerEntity.cpp">
       <Filter>源文件\RenderGroup</Filter>
     </ClCompile>
-    <ClCompile Include="XCTask\XCBulletTask.cpp">
-      <Filter>源文件\XCTask</Filter>
+    <ClCompile Include="XCStage\XCBTStage1.cpp">
+      <Filter>源文件\XCStage</Filter>
+    </ClCompile>
+    <ClCompile Include="XCStage\XCEYStage1.cpp">
+      <Filter>源文件\XCStage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +187,12 @@
     </ClInclude>
     <ClInclude Include="XCTask\XCBulletTask.h">
       <Filter>头文件\XCTask</Filter>
+    </ClInclude>
+    <ClInclude Include="XCStage\XCBTStage1.h">
+      <Filter>头文件\XCStage</Filter>
+    </ClInclude>
+    <ClInclude Include="XCStage\XCEYStage1.h">
+      <Filter>头文件\XCStage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

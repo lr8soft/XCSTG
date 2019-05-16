@@ -3,17 +3,17 @@
 #define _XCSTG_RENDER_MAIN_
 #include <GLFW/glfw3.h>
 #include "../XCTask/XCTaskLoop.h"
-#include "../XCTask/XCEnemyTask.h"
 #include "../XCTask/XCPlayerTask.h"
-#include "../XCTask/XCBulletTask.h"
+#include "../XCStage/XCBTStage1.h"
+#include "../XCStage/XCEYStage1.h"
 #include "../rendergroup/BackGroundRenderGroup.h"
 namespace xc_ogl {
 	class AppFrameWork
 	{
 	private:
-		XCEnemyTask enemyTask;
+		XCEYStage1 enemyTask;
 		XCPlayerTask playerTask;
-		XCBulletTask bulletTask;
+		XCBTStage1 bulletTask;
 		XCTaskLoop taskLoop;
 		BackGroundRenderGroup bggroup;
 

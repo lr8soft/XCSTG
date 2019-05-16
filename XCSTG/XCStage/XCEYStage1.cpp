@@ -1,17 +1,12 @@
-#include "XCEnemyTask.h"
+#include "XCEYStage1.h"
 
-XCEnemyTask::XCEnemyTask()
-{
-	taskType = EnemyType;
-	pEnemyCount = 64;//default
-}
-
-XCEnemyTask::~XCEnemyTask()
+XCEYStage1::~XCEYStage1()
 {
 
 }
-void XCEnemyTask::TaskInit()
+void XCEYStage1::TaskInit()
 {
+	pEnemyCount = 64;
 	if (!have_resource_init) 
 	{
 		pEnemy = new xc_game::XCEnemy[pEnemyCount];
@@ -31,32 +26,19 @@ void XCEnemyTask::TaskInit()
 	}
 }
 
-void XCEnemyTask::TaskRender(XCTaskRenderInfo * pInfo)
+void XCEYStage1::TaskRender(XCTaskRenderInfo * pInfo)
 {
 	TaskInit();
-	for (int i=0;i<pEnemyCount;i++) 
-	{
-		pEnemy[i].EnemyRender(pInfo->nowFrame);
-	}
+	XCEnemyTask::TaskRender(pInfo);
 }
 
-void XCEnemyTask::TaskCollisionCheck(XCTaskCollisionInfo * pInfo)
+void XCEYStage1::TaskCollisionCheck(XCTaskCollisionInfo * pInfo)
 {
 	;
 }
 
-void XCEnemyTask::TaskKeyCheck(GLFWwindow * win)
+void XCEYStage1::TaskKeyCheck(GLFWwindow * win)
 {
 	;
 }
 
-void XCEnemyTask::AddEnemyToTaskLoop(XCTaskCollisionInfo * pInfo)
-{
-	if (!have_add_enemy_to_vec) {
-		for (int i = 0; i < pEnemyCount; i++)
-		{
-			pInfo->EnemyInfoGroup.AddEnemyToVector(&pEnemy[i]);
-		}
-		have_add_enemy_to_vec = true;
-	}
-}

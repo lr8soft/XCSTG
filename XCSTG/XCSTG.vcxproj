@@ -136,8 +136,8 @@
     <ClCompile Include="XCGame\XCTraceAttack.cpp" />
     <ClCompile Include="XCSpecialEffect\XCExplode.cpp" />
     <ClCompile Include="XCSpecialEffect\XCRing.cpp" />
-    <ClCompile Include="XCTask\XCBulletTask.cpp" />
-    <ClCompile Include="XCTask\XCEnemyTask.cpp" />
+    <ClCompile Include="XCStage\XCBTStage1.cpp" />
+    <ClCompile Include="XCStage\XCEYStage1.cpp" />
     <ClCompile Include="XCTask\XCPlayerTask.cpp" />
     <ClCompile Include="XCTask\XCTaskLoop.cpp" />
     <ClCompile Include="XCustomizedSTGMain.cpp" />
@@ -160,6 +160,8 @@
     <ClInclude Include="XCShape\XCDefaultShape.h" />
     <ClInclude Include="XCSpecialEffect\XCExplode.h" />
     <ClInclude Include="XCSpecialEffect\XCRing.h" />
+    <ClInclude Include="XCStage\XCBTStage1.h" />
+    <ClInclude Include="XCStage\XCEYStage1.h" />
     <ClInclude Include="XCTask\XCBulletTask.h" />
     <ClInclude Include="XCTask\XCEnemyTask.h" />
     <ClInclude Include="XCTask\XCPlayerTask.h" />

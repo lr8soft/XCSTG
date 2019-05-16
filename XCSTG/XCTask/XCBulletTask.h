@@ -11,10 +11,8 @@ protected:
 	xc_bullet::XCBullet *pBullet;
 	long pBulletCount = 0;
 public:
-	XCBulletTask();
-	void TaskInit() override;
-	void TaskRender(XCTaskRenderInfo* pInfo) override;
-	void TaskCollisionCheck(XCTaskCollisionInfo* pInfo) override;
-	void TaskKeyCheck(GLFWwindow* win) override;
+	XCBulletTask() {
+		taskType = BulletType;
+	}
 };
 #endif

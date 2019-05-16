@@ -31,12 +31,14 @@ void xc_bullet::XCCircleBullet::ShaderInit()
 void xc_bullet::XCCircleBullet::TextureInit()
 {
 	if (!have_resource_init) {
-		ImageLoader TexLoader;
-		TexLoader.LoadTextureData("image/bullet/normal_circle_bullet_0.png");
-		temp_tbo[0] = TexLoader.GetTBO();
+		ImageLoader TexLoader0,TexLoader1;
+		TexLoader0.LoadTextureData("image/bullet/normal_circle_bullet_0.png");
+		TexLoader1.LoadTextureData("image/bullet/largeish_circle_bullet_0.png");
+		temp_tbo[NORMAL] = TexLoader0.GetTBO();
+		temp_tbo[LARGEISH] = TexLoader1.GetTBO();
 		have_resource_init = true;
 	}
-	SetRenderTBO(temp_tbo[0]);
+
 	glUniform1i(glGetUniformLocation(program,"tex"),0);
 }
 
@@ -64,10 +66,18 @@ void xc_bullet::XCCircleBullet::DataInit()
 	}
 }
 
+void xc_bullet::XCCircleBullet::SetBulletType(size_t type)
+{
+	SetRenderTBO(temp_tbo[type]);
+	bulletType = type;
+	attack_radius = attack_radius_group[type];
+}
+
 void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 {
 	if (should_render)
 	{
+		SetBulletType(bulletType);
 		/////////////////OGL TIME!!!//////////////////
 		XCBullet::BulletRender(nowFrame);
 		glEnable(GL_BLEND);

@@ -61,6 +61,9 @@ namespace xc_bullet {
 		bool ShouldAimToPlayer() {
 			return aim_to_player;
 		}
+		bool IsBulletRender() {
+			return should_render;
+		}
 		void UpdateAimToPlayerCoord() {
 			if (ShouldAimToPlayer()) {
 				if (atp_positive)

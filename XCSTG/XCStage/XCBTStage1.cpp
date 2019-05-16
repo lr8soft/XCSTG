@@ -1,13 +1,9 @@
-#include "XCBulletTask.h"
+#include "XCBTStage1.h"
 #include "../XCBullet/XCCircleBullet.h"
 using namespace xc_bullet;
-XCBulletTask::XCBulletTask()
+void XCBTStage1::TaskInit()
 {
-	taskType = BulletType;
-	pBulletCount = 2000;
-}
-void XCBulletTask::TaskInit()
-{
+	pBulletCount = 500;
 	if (!have_resource_init)
 	{
 		pBullet = new xc_bullet::XCCircleBullet[pBulletCount];
@@ -25,23 +21,24 @@ void XCBulletTask::TaskInit()
 			((XCCircleBullet*)pBullet)[i].SetVelocity(0.5f);
 			((XCCircleBullet*)pBullet)[i].SetMoveFunc(xfunc, yfunc);
 			((XCCircleBullet*)pBullet)[i].SetStartingPoint( 0.001*i-0.5, 0.6f, 0.0f);
-			((XCCircleBullet*)pBullet)[i].SetAimToPlayer(true);
+			//((XCCircleBullet*)pBullet)[i].SetAimToPlayer(true);
+			if (i % 2 == 0)
+				((XCCircleBullet*)pBullet)[i].SetBulletType(((XCCircleBullet*)pBullet)[i].LARGEISH);
 			((XCCircleBullet*)pBullet)[i].BulletInit();
 		}
 		have_resource_init = true;
 	}
 }
 
-void XCBulletTask::TaskRender(XCTaskRenderInfo * pInfo)
+void XCBTStage1::TaskRender(XCTaskRenderInfo * pInfo)
 {
 	for (int i = 0; i < pBulletCount; i++) {
 	//	if(((XCCircleBullet*)pBullet)[i].ShouldAimToPlayer())
-
 		((XCCircleBullet*)pBullet)[i].BulletRender(pInfo->nowFrame);
 	}
 }
 
-void XCBulletTask::TaskCollisionCheck(XCTaskCollisionInfo * pInfo)
+void XCBTStage1::TaskCollisionCheck(XCTaskCollisionInfo * pInfo)
 {
 #pragma omp parallel for
 	for (int i = 0; i < pBulletCount; i++) {
@@ -49,6 +46,6 @@ void XCBulletTask::TaskCollisionCheck(XCTaskCollisionInfo * pInfo)
 	}
 }
 
-void XCBulletTask::TaskKeyCheck(GLFWwindow * win)
+void XCBTStage1::TaskKeyCheck(GLFWwindow * win)
 {
 }
