@@ -19,13 +19,11 @@ void XCTaskLoop::SetPlayer(XCTask* ptask)
 void XCTaskLoop::SetEnemy(XCTask * ptask)
 {
 	pEnemyTask = ptask;
-	//((XCEnemyTask*)ptask)->TaskInit();
-	((XCEnemyTask*)ptask)->AddEnemyToTaskLoop(&CollisionInfo);
 }
 
 void XCTaskLoop::SetBullet(XCTask * ptask)
 {
-	((XCBulletTask*)ptask)->TaskInit();
+	pBulletTask = ptask;
 }
 
 void XCTaskLoop::TaskProcessCommand(int command)
@@ -35,7 +33,7 @@ void XCTaskLoop::TaskProcessCommand(int command)
 
 void XCTaskLoop::AddTask(XCTask * task, std::string uuid)
 {
-	tasklist[uuid] = task;
+	tasklist[uuid] = task;//Add task to tasklist
 	switch (task->GetTaskType())
 	{
 	case task->PlayerType:
@@ -50,7 +48,6 @@ void XCTaskLoop::AddTask(XCTask * task, std::string uuid)
 		SetEnemy(task);
 		break;
 	}
-	taskCount++;
 }
 
 void XCTaskLoop::DeleteTask(std::string uuid)
@@ -68,29 +65,71 @@ void XCTaskLoop::ActiveTask(std::string uuid)
 	}
 
 }
-
+std::map<std::string, XCTask*>::iterator
+XCTaskLoop::DoTaskCommmand(int command,std::map<std::string, XCTask*>::iterator &iter)
+{
+	if (COMMAND_NONE == command) return iter;//default的滚
+	auto ptask = iter->second;
+	switch (command) 
+	{
+		case CLEAN_ENEMY: 
+			if (ptask->GetTaskType() == ptask->EnemyType) {
+				if (next(iter) == tasklist.end())//您尾部就别++了亲
+				{
+					tasklist.erase(iter);
+					iter = tasklist.begin();
+				}
+				else {
+					tasklist.erase(iter++);
+				}
+			}
+			break;
+		case CLEAN_BULLET:
+			if (ptask->GetTaskType() == ptask->BulletType) {
+				if(next(iter)== tasklist.end())//同上
+				{
+					tasklist.erase(iter);
+					iter = tasklist.begin();
+				}
+				else {
+					tasklist.erase(iter++);
+				}
+			}
+			break;
+		case STAGE_INIT:
+			if (!ptask->IsTaskInit()) {
+				ptask->TaskInit();
+				if(ptask->GetTaskType()==ptask->EnemyType)
+					((XCEnemyTask*)ptask)->AddEnemyToTaskLoop(&CollisionInfo);
+			}
+			break;
+		case STAGE_RENDER:
+			ptask->TaskActive();
+			break;
+		case STAGE_END: 
+			break;
+		default:
+			break;
+	}
+	return iter;
+}
 void XCTaskLoop::TaskProcess(float nowFrame)
 {
 	RenderInfo.nowFrame = nowFrame;
 	RenderInfo.deltaTime = RenderInfo.nowFrame - RenderInfo.lastFrame;
 	RenderInfo.lastFrame = RenderInfo.nowFrame;
+	int temp_command = COMMAND_NONE;
 	//////////////Time manager finish////////////////////////////
 	if (!taskCommandList.empty())
 	{
 		auto command_iter = taskCommandList.begin();
-		switch ((*command_iter)) {
-		case COMMAND_NONE:break;
-		case CLEAN_ENEMY: break;
-		case CLEAN_BULLET: break;
-		case STAGE_INIT: break;
-		case STAGE_RENDER: break;
-		case STAGE_END: break;
-		}
+		temp_command = (*command_iter);
 		taskCommandList.erase(command_iter);
 	}
 	/////////////Command Manager finish///////////
 	for (auto iter = tasklist.begin(); iter != tasklist.end();) {
-		auto uuid = iter->first;auto ptask = iter->second;
+		auto ret_iter=DoTaskCommmand(temp_command,iter);
+		auto uuid = ret_iter->first;auto ptask = ret_iter->second;
 		if (ptask->TaskRunnable()) 
 		{
 			if (ptask->IsTaskInit()) {
@@ -99,7 +138,14 @@ void XCTaskLoop::TaskProcess(float nowFrame)
 				ptask->TaskRender(&RenderInfo);
 				if (ptask->TaskDeletable())
 				{
-					tasklist.erase(iter++);
+					if (next(iter) == tasklist.end())
+					{
+						tasklist.erase(iter);
+						iter = tasklist.begin();
+					}
+					else {
+						tasklist.erase(iter++);
+					}
 					continue;
 				}
 			}

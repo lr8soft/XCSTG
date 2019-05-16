@@ -19,10 +19,14 @@ public:
 	virtual void TaskInit() = 0;
 	/*缺省渲染方法*/
 	virtual void TaskRender(XCTaskRenderInfo * pInfo) override {
+		bool should_task_delete_temp = true;
 		for (int i = 0; i < pEnemyCount; i++)
 		{
 			pEnemy[i].EnemyRender(pInfo->nowFrame);
+			if(pEnemy[i].IsRendering())
+				should_task_delete_temp = false;
 		}
+		task_should_delete = should_task_delete_temp;//任务完成，自动删除
 	}
 	/*默认添加到EnamyGroup方法*/
 	virtual void AddEnemyToTaskLoop(XCTaskCollisionInfo* pInfo) {

@@ -52,17 +52,22 @@ void xc_ogl::AppFrameWork::display()
 }
 void xc_ogl::AppFrameWork::key_check()
 {
+	if (glfwGetKey(screen, GLFW_KEY_K) == GLFW_PRESS) {
+		taskLoop.TaskProcessCommand(taskLoop.CLEAN_BULLET);
+	}
+	if (glfwGetKey(screen, GLFW_KEY_L) == GLFW_PRESS) {
+		taskLoop.TaskProcessCommand(taskLoop.CLEAN_ENEMY);
+	}
 }
 void xc_ogl::AppFrameWork::shader_init()
 {
 	bggroup.GroupInit();
-	bulletTask.TaskActive();
-	enemyTask.TaskActive();
-	playerTask.TaskActive();
 	taskLoop.SetScreen(screen);
-	taskLoop.AddTask(&enemyTask,"A");
-	taskLoop.AddTask(&playerTask,"B");
-	taskLoop.AddTask(&bulletTask,"C");
+	taskLoop.AddTask(&enemyTask,"0");
+	taskLoop.AddTask(&playerTask,"1");
+	taskLoop.AddTask(&bulletTask,"2");
+	taskLoop.TaskProcessCommand(taskLoop.STAGE_INIT);
+	taskLoop.TaskProcessCommand(taskLoop.STAGE_RENDER);
 }
 void xc_ogl::AppFrameWork::render()
 {
