@@ -6,21 +6,31 @@ XCEYStage1::~XCEYStage1()
 }
 void XCEYStage1::TaskInit()
 {
-	pEnemyCount = 64;
+	int pEnemyCount = 100;
+	xc_game::XCEnemy *pEnemy;
 	if (!have_resource_init) 
 	{
-		pEnemy = new xc_game::XCEnemy[pEnemyCount];
+		pEnemy = new xc_game::XCEnemy[pEnemyCount];//!!!!!这里没有delete的
 		for (int i = 0; i < pEnemyCount; i++)
 		{
 			pEnemy[i].EnemyInit(pEnemy[i].SINGLE_COORD);
-			if (i % 2 == 0)
+			if (i % 2 == 0) {
 				pEnemy[i].SetGenerateAndVelocity(rand() / double(RAND_MAX), rand() / double(RAND_MAX), 0.0f, 0.8f, 0.8f, 0.0f, 0.015f);
-			else if (i % 3 == 0)
+				this->AddEnemyToMap(0,&pEnemy[i]);
+			}	
+			else if (i % 3 == 0) {
 				pEnemy[i].SetGenerateAndVelocity(-rand() / double(RAND_MAX), rand() / double(RAND_MAX), 0.0f, 0.8f, 0.8f, 0.0f, 0.015f);
-			else if (i % 5 == 0)
+				this->AddEnemyToMap(1, &pEnemy[i]);
+			}
+			
+			else if (i % 5 == 0) {
 				pEnemy[i].SetGenerateAndVelocity(rand() / double(RAND_MAX), -rand() / double(RAND_MAX), 0.0f, 0.8f, 0.8f, 0.0f, 0.015f);
-			else
+				this->AddEnemyToMap(2, &pEnemy[i]);
+			}
+			else {
 				pEnemy[i].SetGenerateAndVelocity(-rand() / double(RAND_MAX), -rand() / double(RAND_MAX), 0.0f, 0.8f, 0.8f, 0.0f, 0.015f);
+				this->AddEnemyToMap(3, &pEnemy[i]);
+			}
 		}
 		have_resource_init = true;
 	}

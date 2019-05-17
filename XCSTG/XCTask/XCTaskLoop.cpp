@@ -23,6 +23,7 @@ void XCTaskLoop::SetEnemy(XCTask * ptask)
 
 void XCTaskLoop::SetBullet(XCTask * ptask)
 {
+	ptask->TaskInit();
 	pBulletTask = ptask;
 }
 
@@ -33,7 +34,7 @@ void XCTaskLoop::TaskProcessCommand(int command)
 
 void XCTaskLoop::AddTask(XCTask * task, std::string uuid)
 {
-	tasklist[uuid] = task;//Add task to tasklist
+	tasklist.insert(std::make_pair(uuid,task));//Add task to tasklist
 	switch (task->GetTaskType())
 	{
 	case task->PlayerType:

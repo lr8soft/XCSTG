@@ -3,7 +3,8 @@
 using namespace xc_bullet;
 void XCBTStage1::TaskInit()
 {
-	pBulletCount = 100;
+	int pBulletCount = 100;
+	xc_bullet::XCCircleBullet* pBullet;
 	if (!have_resource_init)
 	{
 		pBullet = new xc_bullet::XCCircleBullet[pBulletCount];
@@ -23,18 +24,22 @@ void XCBTStage1::TaskInit()
 			if (i % 2 == 0) {
 				((XCCircleBullet*)pBullet)[i].SetStartingPoint(rand() / double(RAND_MAX), rand() / double(RAND_MAX), 0.0f);
 				((XCCircleBullet*)pBullet)[i].SetBulletType(((XCCircleBullet*)pBullet)[i].HUGE);
+				this->AddBulletToMap(0,&pBullet[i]);
 			}	
 			else if (i % 3 == 0) {
 				((XCCircleBullet*)pBullet)[i].SetStartingPoint(-rand() / double(RAND_MAX), rand() / double(RAND_MAX), 0.0f);
 				((XCCircleBullet*)pBullet)[i].SetBulletType(((XCCircleBullet*)pBullet)[i].NORMAL);
+				this->AddBulletToMap(1, &pBullet[i]);
 			}
 			else if (i % 5 == 0) {
 				((XCCircleBullet*)pBullet)[i].SetStartingPoint(rand() / double(RAND_MAX), -rand() / double(RAND_MAX), 0.0f);
 				((XCCircleBullet*)pBullet)[i].SetBulletType(((XCCircleBullet*)pBullet)[i].LARGEISH);
+				this->AddBulletToMap(2, &pBullet[i]);
 			}
 			else {
 				((XCCircleBullet*)pBullet)[i].SetStartingPoint(-rand() / double(RAND_MAX), -rand() / double(RAND_MAX), 0.0f);
 				((XCCircleBullet*)pBullet)[i].SetBulletType(((XCCircleBullet*)pBullet)[i].TINY);
+				this->AddBulletToMap(3, &pBullet[i]);
 			}
 			((XCCircleBullet*)pBullet)[i].BulletInit();
 		}
@@ -42,22 +47,16 @@ void XCBTStage1::TaskInit()
 	}
 }
 
-void XCBTStage1::TaskRender(XCTaskRenderInfo * pInfo)
-{
-	bool should_task_delete_temp = true;
-	for (int i = 0; i < pBulletCount; i++) {
-		((XCCircleBullet*)pBullet)[i].BulletRender(pInfo->nowFrame);
-		if (((XCCircleBullet*)pBullet)[i].IsBulletRender())
-			should_task_delete_temp = false;
-	}
-	task_should_delete = should_task_delete_temp;
-}
-
 void XCBTStage1::TaskCollisionCheck(XCTaskCollisionInfo * pInfo)
 {
-#pragma omp parallel for
-	for (int i = 0; i < pBulletCount; i++) {
-		((XCCircleBullet*)pBullet)[i].BulletCollisionWithPlayer(pInfo->pPlayer);
+	auto end_iter = pBulletMap.end();
+	for (auto iter = pBulletMap.begin(); iter != end_iter; iter++)
+	{
+		if (iter->second->IsBulletRender()) {
+			if (iter->first == render_priority) {//正在渲染的该优先级弹幕，才能进行碰撞检测
+				iter->second->BulletCollisionWithPlayer(pInfo->pPlayer);
+			}
+		}
 	}
 }
 

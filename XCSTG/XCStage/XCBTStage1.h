@@ -9,7 +9,6 @@ protected:
 
 public:
 	void TaskInit() override;
-	void TaskRender(XCTaskRenderInfo* pInfo) override;
 	void TaskCollisionCheck(XCTaskCollisionInfo* pInfo) override;
 	void TaskKeyCheck(GLFWwindow* win) override;
 };
