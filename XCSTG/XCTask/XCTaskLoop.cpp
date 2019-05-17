@@ -75,6 +75,7 @@ XCTaskLoop::DoTaskCommmand(int command,std::map<std::string, XCTask*>::iterator 
 	{
 		case CLEAN_ENEMY: 
 			if (ptask->GetTaskType() == ptask->EnemyType) {
+				iter->second->TaskRelease();
 				if (next(iter) == tasklist.end())//您尾部就别++了亲
 				{
 					tasklist.erase(iter);
@@ -87,6 +88,7 @@ XCTaskLoop::DoTaskCommmand(int command,std::map<std::string, XCTask*>::iterator 
 			break;
 		case CLEAN_BULLET:
 			if (ptask->GetTaskType() == ptask->BulletType) {
+				iter->second->TaskRelease();
 				if(next(iter)== tasklist.end())//同上
 				{
 					tasklist.erase(iter);
@@ -139,6 +141,7 @@ void XCTaskLoop::TaskProcess(float nowFrame)
 				ptask->TaskRender(&RenderInfo);
 				if (ptask->TaskDeletable())
 				{
+					iter->second->TaskRelease();
 					if (next(iter) == tasklist.end())
 					{
 						tasklist.erase(iter);

@@ -37,6 +37,11 @@ void XCPlayerTask::TaskKeyCheck(GLFWwindow * win)
 	pPlayer->GroupKeyCheck(win);
 }
 
+void XCPlayerTask::TaskRelease()
+{
+	;
+}
+
 PlayerEntity * XCPlayerTask::GetPlayerPointer()
 {
 	return pPlayer;

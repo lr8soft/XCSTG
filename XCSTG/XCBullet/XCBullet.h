@@ -71,7 +71,6 @@ namespace xc_bullet {
 				else
 					NowX -= velocity * cosf(atp_theta)* deltaTime;
 				NowY = atp_k * NowX + atp_b;
-				std::cout << "NowX:" << NowX << " NowY:" << NowY << std::endl;
 			}
 		}
 		void SetStartingPoint(float x,float y,float z) {

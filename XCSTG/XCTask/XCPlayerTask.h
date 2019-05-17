@@ -11,10 +11,11 @@ protected:
 public:
 	XCPlayerTask();
 	~XCPlayerTask();
-	void TaskInit();
-	void TaskRender(XCTaskRenderInfo* pInfo);
-	void TaskCollisionCheck(XCTaskCollisionInfo* pInfo);
-	void TaskKeyCheck(GLFWwindow* win);
+	void TaskInit() override;
+	void TaskRender(XCTaskRenderInfo* pInfo) override;
+	void TaskCollisionCheck(XCTaskCollisionInfo* pInfo) override;
+	void TaskKeyCheck(GLFWwindow* win) override;
+	void TaskRelease() override;
 	PlayerEntity * GetPlayerPointer();
 };
 #endif

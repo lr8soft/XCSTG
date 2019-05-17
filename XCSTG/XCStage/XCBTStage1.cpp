@@ -1,10 +1,10 @@
 #include "XCBTStage1.h"
 #include "../XCBullet/XCCircleBullet.h"
 using namespace xc_bullet;
+xc_bullet::XCCircleBullet* pBullet;
 void XCBTStage1::TaskInit()
 {
 	int pBulletCount = 100;
-	xc_bullet::XCCircleBullet* pBullet;
 	if (!have_resource_init)
 	{
 		pBullet = new xc_bullet::XCCircleBullet[pBulletCount];
@@ -62,4 +62,18 @@ void XCBTStage1::TaskCollisionCheck(XCTaskCollisionInfo * pInfo)
 
 void XCBTStage1::TaskKeyCheck(GLFWwindow * win)
 {
+}
+
+void XCBTStage1::TaskRelease()
+{
+	if (have_resource_init) {
+		auto end_iter = pBulletMap.end();
+		for (auto iter = pBulletMap.begin(); iter != end_iter; iter++) {
+			iter->second->StopBulletWork();
+		}
+		delete[] pBullet;
+		pBulletMap.clear();
+		have_resource_init = false;
+	}
+	
 }

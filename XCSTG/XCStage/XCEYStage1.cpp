@@ -1,13 +1,8 @@
 #include "XCEYStage1.h"
-
-XCEYStage1::~XCEYStage1()
-{
-
-}
+xc_game::XCEnemy *pEnemy;
 void XCEYStage1::TaskInit()
 {
 	int pEnemyCount = 100;
-	xc_game::XCEnemy *pEnemy;
 	if (!have_resource_init) 
 	{
 		pEnemy = new xc_game::XCEnemy[pEnemyCount];//!!!!!这里没有delete的
@@ -50,5 +45,19 @@ void XCEYStage1::TaskCollisionCheck(XCTaskCollisionInfo * pInfo)
 void XCEYStage1::TaskKeyCheck(GLFWwindow * win)
 {
 	;
+}
+
+void XCEYStage1::TaskRelease()
+{
+	if (have_resource_init) {
+		auto end_iter = pEnemyMap.end();
+		for (auto iter = pEnemyMap.begin(); iter != end_iter; iter++) {
+			iter->second->SetDead();
+		}
+		delete[] pEnemy;
+		pEnemyMap.clear();
+		have_resource_init = false;
+	}
+
 }
 

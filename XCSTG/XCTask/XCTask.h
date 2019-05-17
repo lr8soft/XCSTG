@@ -14,6 +14,7 @@ public:
 	virtual void TaskRender(XCTaskRenderInfo* pInfo) = 0;
 	virtual void TaskCollisionCheck(XCTaskCollisionInfo* pInfo) = 0;
 	virtual void TaskKeyCheck(GLFWwindow* win) = 0;
+	virtual void TaskRelease() = 0;
 	void TaskActive() 
 	{
 		task_should_run = true;
