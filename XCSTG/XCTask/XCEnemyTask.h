@@ -54,5 +54,12 @@ public:
 			have_add_enemy_to_vec = true;
 		}
 	}
+	virtual void TaskRelease() {
+		auto end_iter = pEnemyMap.end();
+		for (auto iter = pEnemyMap.begin(); iter != end_iter; iter++) {
+			iter->second->SetDead();
+			iter->second->ReleaseResource();
+		}
+	}
 };
 #endif

@@ -4,6 +4,7 @@
 #include <gl/glcorearb.h>
 #include <functional>
 #include "../rendergroup/PlayerEntity.h"
+
 namespace xc_bullet {
 	/*²ÎÊý:NowX, NowY, nowTime, deltaTime, velocity, parameter*/
 	using BulletFunctionType=std::function<float(float, float, float, float, float, float)>;
@@ -39,6 +40,7 @@ namespace xc_bullet {
 			BufferInit();
 			DataInit();
 		}
+		virtual void BulletRelease() = 0;
 		void SetVelocity(float v)
 		{ 
 			velocity = v; have_velocity = true;

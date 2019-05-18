@@ -50,13 +50,9 @@ void XCEYStage1::TaskKeyCheck(GLFWwindow * win)
 void XCEYStage1::TaskRelease()
 {
 	if (have_resource_init) {
-		auto end_iter = pEnemyMap.end();
-		for (auto iter = pEnemyMap.begin(); iter != end_iter; iter++) {
-			iter->second->SetDead();
-		}
+		XCEnemyTask::TaskRelease();
 		delete[] pEnemy;
 		pEnemyMap.clear();
-		have_resource_init = false;
 	}
 
 }

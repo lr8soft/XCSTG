@@ -39,7 +39,7 @@ void XCPlayerTask::TaskKeyCheck(GLFWwindow * win)
 
 void XCPlayerTask::TaskRelease()
 {
-	;
+	; 
 }
 
 PlayerEntity * XCPlayerTask::GetPlayerPointer()

@@ -111,6 +111,12 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 	}
 }
 
+void xc_bullet::XCCircleBullet::BulletRelease()
+{
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &vbo);
+}
+
 void xc_bullet::XCCircleBullet::BulletCollisionWithPlayer(PlayerEntity * player)
 {
 	if (player == nullptr) return;

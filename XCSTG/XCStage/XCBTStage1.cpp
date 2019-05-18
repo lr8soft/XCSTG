@@ -66,14 +66,7 @@ void XCBTStage1::TaskKeyCheck(GLFWwindow * win)
 
 void XCBTStage1::TaskRelease()
 {
-	if (have_resource_init) {
-		auto end_iter = pBulletMap.end();
-		for (auto iter = pBulletMap.begin(); iter != end_iter; iter++) {
-			iter->second->StopBulletWork();
-		}
-		delete[] pBullet;
-		pBulletMap.clear();
-		have_resource_init = false;
-	}
-	
+	XCBulletTask::TaskRelease();
+	delete[] pBullet;
+	pBulletMap.clear();
 }

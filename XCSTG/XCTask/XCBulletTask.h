@@ -40,5 +40,12 @@ public:
 	virtual void TaskRender(XCTaskRenderInfo * pInfo) override {
 		task_should_delete = TaskPriorityRender(pInfo->nowFrame);//任务完成，自动删除
 	}
+	virtual void TaskRelease() {
+		auto end_iter = pBulletMap.end();
+		for (auto iter = pBulletMap.begin(); iter != end_iter; iter++) {
+			iter->second->StopBulletWork();
+			iter->second->BulletRelease();
+		}
+	}
 };
 #endif

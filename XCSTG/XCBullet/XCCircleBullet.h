@@ -26,6 +26,7 @@ namespace xc_bullet {
 		/*void BulletInit();*/
 		void SetBulletType(size_t type);
 		void BulletRender(float nowFrame) override;
+		void BulletRelease() override;
 		void BulletCollisionWithPlayer(PlayerEntity* player) override;
 	};
 }

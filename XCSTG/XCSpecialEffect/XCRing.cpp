@@ -90,13 +90,6 @@ bool xc_se::XCRing::SpecialEffectRender(float x,float y,float z)
 			NowSize += 0.5*deltaTime;
 		else
 			NowSize += deltaTime;
-	/*	if(ring_type== RingLightColor)
-			NowSize +=0.005;
-		else {
-			NowSize += 0.004;
-			NowTime += deltaTime;
-		}*/
-			
 		return false;
 	}
 	else {

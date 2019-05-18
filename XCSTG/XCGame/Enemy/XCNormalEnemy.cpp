@@ -237,7 +237,6 @@ void xc_game::XCEnemy::ReleaseResource()
 {
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
-	std::cout << "end" << std::endl;
 }
 
 bool xc_game::XCEnemy::IsRendering()
