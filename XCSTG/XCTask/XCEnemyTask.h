@@ -10,6 +10,8 @@ class XCEnemyTask:public XCTask
 protected:
 	/*bool task_should_run = false,task_should_delete=false,have_resource_init=false;
 	  int taskType= DefaultType;*/
+
+	XCTaskCollisionInfo* pCollisonInfo=nullptr;//
 	bool have_add_enemy_to_vec = false;
 	/*          优先度(0~MAX)  ptr to XCEnemy，优先度越趋0，越先被渲染*/
 	std::multimap<int, xc_game::XCEnemy*> pEnemyMap;
@@ -47,6 +49,7 @@ public:
 	/*默认添加到EnamyGroup方法*/
 	virtual void AddEnemyToTaskLoop(XCTaskCollisionInfo* pInfo) {
 		if (!have_add_enemy_to_vec) {
+			pCollisonInfo = pInfo;
 			for(auto iter= pEnemyMap.begin();iter!= pEnemyMap.end();iter++)
 			{
 				pInfo->EnemyInfoGroup.AddEnemyToVector(iter->second);
@@ -58,8 +61,12 @@ public:
 		auto end_iter = pEnemyMap.end();
 		for (auto iter = pEnemyMap.begin(); iter != end_iter; iter++) {
 			iter->second->SetDead();
+			if (have_add_enemy_to_vec) {
+				pCollisonInfo->EnemyInfoGroup.RemoveEnemyFromVector(iter->second);
+			}
 			iter->second->ReleaseResource();
 		}
+		have_add_enemy_to_vec = false;
 	}
 };
 #endif

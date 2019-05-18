@@ -61,15 +61,21 @@ void xc_game::XCEnemy::SetUseTBO(GLuint tbo)
 
 void xc_game::XCEnemy::CheckShouldEnd()
 {
-	if (should_positive) {
-		if (NowX > destX) {
-			should_render = false;
-		}
-	}
-	else {
-		if (destX > NowX) {
-			should_render = false;
-		}
+	switch (move_type) {
+		case SINGLE_COORD:
+			if (should_positive) {
+				if (NowX > destX) {
+					should_render = false;
+				}
+			}
+			else {
+				if (destX > NowX) {
+					should_render = false;
+				}
+			}
+			break;
+		case FUNCTION_PATH:
+			break;
 	}
 	if (NowX>1.1|| NowX<-1.1|| NowY>1.1|| NowY<-1.1) {
 		should_render = false;
@@ -92,15 +98,6 @@ void xc_game::XCEnemy::OGLSettingRenderEnd()
 
 xc_game::XCEnemy::~XCEnemy()
 {
-/*	if (have_resource_init) {
-		glDeleteTextures(1, &tbo[FAIRY]);
-		glDeleteTextures(1, &tbo[HAIRBALL]);
-		have_resource_init = false;
-	}
-	if (have_program_init) {
-		glDeleteProgram(program_static);
-		have_program_init = false;
-	}*/
 
 }
 
@@ -114,6 +111,17 @@ void xc_game::XCEnemy::EnemyInit(size_t type)
 	enemy_life = full_enemy_life;
 	be_attack = false;
 	move_type = type;
+	switch (type) {
+		case FUNCTION_PATH:
+			if (have_start_pos == true && have_velocity == true && have_xyfunc == true) {
+				should_render = true;
+				is_dead = false;
+			}
+			else {
+				should_render = false;
+			}
+			break;
+	}
 }
 
 void xc_game::XCEnemy::EnemyRender(float nowFrame)
@@ -136,26 +144,18 @@ void xc_game::XCEnemy::EnemyRender(float nowFrame)
 			glm::mat4 transform_mat;
 			switch (move_type) {
 				case SINGLE_COORD:
-					if (first_move) {
-						transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
-						first_move = false;
-					}
-					else {
-						transform_mat = glm::translate(transform_mat, glm::vec3(NowX, GetCoordY(), NowZ));
-						NowY = GetCoordY();
-					}
 					if (should_positive)
 						NowX += velocity * cosf(parameter_theta)* deltaTime;
 					else
 						NowX -= velocity * cosf(parameter_theta)* deltaTime;
-					
+					NowY = GetCoordY();
 					break;
 				case FUNCTION_PATH:
-					NowX = coordx_func(NowX, nowFrame);
-					NowY = coordy_func(NowX, NowY);
-					transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
+					NowX = coordx_func(NowX, NowY, nowFrame, deltaTime, velocity, 0);
+					NowY = coordy_func(NowX, NowY, nowFrame, deltaTime, velocity, 0);
 					break;
 			}
+			transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
 			transform_mat = glm::scale(transform_mat, glm::vec3(0.06f, 0.06f, 0.06f));
 			auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
 			glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
@@ -197,9 +197,10 @@ void xc_game::XCEnemy::SetGenerateAndVelocity(float x, float y, float z, float d
 	}
 }
 
-void xc_game::XCEnemy::SetMoveFunc(std::function<float(float, float)> xfunc, std::function<float(float, float)> yfunc)
+void xc_game::XCEnemy::SetMoveFunc(EnemyFunctionType xfunc, EnemyFunctionType yfunc)
 {
 	coordx_func = xfunc; coordy_func = yfunc;
+	have_xyfunc = true;
 }
 
 void xc_game::XCEnemy::SetStartPoint(float x, float y, float z)
@@ -216,7 +217,6 @@ void xc_game::XCEnemy::SetVelocity(float v)
 
 void xc_game::XCEnemy::SetDead()
 {
-	//should_render = false;
 	is_dead = true;
 }
 
@@ -229,8 +229,6 @@ void xc_game::XCEnemy::SetDamage(float damage)
 	else {
 		be_attack = true;
 	}
-
-		//damage_se.SpecialEffectRender(deltaX,deltaY,deltaZ);
 }
 
 void xc_game::XCEnemy::ReleaseResource()

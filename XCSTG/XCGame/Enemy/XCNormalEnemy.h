@@ -5,6 +5,7 @@
 #include <gl/glcorearb.h>
 #include "../../XCSpecialEffect/XCRing.h"
 namespace xc_game {
+	using EnemyFunctionType = std::function<float(float, float, float, float, float, float)>;
 	class XCEnemy {
 	public:
 		XCEnemy() = default;
@@ -14,7 +15,7 @@ namespace xc_game {
 		/*TYPE:SINGLE_COORD*/
 		virtual void SetGenerateAndVelocity(float x, float y, float z, float dx, float dy, float dz, float v);
 		/*TYPE:FUNCTION_PATH*/
-		void SetMoveFunc(std::function<float(float, float)> xfunc, std::function<float(float, float)> yfunc);
+		void SetMoveFunc(EnemyFunctionType xfunc, EnemyFunctionType yfunc);
 		/*TYPE:FUNCTION_PATH*/
 		void SetStartPoint(float x, float y, float z);
 		/*TYPE:FUNCTION_PATH*/
@@ -32,7 +33,7 @@ namespace xc_game {
 		xc_se::XCRing dead_se, damage_se;
 		size_t move_type;
 		bool have_start_pos = false, have_xyfunc = false, have_velocity = false;
-		std::function<float(float,float)> coordx_func,coordy_func;
+		EnemyFunctionType coordx_func,coordy_func;
 		bool should_render = false, should_positive, first_move = true, is_dead = true, be_attack = false;
 		float full_enemy_life = 5.0f;
 		float enemy_life = 5.0f;
