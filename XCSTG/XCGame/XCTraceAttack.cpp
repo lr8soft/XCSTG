@@ -178,7 +178,7 @@ void xc_game::XCTrackAttack::SetTarget(float *X, float *Y, float *Z)
 	
 }
 
-void xc_game::XCTrackAttack::CheckCollisionWithEnemy(XCEnemy * enemy)
+void xc_game::XCTrackAttack::CheckCollisionWithEnemy(XCEnemyBase * enemy)
 {
 	float **enemy_coord = enemy->GetNowCoord();
 	float *tx = *(enemy_coord), *ty = *(enemy_coord + 1), *tz = *(enemy_coord + 2);

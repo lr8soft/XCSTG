@@ -1,21 +1,16 @@
 #include "../../util/ImageLoader.h"
 #include "../../util/ShaderReader.h"
 #include "../../XCShape/XCDefaultShape.h"
-#include "XCNormalEnemy.h"
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "XCNormalEnemy.h"
 using namespace xc_ogl;
-bool xc_game::XCEnemy::have_resource_init = false;//static memeber init
-bool xc_game::XCEnemy::have_program_init = false;
-GLuint xc_game::XCEnemy::tbo[2];
-GLuint xc_game::XCEnemy::program_static;
-float xc_game::XCEnemy::GetCoordY()
-{
-	return slope_k * NowX + parameter_b;
-}
-void xc_game::XCEnemy::ShaderInit()
+bool xc_game::XCNormalEnemy::have_resource_init = false;//static memeber init
+bool xc_game::XCNormalEnemy::have_program_init = false;
+GLuint xc_game::XCNormalEnemy::tbo[2];
+GLuint xc_game::XCNormalEnemy::program_static;
+void xc_game::XCNormalEnemy::ShaderInit()
 {
 	if (!have_program_init) {
 		ShaderReader EYLoader;
@@ -28,7 +23,7 @@ void xc_game::XCEnemy::ShaderInit()
 	program = program_static;
 }
 
-void xc_game::XCEnemy::BufferInit()
+void xc_game::XCNormalEnemy::BufferInit()
 {
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
@@ -40,7 +35,7 @@ void xc_game::XCEnemy::BufferInit()
 	glEnableVertexAttribArray(vert_pos);
 }
 
-void xc_game::XCEnemy::TextureInit()
+void xc_game::XCNormalEnemy::TextureInit()
 {
 	if (!have_resource_init) {
 		ImageLoader FairyLoader, HairBallLoader;
@@ -53,73 +48,16 @@ void xc_game::XCEnemy::TextureInit()
 	glUniform1i(glGetUniformLocation(program,"tex"),0);
 	SetUseTBO(tbo[FAIRY]);//Default fairy
 }
-
-void xc_game::XCEnemy::SetUseTBO(GLuint tbo)
+void xc_game::XCNormalEnemy::EnemyInit(size_t type)
 {
-	use_tbo = tbo;
-}
-
-void xc_game::XCEnemy::CheckShouldEnd()
-{
-	switch (move_type) {
-		case SINGLE_COORD:
-			if (should_positive) {
-				if (NowX > destX) {
-					should_render = false;
-				}
-			}
-			else {
-				if (destX > NowX) {
-					should_render = false;
-				}
-			}
-			break;
-		case FUNCTION_PATH:
-			break;
-	}
-	if (NowX>1.1|| NowX<-1.1|| NowY>1.1|| NowY<-1.1) {
-		should_render = false;
-	}
-	if (is_dead) {
-		should_render = false;
-	}
-}
-
-void xc_game::XCEnemy::OGLSettingRenderStart()
-{
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-}
-
-void xc_game::XCEnemy::OGLSettingRenderEnd()
-{
-	glDisable(GL_BLEND);
-}
-
-void xc_game::XCEnemy::EnemyInit(size_t type)
-{
-	ShaderInit();
-	BufferInit();
-	TextureInit();
+	xc_game::XCEnemyBase::EnemyInit(type);
 	dead_se.SpecialEffectInit(dead_se.RingLightColor);
 	damage_se.SpecialEffectInit(damage_se.RingDeepColor);
-	enemy_life = full_enemy_life;
-	be_attack = false;
-	move_type = type;
-	switch (type) {
-		case FUNCTION_PATH:
-			if (have_start_pos == true && have_velocity == true && have_xyfunc == true) {
-				should_render = true;
-				is_dead = false;
-			}
-			else {
-				should_render = false;
-			}
-			break;
-	}
+	MaxLife = full_enemy_life;
+	NowLife = full_enemy_life;
 }
 
-void xc_game::XCEnemy::EnemyRender(float nowFrame)
+void xc_game::XCNormalEnemy::EnemyRender(float nowFrame)
 {
 	float currentFrame = nowFrame;
 	deltaTime = currentFrame - lastFrame;
@@ -166,87 +104,4 @@ void xc_game::XCEnemy::EnemyRender(float nowFrame)
 		}
 		OGLSettingRenderEnd();	
 	}
-
-
-}
-
-void xc_game::XCEnemy::SetGenerateAndVelocity(float x, float y, float z, float dx, float dy, float dz, float v)
-{
-	if (!should_render) {
-		destX = dx, destY = dy, destZ = dz;
-		NowX = x, NowY = y, NowZ = z;
-		velocity = v;
-		slope_k = (destY - NowY) / (destX - NowX);
-		parameter_b = NowY - slope_k * NowX;
-		should_render = true;
-		is_dead = false;
-		if(destX != NowX)
-			parameter_theta = acosf(abs(destX - NowX) / sqrtf(pow(destX - NowX, 2) + pow(destY - NowY, 2)));
-		else
-			parameter_theta = 3.1415926f / 2.0f;
-
-		if (destX > NowX)
-			should_positive = true;
-		else
-			should_positive = false;
-	}
-}
-
-void xc_game::XCEnemy::SetMoveFunc(EnemyFunctionType xfunc, EnemyFunctionType yfunc)
-{
-	coordx_func = xfunc; coordy_func = yfunc;
-	have_xyfunc = true;
-}
-
-void xc_game::XCEnemy::SetStartPoint(float x, float y, float z)
-{
-	NowX = x; NowY = y; NowZ = z;
-	have_start_pos = true;
-}
-
-void xc_game::XCEnemy::SetVelocity(float v)
-{
-	velocity = v;
-	have_velocity = true;
-}
-
-void xc_game::XCEnemy::SetDead()
-{
-	is_dead = true;
-}
-
-void xc_game::XCEnemy::SetDamage(float damage)
-{
-	enemy_life -= damage;
-	if (enemy_life <=0) {
-		is_dead = true;
-	}
-	else {
-		be_attack = true;
-	}
-}
-
-void xc_game::XCEnemy::ReleaseResource()
-{
-	glDeleteVertexArrays(1, &vao);
-	glDeleteBuffers(1, &vbo);
-}
-
-bool xc_game::XCEnemy::IsRendering()
-{
-	return should_render;
-}
-
-bool xc_game::XCEnemy::IsDead()
-{
-	return is_dead;
-}
-
-float ** xc_game::XCEnemy::GetNowCoord()
-{
-	float *coord_temp[3];
-	*(coord_temp) = &NowX;
-	*(coord_temp+1) = &NowY;
-	*(coord_temp+2) = &NowZ;
-	return coord_temp;
 }

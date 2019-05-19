@@ -19,7 +19,7 @@ private:
 	float deltaTime = 0.0f,lastFrame = 0.0f;
 	float NowX = 0, NowY = -0.1, NowZ = 0;
 	bool RenderDecisionPoint = false;
-	GLuint vao[2], vbo[2], tbo,TboPL[3],tboPL,tboDecision;
+	GLuint vao[2], vbo[2], tbo,TboPL[3],tboPL,tboDecision,tbo_player_tex;
 	GLint program[2];
 	/*PLAYER:decision point program TX:texture progrm*/
 	enum { DECISION, TX };

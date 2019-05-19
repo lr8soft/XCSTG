@@ -2,7 +2,7 @@
 #ifndef _NormalAttack_
 #define _NormalAttack_
 #include <gl/glcorearb.h>
-#include "Enemy/XCNormalEnemy.h"
+#include "Enemy/XCEnemyBase.h"
 namespace xc_game {
 	class XCAttack {
 	protected:
@@ -24,7 +24,7 @@ namespace xc_game {
 		void AttackInit();
 		void AttackRender(float nowFrame);
 		void SetPositionAndVelocity(float x, float y, float z,float v);
-		void CheckCollisionWithEnemy(XCEnemy *enemy);
+		void CheckCollisionWithEnemy(XCEnemyBase *enemy);
 		void SetAttack();
 		void Reset();
 		bool IsRunning();

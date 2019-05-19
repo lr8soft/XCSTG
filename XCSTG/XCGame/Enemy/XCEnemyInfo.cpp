@@ -5,12 +5,12 @@ xc_game::XCEnemyInfo::~XCEnemyInfo()
 
 }
 
-void xc_game::XCEnemyInfo::AddEnemyToVector(xc_game::XCEnemy * ptr)
+void xc_game::XCEnemyInfo::AddEnemyToVector(xc_game::XCEnemyBase * ptr)
 {
 	EnemyVector.push_back(ptr);
 }
 
-void xc_game::XCEnemyInfo::RemoveEnemyFromVector(xc_game::XCEnemy * ptr)
+void xc_game::XCEnemyInfo::RemoveEnemyFromVector(xc_game::XCEnemyBase * ptr)
 {
 	vec_mutex.lock();
 	auto iter_end = EnemyVector.end(),iter_begin= EnemyVector.begin();
@@ -27,7 +27,7 @@ void xc_game::XCEnemyInfo::RemoveEnemyFromVector(xc_game::XCEnemy * ptr)
 	vec_mutex.unlock();
 }
 
-std::vector<xc_game::XCEnemy*>* xc_game::XCEnemyInfo::GetRenderingEnemy()
+std::vector<xc_game::XCEnemyBase*>* xc_game::XCEnemyInfo::GetRenderingEnemy()
 {
 	RetVec.clear();
 	vec_mutex.lock();

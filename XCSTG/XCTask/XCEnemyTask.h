@@ -2,7 +2,7 @@
 #ifndef _XCENEMYTASK_H_
 #define _XCENEMYTASK_H_
 #include "XCTask.h"
-#include "../XCGame/Enemy/XCNormalEnemy.h"
+#include "../XCGame/Enemy/XCEnemyBase.h"
 #include "../XCGame/Enemy/XCEnemyInfo.h"
 #include <map>
 class XCEnemyTask:public XCTask
@@ -14,9 +14,9 @@ protected:
 	XCTaskCollisionInfo* pCollisonInfo=nullptr;//
 	bool have_add_enemy_to_vec = false;
 	/*          优先度(0~MAX)  ptr to XCEnemy，优先度越趋0，越先被渲染*/
-	std::multimap<int, xc_game::XCEnemy*> pEnemyMap;
+	std::multimap<int, xc_game::XCEnemyBase*> pEnemyMap;
 	int render_priority = 0;//从优先度0开始渲染
-	void AddEnemyToMap(int priority, xc_game::XCEnemy* ptr) {
+	void AddEnemyToMap(int priority, xc_game::XCEnemyBase* ptr) {
 		pEnemyMap.insert(std::make_pair(priority,ptr));
 	}
 	bool TaskPriorityRender(float nowframe) {

@@ -108,7 +108,7 @@ void xc_game::XCAttack::SetPositionAndVelocity(float x, float y, float z, float 
 	}
 }
 
-void xc_game::XCAttack::CheckCollisionWithEnemy(xc_game::XCEnemy * enemy)
+void xc_game::XCAttack::CheckCollisionWithEnemy(xc_game::XCEnemyBase * enemy)
 {
 	auto *enemy_coord = enemy->GetNowCoord();
 	float *tx = *(enemy_coord), *ty = *(enemy_coord + 1), *tz = *(enemy_coord + 2);

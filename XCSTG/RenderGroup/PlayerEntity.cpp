@@ -31,25 +31,27 @@ void PlayerEntity::ShaderLoader()
 	gltx.load_from_file("shader/player/vertex_tx.glsl", GL_VERTEX_SHADER);
 	gltx.load_from_file("shader/player/fragment_tx.glsl", GL_FRAGMENT_SHADER);
 	gltx.link_all_shader();
-	program[TX] = gltx.get_program();
+	program[TX] = gltx.get_program();//player texture
 
 	glpr.load_from_file("shader/player/vertex_player.glsl", GL_VERTEX_SHADER);
 	glpr.load_from_file("shader/player/fragment_player.glsl", GL_FRAGMENT_SHADER);
 	glpr.link_all_shader();
-	program[DECISION] = glpr.get_program();
+	program[DECISION] = glpr.get_program();//decision texture
 
 }
 void PlayerEntity::TextureLoader()
 {
-	ImageLoader PRNormal, PRRight, PRLeft,TXLoader;
+	ImageLoader PRNormal, PRRight, PRLeft,TXLoader,PlayerTex;
 	PRNormal.LoadTextureData("image/rin/rin_0.png");
 	PRRight.LoadTextureData("image/rin/rin_1.png");
 	PRLeft.LoadTextureData("image/rin/rin_2.png");
 	TXLoader.LoadTextureData("image/se/decision.png");
+	PlayerTex.LoadTextureData("image/rin/rin.png");
     TboPL[0] = PRNormal.GetTBO();
 	TboPL[1] = PRRight.GetTBO();
 	TboPL[2] = PRLeft.GetTBO();
 	tboDecision = TXLoader.GetTBO();
+	tbo_player_tex = PlayerTex.GetTBO();
 	MoveTexSet(TboPL[0]);
 	glUniform1i(glGetUniformLocation(program[DECISION],"tex"),0);
 	glUniform1i(glGetUniformLocation(program[TX], "tex"), 0);

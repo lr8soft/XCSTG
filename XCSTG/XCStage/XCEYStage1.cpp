@@ -1,5 +1,6 @@
 #include "XCEYStage1.h"
-xc_game::XCEnemy *pEnemy;
+#include "../XCGame/Enemy/XCNormalEnemy.h"
+xc_game::XCNormalEnemy *pEnemy;
 void XCEYStage1::TaskInit()
 {
 	int pEnemyCount = 100;
@@ -11,7 +12,7 @@ void XCEYStage1::TaskInit()
 	};
 	if (!have_resource_init) 
 	{
-		pEnemy = new xc_game::XCEnemy[pEnemyCount];//!!!!!这里没有delete的
+		pEnemy = new xc_game::XCNormalEnemy[pEnemyCount];//!!!!!这里没有delete的
 		for (int i = 0; i < pEnemyCount; i++)
 		{
 			/*pEnemy[i].EnemyInit(pEnemy[i].SINGLE_COORD);

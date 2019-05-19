@@ -1,7 +1,7 @@
 #pragma once
 #ifndef _TraceAttack_h_
 #define _TraceAttack_h_
-#include "Enemy/XCNormalEnemy.h"
+#include "Enemy/XCEnemyBase.h"
 namespace xc_game {
 	class XCTrackAttack{
 	protected:
@@ -35,7 +35,7 @@ namespace xc_game {
 		void SetVelocity(float v);
 		void SetOffsizeX(float offsize_x);
 		void SetTarget(float *X,float *Y,float *Z);
-		void CheckCollisionWithEnemy(XCEnemy *enemy);
+		void CheckCollisionWithEnemy(XCEnemyBase *enemy);
 		bool IsWorking();
 		void SetAttackMode(size_t mode);
 	};
