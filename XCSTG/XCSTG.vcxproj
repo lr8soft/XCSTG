@@ -131,6 +131,7 @@
     <ClCompile Include="rendergroup\PlayerEntity.cpp" />
     <ClCompile Include="util\gl3w.c" />
     <ClCompile Include="XCBullet\XCCircleBullet.cpp" />
+    <ClCompile Include="XCGame\Enemy\XCBoss.cpp" />
     <ClCompile Include="XCGame\Enemy\XCEnemyInfo.cpp" />
     <ClCompile Include="XCGame\Enemy\XCNormalEnemy.cpp" />
     <ClCompile Include="XCGame\XCNormalAttack.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="util\ShaderReader.h" />
     <ClInclude Include="XCBullet\XCBullet.h" />
     <ClInclude Include="XCBullet\XCCircleBullet.h" />
+    <ClInclude Include="XCGame\Enemy\XCBoss.h" />
     <ClInclude Include="XCGame\Enemy\XCEnemyInfo.h" />
     <ClInclude Include="XCGame\Enemy\XCNormalEnemy.h" />
     <ClInclude Include="XCGame\XCNormalAttack.h" />

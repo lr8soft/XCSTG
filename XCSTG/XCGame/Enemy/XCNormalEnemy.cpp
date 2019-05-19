@@ -96,11 +96,6 @@ void xc_game::XCEnemy::OGLSettingRenderEnd()
 	glDisable(GL_BLEND);
 }
 
-xc_game::XCEnemy::~XCEnemy()
-{
-
-}
-
 void xc_game::XCEnemy::EnemyInit(size_t type)
 {
 	ShaderInit();

@@ -123,6 +123,9 @@
     <ClCompile Include="XCStage\XCEYStage1.cpp">
       <Filter>源文件\XCStage</Filter>
     </ClCompile>
+    <ClCompile Include="XCGame\Enemy\XCBoss.cpp">
+      <Filter>源文件\XCGame\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util\AppFrameWork.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="XCStage\XCEYStage1.h">
       <Filter>头文件\XCStage</Filter>
+    </ClInclude>
+    <ClInclude Include="XCGame\Enemy\XCBoss.h">
+      <Filter>头文件\XCGame\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

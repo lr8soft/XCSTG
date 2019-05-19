@@ -9,7 +9,6 @@ namespace xc_game {
 	class XCEnemy {
 	public:
 		XCEnemy() = default;
-		~XCEnemy();
 		virtual void EnemyInit(size_t type);
 		virtual void EnemyRender(float nowFrame);
 		/*TYPE:SINGLE_COORD*/
@@ -20,17 +19,18 @@ namespace xc_game {
 		void SetStartPoint(float x, float y, float z);
 		/*TYPE:FUNCTION_PATH*/
 		void SetVelocity(float v);
-		virtual void SetDead();
-		virtual void SetDamage(float damage);
+		void SetDead();
+		void SetDamage(float damage);
 		virtual void ReleaseResource();
 		enum {SINGLE_COORD,FUNCTION_PATH};
 		bool IsRendering();
 		bool IsDead();
 		float** GetNowCoord();
+	private:
+		xc_se::XCRing dead_se, damage_se;
 	protected:
 		static bool have_resource_init, have_program_init;
 		static GLuint tbo[2],program_static;
-		xc_se::XCRing dead_se, damage_se;
 		size_t move_type;
 		bool have_start_pos = false, have_xyfunc = false, have_velocity = false;
 		EnemyFunctionType coordx_func,coordy_func;
@@ -40,15 +40,16 @@ namespace xc_game {
 		float NowX, NowY, NowZ;
 		float destX, destY, destZ, velocity;//velocity是相对x而言
 		float deltaTime = 0.0f, lastFrame = 0.0f;
+		/*TYPE:SINGLE_COORD*/
 		float slope_k, parameter_b, parameter_theta;;//y=kx+b里的k和b
 		GLuint vao, vbo, use_tbo,program;
 		enum type { FAIRY,HAIRBALL };
-		virtual float GetCoordY();
+		float GetCoordY();
+		void CheckShouldEnd();
 		virtual void ShaderInit();
 		virtual void BufferInit();
 		virtual void TextureInit();
 		virtual void SetUseTBO(GLuint tbo);
-		virtual void CheckShouldEnd();
 		virtual void OGLSettingRenderStart();
 		virtual void OGLSettingRenderEnd();
 	};
