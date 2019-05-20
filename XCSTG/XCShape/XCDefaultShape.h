@@ -10,7 +10,7 @@ static float covered_plane_vertex[] = {
 	-1.0,-1.0f,
 	-1.0,-1.0f,
 	-1.0, 1.0f,
-	1.0f, 1.0f
+	1.0f, 1.0f,
 };
 /***!!!It should be render as "GL_TRIANGLES" mode.!!!***/
 static float player_render_texture_vertex[] = {

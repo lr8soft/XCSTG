@@ -1,14 +1,21 @@
 #include "XCBoss.h"
 #include "../../util/ShaderReader.h"
 #include "../../util/ImageLoader.h"
+#include "../../XCShape/XCDefaultShape.h"
+#include "../../XCShape/XCDefaultTexturePosition.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 using namespace xc_ogl;
+GLuint xc_game::XCBoss::tbo_static;
 bool xc_game::XCBoss::have_program_init = false;
+bool xc_game::XCBoss::have_resource_init = false;
 void xc_game::XCBoss::ShaderInit()
 {
 	if (!have_program_init) {
 		ShaderReader BossShaderLoader;
-		BossShaderLoader.load_from_file("shader/enemy/normal.vert", GL_VERTEX_SHADER);
-		BossShaderLoader.load_from_file("shader/enemy/normal.frag", GL_FRAGMENT_SHADER);
+		BossShaderLoader.load_from_file("Shader/boss/BossBase.vert", GL_VERTEX_SHADER);
+		BossShaderLoader.load_from_file("Shader/boss/BossBase.frag", GL_FRAGMENT_SHADER);
 		BossShaderLoader.link_all_shader();
 		program_static = BossShaderLoader.get_program();
 		have_program_init = true;
@@ -18,11 +25,60 @@ void xc_game::XCBoss::ShaderInit()
 
 void xc_game::XCBoss::BufferInit()
 {
+	glUseProgram(program);
+	glGenVertexArrays(12, vao_tex);
+	glGenBuffers(12, vbo_tex);
 
-}
+	auto vert_pos = glGetAttribLocation(program, "display_coord");
+	auto tex_pos = glGetAttribLocation(program, "input_tex_coord");
+	for (int i = 0; i < sizeof(vbo_tex) / sizeof(GLuint);i++) {
+		glBindVertexArray(vao_tex[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo_tex[i]);
+		switch (i) {
+			case 0:
+				glBufferData(GL_ARRAY_BUFFER, sizeof(boss_standby_0_4x3), boss_standby_0_4x3, GL_STATIC_DRAW);
+				break;
+			case 1:
+				glBufferData(GL_ARRAY_BUFFER, sizeof(boss_standby_1_4x3), boss_standby_1_4x3, GL_STATIC_DRAW);
+				break;
+			case 2:
+				glBufferData(GL_ARRAY_BUFFER, sizeof(boss_standby_2_4x3), boss_standby_2_4x3, GL_STATIC_DRAW);
+				break;
+			case 3:
+				glBufferData(GL_ARRAY_BUFFER, sizeof(boss_standby_3_4x3), boss_standby_3_4x3, GL_STATIC_DRAW);
+				break;
+			case 4:
+				glBufferData(GL_ARRAY_BUFFER, sizeof(boss_moving_0_4x3), boss_moving_0_4x3, GL_STATIC_DRAW);
+				break;
+			case 5:
+				glBufferData(GL_ARRAY_BUFFER, sizeof(boss_moving_1_4x3), boss_moving_1_4x3, GL_STATIC_DRAW);
+				break;
+			case 6:
+				glBufferData(GL_ARRAY_BUFFER, sizeof(boss_moving_2_4x3), boss_moving_2_4x3, GL_STATIC_DRAW);
+				break;
+			case 7:
+				glBufferData(GL_ARRAY_BUFFER, sizeof(boss_moving_3_4x3), boss_moving_3_4x3, GL_STATIC_DRAW);
+				break;
+			case 8:
+				glBufferData(GL_ARRAY_BUFFER, sizeof(boss_attack_0_4x3), boss_attack_0_4x3, GL_STATIC_DRAW);
+				break;
+			case 9:
+				glBufferData(GL_ARRAY_BUFFER, sizeof(boss_attack_1_4x3), boss_attack_1_4x3, GL_STATIC_DRAW);
+				break;
+			case 10:
+				glBufferData(GL_ARRAY_BUFFER, sizeof(boss_attack_2_4x3), boss_attack_2_4x3, GL_STATIC_DRAW);
+				break;
+			case 11:
+				glBufferData(GL_ARRAY_BUFFER, sizeof(boss_attack_3_4x3), boss_attack_3_4x3, GL_STATIC_DRAW);
+				break;
+		}
+		glVertexAttribPointer(vert_pos, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(0));
+		glVertexAttribPointer(tex_pos, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+		glEnableVertexAttribArray(vert_pos);
+		glEnableVertexAttribArray(tex_pos);
+	}
 
-void xc_game::XCBoss::TextureInit()
-{
+	
 }
 void xc_game::XCBoss::EnemyInit(size_t type)
 {
@@ -31,8 +87,50 @@ void xc_game::XCBoss::EnemyInit(size_t type)
 
 void xc_game::XCBoss::EnemyRender(float nowFrame)
 {
+	if (should_render) {
+		OGLSettingRenderStart();
+		glUseProgram(program);
+		
+		if (BossNowState == BossLastState) {
+			if (BossSameStateTime < 4) {
+				BossSameStateTime+=0.003;
+			}else {
+				BossSameStateTime = 0;
+			}
+		}
+		else {
+			BossSameStateTime = 0;
+		}
+		glBindVertexArray(*(vbo_tex + (size_t)BossSameStateTime));
+		switch (BossNowState) {
+			case BOSS_STANDBY:
+				glBindBuffer(GL_ARRAY_BUFFER, *(vbo_tex + (size_t)BossSameStateTime));
+				break;
+			case BOSS_MOVING:
+				glBindBuffer(GL_ARRAY_BUFFER, *(vbo_tex + (size_t)BossSameStateTime+4));
+				break;
+			case BOSS_ATTACK:
+				glBindBuffer(GL_ARRAY_BUFFER, *(vbo_tex + (size_t)BossSameStateTime + 8));
+				break;
+		}
+		glBindTexture(GL_TEXTURE_2D, use_tbo);
+		glm::mat4 transform_mat;
+		transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
+		transform_mat = glm::scale(transform_mat, glm::vec3(0.16f,0.20f,0.0f));
+		auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
+		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
+		glDrawArrays(GL_TRIANGLES, 0,sizeof(boss_standby_0_4x3)/4*sizeof(float));
+		OGLSettingRenderEnd();
+	}
 }
+void xc_game::XCBoss::AddSpellCard(XCSpellCard * pspellcard)
+{
+	spellCardList.push_back(pspellcard);
+}
+
 
 void xc_game::XCBoss::ReleaseResource()
 {
+	glDeleteVertexArrays(12, vao_tex);
+	glDeleteBuffers(12, vbo_tex);
 }
