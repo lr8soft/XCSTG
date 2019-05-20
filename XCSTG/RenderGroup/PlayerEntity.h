@@ -19,17 +19,23 @@ private:
 	float deltaTime = 0.0f,lastFrame = 0.0f;
 	float NowX = 0, NowY = -0.1, NowZ = 0;
 	bool RenderDecisionPoint = false;
-	GLuint vao[2], vbo[2], tbo,TboPL[3],tboPL,tboDecision,tbo_player_tex;
+	/*判定点vao、vbo与tbo*/
+	GLuint vao_deci, vbo_deci,tbo_deci;
+	/*玩家贴图vao、vbo、tbo*/
+	GLuint vao_player[24], vbo_player[24], tbo_player;
 	GLint program[2];
-	/*PLAYER:decision point program TX:texture progrm*/
-	enum { DECISION, TX };
+	/*DECISION:判定点程序 TX:玩家贴图程序*/
+	enum { DECISIONTEX, PLAYERTEX };
+	enum PlayerState {PLAYER_STANDBY,PLAYER_TURNRIGHT, PLAYER_TURNLEFT};
+	int PlayerLastState= PLAYER_STANDBY,PlayerNowState= PLAYER_STANDBY;
+	float PlayerSameStateTime= 0;
+	void SetPlayerDirection(int direction);
 	void EveryRenderInit();
 	void EveryFinishRender();
 	void OGLSettingRenderStart();
 	void OGLSettingRenderEnd();
 	void ShaderLoader();
 	void TextureLoader();
-	void MoveTexSet(GLuint id);
 public:
 	PlayerEntity() = default;
 	~PlayerEntity() = default;

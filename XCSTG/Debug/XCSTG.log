@@ -1,0 +1,42 @@
+﻿  PlayerEntity.cpp
+g:\xcstg\xcstg\rendergroup\playerentity.h(20): warning C4305: “初始化”: 从“double”到“float”截断
+g:\xcstg\xcstg\xcshape\xcdefaultshape.h(23): warning C4305: “初始化”: 从“double”到“float”截断
+g:\xcstg\xcstg\rendergroup\playerentity.cpp(57): warning C4305: “+=”: 从“double”到“float”截断
+g:\xcstg\xcstg\rendergroup\playerentity.cpp(84): warning C4018: “<”: 有符号/无符号不匹配
+g:\xcstg\xcstg\rendergroup\playerentity.cpp(87): warning C4018: “<”: 有符号/无符号不匹配
+g:\xcstg\xcstg\rendergroup\playerentity.cpp(92): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+g:\xcstg\xcstg\rendergroup\playerentity.cpp(94): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+g:\xcstg\xcstg\rendergroup\playerentity.cpp(157): warning C4018: “<”: 有符号/无符号不匹配
+g:\xcstg\xcstg\rendergroup\playerentity.cpp(160): warning C4018: “<”: 有符号/无符号不匹配
+g:\xcstg\xcstg\rendergroup\playerentity.cpp(204): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+g:\xcstg\xcstg\rendergroup\playerentity.cpp(245): warning C4018: “<”: 有符号/无符号不匹配
+g:\xcstg\xcstg\rendergroup\playerentity.cpp(246): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+g:\xcstg\xcstg\rendergroup\playerentity.cpp(252): warning C4018: “<”: 有符号/无符号不匹配
+g:\xcstg\xcstg\rendergroup\playerentity.cpp(286): warning C4172: 返回局部变量或临时变量的地址: playerCoord
+  Microsoft (R) Incremental Linker Version 14.16.27030.1
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  "/OUT:G:\XCSTG\Debug\XCSTG.exe" /INCREMENTAL glfw3.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST "/MANIFESTUAC:level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK "/PDB:G:\XCSTG\Debug\XCSTG.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT "/IMPLIB:G:\XCSTG\Debug\XCSTG.lib" /MACHINE:X86 Debug\BackGroundRenderGroup.obj 
+  Debug\PlayerEntity.obj 
+  Debug\gl3w.obj 
+  Debug\XCCircleBullet.obj 
+  Debug\XCTestBoss.obj 
+  Debug\XCBoss.obj 
+  Debug\XCEnemyBase.obj 
+  Debug\XCEnemyInfo.obj 
+  Debug\XCNormalEnemy.obj 
+  Debug\XCNormalAttack.obj 
+  Debug\XCTraceAttack.obj 
+  Debug\XCDefaultTexturePosition.obj 
+  Debug\XCExplode.obj 
+  Debug\XCRing.obj 
+  Debug\XCSpellCard.obj 
+  Debug\XCBTStage1.obj 
+  Debug\XCEYStage1.obj 
+  Debug\XCPlayerTask.obj 
+  Debug\XCTaskLoop.obj 
+  Debug\XCustomizedSTGMain.obj 
+  Debug\AppFrameWork.obj 
+  Debug\ImageLoader.obj 
+  Debug\ShaderReader.obj 
+  XCSTG.vcxproj -> G:\XCSTG\Debug\XCSTG.exe

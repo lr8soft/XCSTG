@@ -1,9 +1,11 @@
 #include "XCEYStage1.h"
 #include "../XCGame/Enemy/XCNormalEnemy.h"
+#include "../XCGame/Enemy/Boss/XCTestBoss.h"
 xc_game::XCNormalEnemy *pEnemy;
+TestBoss *pBoss;
 void XCEYStage1::TaskInit()
 {
-	int pEnemyCount = 100;
+	int pEnemyCount = 10;
 	auto xfunc = [](float NowX,float NowY,float nowFrame,float deltaFrame,float v,float b) {
 		return NowX;
 	};
@@ -54,6 +56,12 @@ void XCEYStage1::TaskInit()
 			}
 			pEnemy[i].EnemyInit(pEnemy[i].FUNCTION_PATH);
 		}
+		pBoss = new TestBoss;
+		pBoss->SetMoveFunc(xfunc, yfunc);
+		pBoss->SetStartPoint(0.0f, 0.5f, 0.0f);
+		pBoss->SetVelocity(3.0f);
+		pBoss->EnemyInit(pBoss->FUNCTION_PATH);
+		AddEnemyToMap(0, pBoss);
 		have_resource_init = true;
 	}
 }
@@ -79,6 +87,7 @@ void XCEYStage1::TaskRelease()
 	if (have_resource_init) {
 		XCEnemyTask::TaskRelease();
 		delete[] pEnemy;
+		delete pBoss;
 		pEnemyMap.clear();
 	}
 

@@ -67,6 +67,18 @@
     <Filter Include="源文件\XCStage">
       <UniqueIdentifier>{74ac1ac1-c89a-427f-aff3-db8e9dbe6767}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\XCSpellCard">
+      <UniqueIdentifier>{fc7bb195-0a77-457c-a324-de0ced1bce58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\XCSpellCard">
+      <UniqueIdentifier>{845fadb2-d7a2-405b-9653-95ceb6210192}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\XCGame\Enemy\XCBoss">
+      <UniqueIdentifier>{35e9f84b-4071-4741-8a5e-d48ada89669e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\XCGame\Enemy\XCBoss">
+      <UniqueIdentifier>{895cc25d-0c5e-4a9a-a3d2-fef7eb3cf8b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="util\AppFrameWork.cpp">
@@ -128,6 +140,15 @@
     </ClCompile>
     <ClCompile Include="XCGame\Enemy\XCEnemyBase.cpp">
       <Filter>源文件\XCGame\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="XCSpellCard\XCSpellCard.cpp">
+      <Filter>源文件\XCSpellCard</Filter>
+    </ClCompile>
+    <ClCompile Include="XCGame\Enemy\Boss\XCTestBoss.cpp">
+      <Filter>源文件\XCGame\Enemy\XCBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="XCShape\XCDefaultTexturePosition.cpp">
+      <Filter>源文件\XCShape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,8 +227,14 @@
     <ClInclude Include="XCGame\Enemy\XCEnemyBase.h">
       <Filter>头文件\XCGame\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="XCDefaultTexturePosition.h">
+    <ClInclude Include="XCSpellCard\XCSpellCard.h">
+      <Filter>头文件\XCSpellCard</Filter>
+    </ClInclude>
+    <ClInclude Include="XCShape\XCDefaultTexturePosition.h">
       <Filter>头文件\XCShape</Filter>
+    </ClInclude>
+    <ClInclude Include="XCGame\Enemy\Boss\XCTestBoss.h">
+      <Filter>头文件\XCGame\Enemy\XCBoss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

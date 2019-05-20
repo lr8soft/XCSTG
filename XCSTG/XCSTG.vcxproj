@@ -131,14 +131,17 @@
     <ClCompile Include="rendergroup\PlayerEntity.cpp" />
     <ClCompile Include="util\gl3w.c" />
     <ClCompile Include="XCBullet\XCCircleBullet.cpp" />
+    <ClCompile Include="XCGame\Enemy\Boss\XCTestBoss.cpp" />
     <ClCompile Include="XCGame\Enemy\XCBoss.cpp" />
     <ClCompile Include="XCGame\Enemy\XCEnemyBase.cpp" />
     <ClCompile Include="XCGame\Enemy\XCEnemyInfo.cpp" />
     <ClCompile Include="XCGame\Enemy\XCNormalEnemy.cpp" />
     <ClCompile Include="XCGame\XCNormalAttack.cpp" />
     <ClCompile Include="XCGame\XCTraceAttack.cpp" />
+    <ClCompile Include="XCShape\XCDefaultTexturePosition.cpp" />
     <ClCompile Include="XCSpecialEffect\XCExplode.cpp" />
     <ClCompile Include="XCSpecialEffect\XCRing.cpp" />
+    <ClCompile Include="XCSpellCard\XCSpellCard.cpp" />
     <ClCompile Include="XCStage\XCBTStage1.cpp" />
     <ClCompile Include="XCStage\XCEYStage1.cpp" />
     <ClCompile Include="XCTask\XCPlayerTask.cpp" />
@@ -156,7 +159,7 @@
     <ClInclude Include="util\ShaderReader.h" />
     <ClInclude Include="XCBullet\XCBullet.h" />
     <ClInclude Include="XCBullet\XCCircleBullet.h" />
-    <ClInclude Include="XCDefaultTexturePosition.h" />
+    <ClInclude Include="XCGame\Enemy\Boss\XCTestBoss.h" />
     <ClInclude Include="XCGame\Enemy\XCBoss.h" />
     <ClInclude Include="XCGame\Enemy\XCEnemyBase.h" />
     <ClInclude Include="XCGame\Enemy\XCEnemyInfo.h" />
@@ -164,8 +167,10 @@
     <ClInclude Include="XCGame\XCNormalAttack.h" />
     <ClInclude Include="XCGame\XCTraceAttack.h" />
     <ClInclude Include="XCShape\XCDefaultShape.h" />
+    <ClInclude Include="XCShape\XCDefaultTexturePosition.h" />
     <ClInclude Include="XCSpecialEffect\XCExplode.h" />
     <ClInclude Include="XCSpecialEffect\XCRing.h" />
+    <ClInclude Include="XCSpellCard\XCSpellCard.h" />
     <ClInclude Include="XCStage\XCBTStage1.h" />
     <ClInclude Include="XCStage\XCEYStage1.h" />
     <ClInclude Include="XCTask\XCBulletTask.h" />

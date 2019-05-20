@@ -4,7 +4,7 @@ using namespace xc_bullet;
 xc_bullet::XCCircleBullet* pBullet;
 void XCBTStage1::TaskInit()
 {
-	int pBulletCount = 100;
+	int pBulletCount = 4;
 	if (!have_resource_init)
 	{
 		pBullet = new xc_bullet::XCCircleBullet[pBulletCount];

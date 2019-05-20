@@ -54,7 +54,7 @@ void BackGroundRenderGroup::GroupRender()
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, use_tbo);
-		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 	}
 }
 
