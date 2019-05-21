@@ -139,6 +139,7 @@
     <ClCompile Include="XCGame\XCNormalAttack.cpp" />
     <ClCompile Include="XCGame\XCTraceAttack.cpp" />
     <ClCompile Include="XCShape\XCDefaultTexturePosition.cpp" />
+    <ClCompile Include="XCSpecialEffect\XCBossInfoSlot.cpp" />
     <ClCompile Include="XCSpecialEffect\XCExplode.cpp" />
     <ClCompile Include="XCSpecialEffect\XCRing.cpp" />
     <ClCompile Include="XCSpellCard\XCSpellCard.cpp" />
@@ -154,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="rendergroup\BackGroundRenderGroup.h" />
     <ClInclude Include="rendergroup\PlayerEntity.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="util\AppFrameWork.h" />
     <ClInclude Include="util\ImageLoader.h" />
     <ClInclude Include="util\ShaderReader.h" />
@@ -168,6 +170,7 @@
     <ClInclude Include="XCGame\XCTraceAttack.h" />
     <ClInclude Include="XCShape\XCDefaultShape.h" />
     <ClInclude Include="XCShape\XCDefaultTexturePosition.h" />
+    <ClInclude Include="XCSpecialEffect\XCBossInfoSlot.h" />
     <ClInclude Include="XCSpecialEffect\XCExplode.h" />
     <ClInclude Include="XCSpecialEffect\XCRing.h" />
     <ClInclude Include="XCSpellCard\XCSpellCard.h" />
@@ -180,6 +183,12 @@
     <ClInclude Include="XCTask\XCTaskCollisonInfo.h" />
     <ClInclude Include="XCTask\XCTaskLoop.h" />
     <ClInclude Include="XCTask\XCTaskRenderInfo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="XCSTG.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\xcstg.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

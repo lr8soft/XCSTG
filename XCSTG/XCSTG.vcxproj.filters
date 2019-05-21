@@ -150,6 +150,9 @@
     <ClCompile Include="XCShape\XCDefaultTexturePosition.cpp">
       <Filter>源文件\XCShape</Filter>
     </ClCompile>
+    <ClCompile Include="XCSpecialEffect\XCBossInfoSlot.cpp">
+      <Filter>源文件\XCSpecialEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util\AppFrameWork.h">
@@ -236,5 +239,21 @@
     <ClInclude Include="XCGame\Enemy\Boss\XCTestBoss.h">
       <Filter>头文件\XCGame\Enemy\XCBoss</Filter>
     </ClInclude>
+    <ClInclude Include="XCSpecialEffect\XCBossInfoSlot.h">
+      <Filter>头文件\XCSpecialEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="XCSTG.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\xcstg.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

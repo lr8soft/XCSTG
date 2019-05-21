@@ -3,6 +3,7 @@
 #define _BASE_BOSS_H_
 #include "XCEnemyBase.h"
 #include "../../XCSpellCard/XCSpellCard.h"
+#include "../../XCSpecialEffect/XCBossInfoSlot.h"
 #include <vector>
 namespace xc_game {
 	class XCBoss :public xc_game::XCEnemyBase {
@@ -28,6 +29,7 @@ namespace xc_game {
 		GLuint program_static;
 		/*!!!boss不使用XCBaseEnemy类中的vao和vbo!!!*/
 		GLuint vao_tex[12],vbo_tex[12],tbo;
+		xc_se::XCBossInfoSlot infoSlot;
 	public:
 		void AddSpellCard(XCSpellCard *pspellcard);
 		virtual void EnemyInit(size_t type) override;

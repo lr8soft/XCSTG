@@ -83,6 +83,8 @@ void xc_game::XCBoss::BufferInit()
 void xc_game::XCBoss::EnemyInit(size_t type)
 {
 	XCEnemyBase::EnemyInit(type);
+	infoSlot.SpecialEffectInit();
+	infoSlot.SetInfo(&NowLife, &MaxLife, 0, 0);
 }
 
 void xc_game::XCBoss::EnemyRender(float nowFrame)
@@ -140,6 +142,7 @@ void xc_game::XCBoss::EnemyRender(float nowFrame)
 		auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
 		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 		glDrawArrays(GL_TRIANGLES, 0,sizeof(boss_standby_0_4x3)/4*sizeof(float));
+		infoSlot.SpecialEffectRender();
 		OGLSettingRenderEnd();
 	}
 }
