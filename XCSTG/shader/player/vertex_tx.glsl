@@ -1,7 +1,7 @@
 #version 330 core
 uniform mat4 transform_mat;
-layout (location=0) in vec4 display_coord;
-layout (location=1) in vec2 input_tex_pos;
+in vec4 display_coord;
+in vec2 input_tex_pos;
 out vec4 middle_color;
 out vec2 tex_pos;
 void main(){

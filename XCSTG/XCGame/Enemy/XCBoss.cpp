@@ -90,30 +90,46 @@ void xc_game::XCBoss::EnemyRender(float nowFrame)
 	if (should_render) {
 		OGLSettingRenderStart();
 		glUseProgram(program);
-		
 		if (BossNowState == BossLastState) {
-			if (BossSameStateTime < 4) {
-				BossSameStateTime+=0.03;
+			if (BossSameStateTime < 3.8) {
+				switch (BossNowState) {
+				case BOSS_ATTACK:
+					BossSameStateTime += 0.070f; break;
+				case BOSS_STANDBY:
+					BossSameStateTime += 0.035f; break;
+				case BOSS_MOVING:
+					BossSameStateTime += 0.050f; break;
+				}
+				
 			}else {
 				BossSameStateTime = 0;
-
+#define _BOSS_MODE_SHOW_
+#ifdef _BOSS_MODE_SHOW_
+				switch (BossNowState) {
+				case BOSS_MOVING:
+				case BOSS_STANDBY:
+					++BossNowState;break;
+				case BOSS_ATTACK:
+					BossNowState = BOSS_STANDBY; break;
+				}
+#endif
 			}
 		}
 		else {
 			BossSameStateTime = 0;
+			BossLastState=BossNowState;
 		}
-		
 		switch (BossNowState) {
 			case BOSS_STANDBY:
-				glBindVertexArray(*(vbo_tex + (size_t)BossSameStateTime));
+				glBindVertexArray(*(vao_tex + (size_t)BossSameStateTime));
 				glBindBuffer(GL_ARRAY_BUFFER, *(vbo_tex + (size_t)BossSameStateTime));
 				break;
 			case BOSS_MOVING:
-				glBindVertexArray(*(vbo_tex + (size_t)BossSameStateTime+4));
+				glBindVertexArray(*(vao_tex + (size_t)BossSameStateTime+4));
 				glBindBuffer(GL_ARRAY_BUFFER, *(vbo_tex + (size_t)BossSameStateTime+4));
 				break;
 			case BOSS_ATTACK:
-				glBindVertexArray(*(vbo_tex + (size_t)BossSameStateTime + 8));
+				glBindVertexArray(*(vao_tex + (size_t)BossSameStateTime + 8));
 				glBindBuffer(GL_ARRAY_BUFFER, *(vbo_tex + (size_t)BossSameStateTime + 8));
 				break;
 		}

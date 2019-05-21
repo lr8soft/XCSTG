@@ -53,8 +53,8 @@ void PlayerEntity::SetPlayerDirection(int direction)
 {
 	PlayerNowState = direction;
 	if (PlayerNowState==PlayerLastState) {
-		if (PlayerSameStateTime < 8) {
-			PlayerSameStateTime += 0.06;
+		if (PlayerSameStateTime < 7.9) {
+			PlayerSameStateTime += 0.08;
 		}
 		else {
 			PlayerSameStateTime = 0;
