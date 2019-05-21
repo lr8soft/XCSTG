@@ -17,7 +17,7 @@ namespace xc_game {
 		EnemyFunctionType coordx_func, coordy_func;
 		float slope_k, parameter_b, parameter_theta;*/
 		enum BossStateGroup {BOSS_STANDBY,BOSS_MOVING,BOSS_ATTACK};
-		size_t BossNowState= BOSS_STANDBY,BossLastState;
+		size_t BossNowState= BOSS_STANDBY,BossLastState= BOSS_STANDBY;
 		float BossSameStateTime = 0;
 		std::vector<XCSpellCard*> spellCardList;
 		virtual void ShaderInit() override;

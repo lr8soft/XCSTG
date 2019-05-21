@@ -26,7 +26,6 @@ void xc_ogl::AppFrameWork::init()
 	have_init = true;
 
 	glfwInit();
-	glfwWindowHint(GLFW_REFRESH_RATE, 60);
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);//No resizable.
 	//glfwWindowHint(GLFW_SCALE_TO_MONITOR, GL_TRUE);//Auto change size
 	screen = glfwCreateWindow(width, height, title, nullptr, nullptr);
@@ -35,6 +34,7 @@ void xc_ogl::AppFrameWork::init()
 		exit(-1);
 	}
 	glfwMakeContextCurrent(screen);
+	glfwSwapInterval(1);
 	glfwSetFramebufferSizeCallback(screen, screen_resize);
 	
 	gl3wInit();
@@ -44,10 +44,10 @@ void xc_ogl::AppFrameWork::init()
 void xc_ogl::AppFrameWork::display()
 {
 	while (!glfwWindowShouldClose(screen)) {
-		key_check();
 		render();
 		glfwSwapBuffers(screen);
 		glfwPollEvents();
+		key_check();
 	}
 }
 void xc_ogl::AppFrameWork::key_check()

@@ -93,23 +93,27 @@ void xc_game::XCBoss::EnemyRender(float nowFrame)
 		
 		if (BossNowState == BossLastState) {
 			if (BossSameStateTime < 4) {
-				BossSameStateTime+=0.003;
+				BossSameStateTime+=0.03;
 			}else {
 				BossSameStateTime = 0;
+
 			}
 		}
 		else {
 			BossSameStateTime = 0;
 		}
-		glBindVertexArray(*(vbo_tex + (size_t)BossSameStateTime));
+		
 		switch (BossNowState) {
 			case BOSS_STANDBY:
+				glBindVertexArray(*(vbo_tex + (size_t)BossSameStateTime));
 				glBindBuffer(GL_ARRAY_BUFFER, *(vbo_tex + (size_t)BossSameStateTime));
 				break;
 			case BOSS_MOVING:
+				glBindVertexArray(*(vbo_tex + (size_t)BossSameStateTime+4));
 				glBindBuffer(GL_ARRAY_BUFFER, *(vbo_tex + (size_t)BossSameStateTime+4));
 				break;
 			case BOSS_ATTACK:
+				glBindVertexArray(*(vbo_tex + (size_t)BossSameStateTime + 8));
 				glBindBuffer(GL_ARRAY_BUFFER, *(vbo_tex + (size_t)BossSameStateTime + 8));
 				break;
 		}
