@@ -9,7 +9,7 @@ protected:
 	bool task_should_run = false,task_should_delete=false,have_resource_init=false;
 	int taskType;
 public:
-	enum TaskType { DefaultType,BulletType, PlayerType, EnemyType, AttackType };
+	enum TaskType { DefaultType,BulletType, PlayerType, EnemyType, AttackType,BossType };
 	virtual void TaskInit() = 0;
 	virtual void TaskRender(XCTaskRenderInfo* pInfo) = 0;
 	virtual void TaskCollisionCheck(XCTaskCollisionInfo* pInfo) = 0;

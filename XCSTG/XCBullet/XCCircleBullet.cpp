@@ -100,7 +100,7 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 		}
 		glm::mat4 transform_mat;
 		transform_mat = glm::translate(transform_mat, glm::vec3(NowX,NowY,NowZ));
-		transform_mat = glm::rotate(transform_mat, glm::radians(rotate_angle*nowFrame), glm::vec3(0, 0, 1));
+		transform_mat = glm::rotate(transform_mat, glm::radians(rotate_angle), glm::vec3(0, 0, 1));
 		transform_mat = glm::scale(transform_mat,glm::vec3(tex_scale_rate[bulletType]));
 		auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
 		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));

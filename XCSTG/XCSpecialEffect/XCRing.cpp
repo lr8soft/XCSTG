@@ -65,7 +65,7 @@ void xc_se::XCRing::SpecialEffectInit(int type)
 	BufferInit();
 	switch (ring_type) {
 	case RingBossDead:
-		NowSize = 0.15f;
+		NowSize = 0.3f;
 		alive_time = 0.12f; break;
 	case RingPlayerDead:
 		NowSize = 0.3f;
@@ -95,6 +95,7 @@ bool xc_se::XCRing::SpecialEffectRender(float x,float y,float z)
 		auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
 		switch (ring_type) {
 		case RingPlayerDead:
+			break;
 		case RingBossDead:
 			temp_mat = glm::translate(temp_mat, glm::vec3(x, y, z));
 			temp_mat = glm::rotate(temp_mat, glm::degrees(rand() / RAND_MAX * 180.0f), glm::vec3(0,0,1));
@@ -106,14 +107,14 @@ bool xc_se::XCRing::SpecialEffectRender(float x,float y,float z)
 			break;
 		}
 		transform_mat = glm::translate(transform_mat, glm::vec3(x, y, z));
-		transform_mat = glm::scale(transform_mat, glm::vec3(NowSize));
+		transform_mat = glm::scale(transform_mat, glm::vec3(NowSize/3));
 		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
-		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
+		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / 2*sizeof(float));
 		switch (ring_type) {
 		case RingPlayerDead:
 			NowSize += 3.0f*deltaTime; break;
 		case RingBossDead:
-			NowSize += 0.05f*deltaTime; break;
+			NowSize += 0.06f; break;
 		default:
 			 NowSize += 0.5f*deltaTime; break;
 		}

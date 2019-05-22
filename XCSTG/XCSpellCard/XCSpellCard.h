@@ -4,17 +4,46 @@
 #include <iostream>
 #include <vector>
 #include "../XCBullet/XCBullet.h"
+#include "../XCTask/XCTaskCollisonInfo.h"
 class XCSpellCard {
 protected:
-	bool NotSpellCard = false,IsSpellCardFinish=false;
+	bool NotSpellCard = false,IsSpellCardFinish=false,IsActived=false;
 	std::string SpellCardName;
 	size_t SustainTime;
-	float *NowX, *NowY, *NowZ;
-	xc_bullet::XCBullet *pBullet;
+	std::vector<xc_bullet::XCBullet*> pBullet;
+	size_t bullet_count;
 public:
-	virtual void SpellCardInit(float *x,float *y,float *z);
-	virtual void SpellCardRun(float nowFrame);
-	virtual void SpellCardRelease();
-	bool IsFinish();
+	virtual void SpellCardInit()=0;
+	virtual void SpellCardRun(float nowFrame) {
+		for (auto iter = pBullet.begin(); iter != pBullet.end(); iter++) {
+			if ((*iter)->IsBulletRender())
+				(*iter)->BulletRender(nowFrame);
+
+		}
+	}
+	virtual void SpellCardRelease(){
+		for (auto iter = pBullet.begin(); iter != pBullet.end(); iter++) {
+			delete *iter;
+		}
+		pBullet.clear();
+	}
+	virtual void SpellCardCollisonCheck(XCTaskCollisionInfo *pInfo) {
+		if (pInfo == nullptr) return;
+		for (auto iter = pBullet.begin(); iter != pBullet.end(); iter++) {
+			if ((*iter)->IsBulletRender())
+				(*iter)->BulletCollisionWithPlayer(pInfo->pPlayer);
+
+		}
+	}
+	bool GetIsActive()
+	{
+		return IsActived;
+	}
+
+	bool IsFinish()
+	{
+		return IsSpellCardFinish;
+	}
+
 };
 #endif

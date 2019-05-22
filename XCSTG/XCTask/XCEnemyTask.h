@@ -28,6 +28,8 @@ protected:
 				nothing_to_render = false;//并不是没有要渲染的
 				if (iter->first == render_priority) {//相同优先度
 					iter->second->EnemyRender(nowframe);
+					if (iter->second->GetEnemyType() == BOSS_ENEMY)
+						pCollisonInfo->nowRenderBoss =static_cast<xc_game::XCBoss*>(iter->second);
 					no_same_priority_enemy = false;//即：仍有 该优先度 的敌人 正被渲染
 				}
 			}
@@ -63,6 +65,8 @@ public:
 			iter->second->SetDead();
 			if (have_add_enemy_to_vec) {
 				pCollisonInfo->EnemyInfoGroup.RemoveEnemyFromVector(iter->second);
+				if (iter->second->GetEnemyType() == BOSS_ENEMY)
+					pCollisonInfo->nowRenderBoss = nullptr;
 			}
 			iter->second->ReleaseResource();
 		}

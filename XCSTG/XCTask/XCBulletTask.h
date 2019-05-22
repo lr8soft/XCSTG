@@ -47,5 +47,16 @@ public:
 			iter->second->BulletRelease();
 		}
 	}
+	virtual void TaskCollisionCheck(XCTaskCollisionInfo * pInfo) override{
+		auto end_iter = pBulletMap.end();
+		for (auto iter = pBulletMap.begin(); iter != end_iter; iter++)
+		{
+			if (iter->second->IsBulletRender()) {
+				if (iter->first == render_priority) {//正在渲染的该优先级弹幕，才能进行碰撞检测
+					iter->second->BulletCollisionWithPlayer(pInfo->pPlayer);
+				}
+			}
+		}
+	}
 };
 #endif

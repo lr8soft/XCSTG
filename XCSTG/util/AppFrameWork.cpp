@@ -66,6 +66,7 @@ void xc_ogl::AppFrameWork::shader_init()
 	taskLoop.AddTask(&enemyTask,"0");
 	taskLoop.AddTask(&playerTask,"1");
 	taskLoop.AddTask(&bulletTask,"2");
+	taskLoop.AddTask(&bossTask, "3");
 	taskLoop.TaskProcessCommand(taskLoop.STAGE_INIT);
 	taskLoop.TaskProcessCommand(taskLoop.STAGE_RENDER);
 }

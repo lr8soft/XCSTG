@@ -7,6 +7,7 @@
 #include "../XCStage/XCBTStage1.h"
 #include "../XCStage/XCEYStage1.h"
 #include "../rendergroup/BackGroundRenderGroup.h"
+#include "../XCStage/XCBossTaskTest.h"
 namespace xc_ogl {
 	class AppFrameWork
 	{
@@ -15,6 +16,7 @@ namespace xc_ogl {
 		XCPlayerTask playerTask;
 		XCBTStage1 bulletTask;
 		XCTaskLoop taskLoop;
+		TestBossTask bossTask;
 		BackGroundRenderGroup bggroup;
 
 		static AppFrameWork* app_ptr;

@@ -141,9 +141,6 @@
     <ClCompile Include="XCGame\Enemy\XCEnemyBase.cpp">
       <Filter>源文件\XCGame\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="XCSpellCard\XCSpellCard.cpp">
-      <Filter>源文件\XCSpellCard</Filter>
-    </ClCompile>
     <ClCompile Include="XCGame\Enemy\Boss\XCTestBoss.cpp">
       <Filter>源文件\XCGame\Enemy\XCBoss</Filter>
     </ClCompile>
@@ -152,6 +149,12 @@
     </ClCompile>
     <ClCompile Include="XCSpecialEffect\XCBossInfoSlot.cpp">
       <Filter>源文件\XCSpecialEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="XCStage\XCTestSC.cpp">
+      <Filter>源文件\XCStage</Filter>
+    </ClCompile>
+    <ClCompile Include="XCStage\XCBossTaskTest.cpp">
+      <Filter>源文件\XCStage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +247,15 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XCTask\XCBossTask.h">
+      <Filter>头文件\XCTask</Filter>
+    </ClInclude>
+    <ClInclude Include="XCStage\XCBossTaskTest.h">
+      <Filter>头文件\XCStage</Filter>
+    </ClInclude>
+    <ClInclude Include="XCStage\XCTestSC.h">
+      <Filter>头文件\XCStage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

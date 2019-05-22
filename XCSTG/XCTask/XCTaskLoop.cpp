@@ -3,6 +3,7 @@
 #include "XCPlayerTask.h"
 #include "XCEnemyTask.h"
 #include "XCBulletTask.h"
+#include "XCBossTask.h"
 using namespace std;
 void XCTaskLoop::SetScreen(GLFWwindow * screen)
 {
@@ -47,6 +48,8 @@ void XCTaskLoop::AddTask(XCTask * task, std::string uuid)
 		break;
 	case task->EnemyType:
 		SetEnemy(task);
+		break;
+	case task->BossType:
 		break;
 	}
 }
@@ -102,8 +105,12 @@ XCTaskLoop::DoTaskCommmand(int command,std::map<std::string, XCTask*>::iterator 
 		case STAGE_INIT:
 			if (!ptask->IsTaskInit()) {
 				ptask->TaskInit();
-				if(ptask->GetTaskType()==ptask->EnemyType)
-					((XCEnemyTask*)ptask)->AddEnemyToTaskLoop(&CollisionInfo);
+				switch (ptask->GetTaskType()) {
+				case ptask->EnemyType:
+					((XCEnemyTask*)ptask)->AddEnemyToTaskLoop(&CollisionInfo); break;
+				case ptask->BossType:
+					((XCBossTask*)ptask)->AddEnemyToTaskLoop(&CollisionInfo); break;
+				}
 			}
 			break;
 		case STAGE_RENDER:
@@ -141,7 +148,7 @@ void XCTaskLoop::TaskProcess(float nowFrame)
 				ptask->TaskRender(&RenderInfo);
 				if (ptask->TaskDeletable())
 				{
-					iter->second->TaskRelease();
+					iter->second->TaskRelease();//µ±≥° Õ∑≈
 					if (next(iter) == tasklist.end())
 					{
 						tasklist.erase(iter);

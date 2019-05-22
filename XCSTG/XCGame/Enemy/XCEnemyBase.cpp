@@ -149,3 +149,8 @@ bool xc_game::XCEnemyBase::IsDead()
 {
 	return is_dead;
 }
+
+size_t xc_game::XCEnemyBase::GetEnemyType()
+{
+	return enemy_type;
+}

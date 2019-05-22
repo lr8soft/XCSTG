@@ -51,6 +51,7 @@ void xc_game::XCNormalEnemy::TextureInit()
 void xc_game::XCNormalEnemy::EnemyInit(size_t type)
 {
 	xc_game::XCEnemyBase::EnemyInit(type);
+	enemy_type = NORMAL_ENEMY;
 	dead_se.SpecialEffectInit(dead_se.RingLightColor);
 	damage_se.SpecialEffectInit(damage_se.RingDeepColor);
 	MaxLife = full_enemy_life;

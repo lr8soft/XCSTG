@@ -142,9 +142,10 @@
     <ClCompile Include="XCSpecialEffect\XCBossInfoSlot.cpp" />
     <ClCompile Include="XCSpecialEffect\XCExplode.cpp" />
     <ClCompile Include="XCSpecialEffect\XCRing.cpp" />
-    <ClCompile Include="XCSpellCard\XCSpellCard.cpp" />
+    <ClCompile Include="XCStage\XCBossTaskTest.cpp" />
     <ClCompile Include="XCStage\XCBTStage1.cpp" />
     <ClCompile Include="XCStage\XCEYStage1.cpp" />
+    <ClCompile Include="XCStage\XCTestSC.cpp" />
     <ClCompile Include="XCTask\XCPlayerTask.cpp" />
     <ClCompile Include="XCTask\XCTaskLoop.cpp" />
     <ClCompile Include="XCustomizedSTGMain.cpp" />
@@ -174,8 +175,11 @@
     <ClInclude Include="XCSpecialEffect\XCExplode.h" />
     <ClInclude Include="XCSpecialEffect\XCRing.h" />
     <ClInclude Include="XCSpellCard\XCSpellCard.h" />
+    <ClInclude Include="XCStage\XCBossTaskTest.h" />
     <ClInclude Include="XCStage\XCBTStage1.h" />
     <ClInclude Include="XCStage\XCEYStage1.h" />
+    <ClInclude Include="XCStage\XCTestSC.h" />
+    <ClInclude Include="XCTask\XCBossTask.h" />
     <ClInclude Include="XCTask\XCBulletTask.h" />
     <ClInclude Include="XCTask\XCEnemyTask.h" />
     <ClInclude Include="XCTask\XCPlayerTask.h" />

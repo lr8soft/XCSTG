@@ -3,6 +3,8 @@
 #define _XCEnemyBASE_H_
 #include <functional>
 #include <GL/glcorearb.h>
+#define BOSS_ENEMY 0
+#define NORMAL_ENEMY 1
 namespace xc_game {
 	using EnemyFunctionType = std::function<float(float, float, float, float, float, float)>;
 	/*默认新建对象出来时should_render为false*/
@@ -12,7 +14,7 @@ namespace xc_game {
 		float NowX, NowY, NowZ;
 		float destX, destY, destZ, velocity;
 		GLuint vao, vbo, use_tbo, program;
-		size_t move_type;
+		int move_type,enemy_type;
 		bool should_render = false, should_positive, first_move = true, is_dead = true, be_attack = false;
 		bool have_start_pos = false, have_xyfunc = false, have_velocity = false;
 		EnemyFunctionType coordx_func, coordy_func;
@@ -45,6 +47,7 @@ namespace xc_game {
 		float **GetNowCoord();
 		bool IsRendering();
 		bool IsDead();
+		size_t GetEnemyType();
 	};
 }
 #endif
