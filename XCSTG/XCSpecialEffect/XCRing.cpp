@@ -55,6 +55,12 @@ void xc_se::XCRing::RingReset()
 	first_run = true;
 	NowSize = 0.015;
 	NowTime = 0;
+	switch (ring_type) {
+	case RingBossDead:
+		NowSize = 0.3f;break;
+	case RingPlayerDead:
+		NowSize = 0.3f; break;
+	}
 }
 void xc_se::XCRing::SpecialEffectInit(int type)
 {

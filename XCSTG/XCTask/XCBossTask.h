@@ -22,8 +22,8 @@ protected:
 	}
 	void WorkSpellCardRender(float nowFrame)
 	{
-		if (spellCardGroup.empty()&&pTaskBoss->IsDead()) task_should_delete = true;
-		if (pTaskBoss->IsDead()) task_should_delete = true;
+		if (spellCardGroup.empty()&&!pTaskBoss->IsRendering()) task_should_delete = true;
+		if (!pTaskBoss->IsRendering()) task_should_delete = true;
 		pTaskBoss->EnemyRender(nowFrame);
 		for (auto iter = spellCardGroup.begin(); iter != spellCardGroup.end();) {
 			(*iter)->SpellCardRun(nowFrame);
