@@ -6,13 +6,15 @@
 #include "../XCBullet/XCBullet.h"
 class XCSpellCard {
 protected:
-	bool NotSpellCard = false;
+	bool NotSpellCard = false,IsSpellCardFinish=false;
 	std::string SpellCardName;
 	size_t SustainTime;
+	float *NowX, *NowY, *NowZ;
 	xc_bullet::XCBullet *pBullet;
 public:
-	virtual void SpellCardInit();
-	virtual void SpellCardRun();
+	virtual void SpellCardInit(float *x,float *y,float *z);
+	virtual void SpellCardRun(float nowFrame);
 	virtual void SpellCardRelease();
+	bool IsFinish();
 };
 #endif

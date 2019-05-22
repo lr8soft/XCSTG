@@ -85,6 +85,11 @@ void xc_game::XCBoss::EnemyInit(size_t type)
 	XCEnemyBase::EnemyInit(type);
 	infoSlot.SpecialEffectInit();
 	infoSlot.SetInfo(&NowLife, &MaxLife, 0, 0);
+	explode_se.SpecialEffectInit(explode_se.RingBossDead);
+	auto iter_end = spellCardList.end();
+	for (auto iter = spellCardList.begin(); iter != iter_end;iter++) {
+		iter->second->SpellCardInit(&NowX, &NowY, &NowZ);
+	}
 }
 
 void xc_game::XCBoss::EnemyRender(float nowFrame)
@@ -98,7 +103,7 @@ void xc_game::XCBoss::EnemyRender(float nowFrame)
 				case BOSS_ATTACK:
 					BossSameStateTime += 0.070f; break;
 				case BOSS_STANDBY:
-					BossSameStateTime += 0.035f; break;
+					BossSameStateTime += 0.040f; break;
 				case BOSS_MOVING:
 					BossSameStateTime += 0.050f; break;
 				}
@@ -143,14 +148,35 @@ void xc_game::XCBoss::EnemyRender(float nowFrame)
 		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 		glDrawArrays(GL_TRIANGLES, 0,sizeof(boss_standby_0_4x3)/4*sizeof(float));
 		infoSlot.SpecialEffectRender();
+		UseSpellCardRender(nowFrame);//没有符卡自动去世
+		if (is_dead) {
+			if(explode_se.SpecialEffectRender(NowX, NowY, NowZ))//返回true即渲染完成
+				should_render = false;
+		}
 		OGLSettingRenderEnd();
 	}
 }
-void xc_game::XCBoss::AddSpellCard(XCSpellCard * pspellcard)
+void xc_game::XCBoss::AddSpellCard(float maxHealth,XCSpellCard * pspellcard)
 {
-	spellCardList.push_back(pspellcard);
+	spellCardList.insert(std::make_pair(maxHealth, pspellcard));
 }
-
+void xc_game::XCBoss::UseSpellCardRender(float nowFrame)
+{
+	if (spellCardList.empty())	is_dead = true;
+	for (auto iter = spellCardList.begin(); iter != spellCardList.end();iter++) {
+		iter->second->SpellCardRun(nowFrame);
+		if (iter->second->IsFinish()) {
+			iter->second->SpellCardRelease();
+			if (next(iter) != spellCardList.end()) {
+				spellCardList.erase(iter++);
+			}
+			else {
+				spellCardList.erase(iter);
+				iter = spellCardList.begin();
+			}
+		}
+	}
+}
 
 void xc_game::XCBoss::ReleaseResource()
 {

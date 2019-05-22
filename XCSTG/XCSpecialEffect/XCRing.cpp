@@ -7,7 +7,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "XCRing.h"
 using namespace xc_ogl;
-GLuint xc_se::XCRing::tbo[2];
+GLuint xc_se::XCRing::tbo[4];
 GLuint xc_se::XCRing::program_static;
 bool xc_se::XCRing::have_tbo_init = false;
 bool xc_se::XCRing::have_program_init = false;
@@ -26,11 +26,15 @@ void xc_se::XCRing::ShaderInit()
 void xc_se::XCRing::TextureInit()
 {
 	if (!have_tbo_init) {
-		ImageLoader SELoader,SBLoader;
+		ImageLoader SELoader,SBLoader,PlayerSELoader,BossSELoader;
 		SELoader.LoadTextureData("image/se/ring.png");
 		SBLoader.LoadTextureData("image/se/ring_2.png");
+		PlayerSELoader.LoadTextureData("image/se/pexplode.png");
+		BossSELoader.LoadTextureData("image/se/explode.png");
 		tbo[RingLightColor] = SELoader.GetTBO();
 		tbo[RingDeepColor] = SBLoader.GetTBO();
+		tbo[RingPlayerDead] = PlayerSELoader.GetTBO();
+		tbo[RingBossDead] = BossSELoader.GetTBO();
 		have_tbo_init = true;
 	}
 	glUniform1i(glGetUniformLocation(program,"tex"),0);
@@ -59,6 +63,16 @@ void xc_se::XCRing::SpecialEffectInit(int type)
 	ShaderInit();
 	TextureInit();
 	BufferInit();
+	switch (ring_type) {
+	case RingBossDead:
+		NowSize = 0.15f;
+		alive_time = 0.12f; break;
+	case RingPlayerDead:
+		NowSize = 0.3f;
+		alive_time = 0.12f; break;
+	default:
+		alive_time = 0.2f;break;
+	}
 }
 
 bool xc_se::XCRing::SpecialEffectRender(float x,float y,float z)
@@ -76,20 +90,33 @@ bool xc_se::XCRing::SpecialEffectRender(float x,float y,float z)
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glActiveTexture(GL_TEXTURE0);
-		if (ring_type != RingPlayerDead)
-			glBindTexture(GL_TEXTURE_2D,tbo[ring_type]);
-		else
-			glBindTexture(GL_TEXTURE_2D, tbo[RingLightColor]);
-		glm::mat4 transform_mat;
+		glBindTexture(GL_TEXTURE_2D,tbo[ring_type]);
+		glm::mat4 transform_mat,temp_mat;
+		auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
+		switch (ring_type) {
+		case RingPlayerDead:
+		case RingBossDead:
+			temp_mat = glm::translate(temp_mat, glm::vec3(x, y, z));
+			temp_mat = glm::rotate(temp_mat, glm::degrees(rand() / RAND_MAX * 180.0f), glm::vec3(0,0,1));
+			temp_mat = glm::scale(temp_mat, glm::vec3(NowSize));
+			glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(temp_mat));
+			glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
+			break;
+		default:
+			break;
+		}
 		transform_mat = glm::translate(transform_mat, glm::vec3(x, y, z));
 		transform_mat = glm::scale(transform_mat, glm::vec3(NowSize));
-		auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
 		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
-		if(ring_type!= RingPlayerDead)
-			NowSize += 0.5*deltaTime;
-		else
-			NowSize += deltaTime;
+		switch (ring_type) {
+		case RingPlayerDead:
+			NowSize += 3.0f*deltaTime; break;
+		case RingBossDead:
+			NowSize += 0.05f*deltaTime; break;
+		default:
+			 NowSize += 0.5f*deltaTime; break;
+		}
 		return false;
 	}
 	else {

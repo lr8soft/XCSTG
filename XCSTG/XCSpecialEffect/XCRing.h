@@ -6,12 +6,11 @@ namespace xc_se {
 	class XCRing {
 	private:
 		static bool have_tbo_init,have_program_init;
-		static GLuint tbo[2],program_static;
+		static GLuint tbo[4],program_static;
 		int ring_type;
 		float RenderX, RenderY, RenderZ;
-		float NowSize = 0.015f,NowTime=0.0f;
+		float NowSize = 0.015f,NowTime=0.0f, alive_time=0.2f;
 		bool should_se_render = true,first_run=true;
-		const float alive_time = 0.2f;
 		float deltaTime = 0.0f, lastFrame = 0.0f;
 		GLuint vao, vbo, program;
 		void ShaderInit();
@@ -23,7 +22,7 @@ namespace xc_se {
 		~XCRing() = default;
 		void SpecialEffectInit(int type);
 		/*Return true if reset*/
-		enum { RingLightColor, RingDeepColor,RingPlayerDead};
+		enum { RingLightColor, RingDeepColor,RingPlayerDead,RingBossDead};
 		bool SpecialEffectRender(float x, float y, float z);
 	};
 }

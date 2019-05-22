@@ -14,6 +14,7 @@ void xc_se::XCBossInfoSlot::ShaderInit()
 	ShaderReader BossSE;	
 	BossSE.load_from_file("Shader/se/BossSE.vert",GL_VERTEX_SHADER);
 	BossSE.load_from_file("Shader/se/BossSE.frag",GL_FRAGMENT_SHADER);
+	BossSE.link_all_shader();
 	program = BossSE.get_program();
 }
 
@@ -28,8 +29,9 @@ void xc_se::XCBossInfoSlot::BufferInit()
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(covered_plane_vertex), covered_plane_vertex, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
-	glEnableVertexAttribArray(0);
+	auto in_vert_loc = glGetAttribLocation(program, "in_coord");
+	glVertexAttribPointer(in_vert_loc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glEnableVertexAttribArray(in_vert_loc);
 
 }
 
@@ -53,15 +55,14 @@ bool xc_se::XCBossInfoSlot::SpecialEffectRender()
 	glUseProgram(program);
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER,vbo);
-	auto transfom_mat = glGetUniformLocation(program, "transform_mat");
-	auto time = glGetUniformLocation(program, "time");
 	glm::mat4 transform_mat;
-	transform_mat = glm::translate(transform_mat, glm::vec3(0.0f,0.0f,0.0f));
-	transform_mat = glm::scale(transform_mat, glm::vec3(0.05f,0.01f,0.0f));
-	glUniformMatrix4fv(transfom_mat, 1, GL_FALSE, glm::value_ptr(transform_mat));
-	glUniform1f(time, glfwGetTime());
-//	glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex)/2*sizeof(float));
-	std::cout << "Rate:" << (*BossHP) / (*BossMaxHP) << std::endl;
+	transform_mat = glm::translate(transform_mat, glm::vec3(0.0f,0.96f,0.0f));
+	transform_mat = glm::scale(transform_mat, glm::vec3((*BossHP) / (*BossMaxHP)*0.8f,0.008f,0.0f));
+	auto transfom_mat_loc = glGetUniformLocation(program, "transform_mat");
+	auto time_loc = glGetUniformLocation(program, "time");
+	glUniformMatrix4fv(transfom_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
+	glUniform1f(time_loc, glfwGetTime());
+	glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex)/sizeof(float));
 	return false;
 }
 

@@ -84,6 +84,7 @@ void PlayerEntity::GroupInit()
 	for (int i = 0; i < attack_count; i++) {
 		base_attack[i].AttackInit();
 	}	
+#ifdef _USE_TRACE_ATTACK_
 	for (int j = 0; j < trace_count; j++) {
 		trace_attack[j].AttackInit();
 		trace_attack[j].SetPlayerPosition(&NowX, &NowY, &NowZ);
@@ -93,6 +94,7 @@ void PlayerEntity::GroupInit()
 		else
 			trace_attack[j].SetOffsizeX(-j *(0.035));
 	}
+#endif
 	dead_se.SpecialEffectInit(dead_se.RingPlayerDead);
 }
 
@@ -157,9 +159,11 @@ void PlayerEntity::GroupRender(float nowFrame)
 	for (int i = 0; i < attack_count; i++) {
 		base_attack[i].AttackRender(nowFrame);
 	}
+#ifdef _USE_TRACE_ATTACK_
 	for (int j = 0; j < trace_count; j++) {
 		trace_attack[j].AttackRender(nowFrame);
 	}
+#endif
 	if (dead_time) {
 		dead_time=!dead_se.SpecialEffectRender(NowX,NowY,NowZ);
 	}
@@ -173,18 +177,21 @@ void PlayerEntity::PlayerCollisonEvent(xc_game::XCEnemyInfo *enemy_info)
 	int base_attack_count = sizeof(base_attack) / sizeof(xc_game::XCAttack);
 	int trace_attack_count = sizeof(trace_attack) / sizeof(xc_game::XCTrackAttack);
 	if (enemy_render->empty()) {//当没有敌人的时候
+#ifdef _USE_TRACE_ATTACK_
 #pragma omp parallel for
 		for (int k = 0; k < trace_attack_count; k++) {
 			trace_attack[k].SetAttackMode(xc_game::XCTrackAttack::FOLLOW_PLAYER_MODE);
 		}
-	}
-	else {
+#endif
+	}else {
 		for (auto iter = enemy_render->begin(); iter != enemy_render->end(); iter++) {//Get each alive enemy
 			auto enemy = *(iter);
+#ifdef _USE_TRACE_ATTACK_
 #pragma omp parallel for
 			for (int k = 0; k < trace_attack_count; k++) {
 				trace_attack[k].CheckCollisionWithEnemy(enemy);
 			}
+#endif
 		}
 		for (auto iter = enemy_render->begin(); iter != enemy_render->end(); iter++) {
 			auto enemy = *(iter);
@@ -246,6 +253,7 @@ void PlayerEntity::GroupKeyCheck(GLFWwindow* screen)
 			base_attack[i].SetPositionAndVelocity(NowX, NowY + 0.3*i, NowZ, player_fire_power);
 			base_attack[i].SetAttack();
 		}
+#ifdef _USE_TRACE_ATTACK_
 		auto trace_count = sizeof(trace_attack) / sizeof(xc_game::XCTrackAttack);
 		if (pEnemyInfo!=nullptr)
 		{
@@ -261,6 +269,7 @@ void PlayerEntity::GroupKeyCheck(GLFWwindow* screen)
 				}
 			}
 		}
+#endif
 	}
 	if (!have_player_change_state) {
 		if(PlayerNowState!= PLAYER_TURNRIGHT&& PlayerNowState != PLAYER_TURNLEFT)

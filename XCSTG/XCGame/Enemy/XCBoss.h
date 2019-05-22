@@ -4,7 +4,8 @@
 #include "XCEnemyBase.h"
 #include "../../XCSpellCard/XCSpellCard.h"
 #include "../../XCSpecialEffect/XCBossInfoSlot.h"
-#include <vector>
+#include "../../XCSpecialEffect//XCRing.h"
+#include <map>
 namespace xc_game {
 	class XCBoss :public xc_game::XCEnemyBase {
 	protected:
@@ -20,18 +21,21 @@ namespace xc_game {
 		enum BossStateGroup {BOSS_STANDBY,BOSS_MOVING,BOSS_ATTACK};
 		size_t BossNowState= BOSS_STANDBY,BossLastState= BOSS_STANDBY;
 		float BossSameStateTime = 0;
-		std::vector<XCSpellCard*> spellCardList;
+				/*hp     spellcard*/
+		std::map<float,XCSpellCard*> spellCardList;
 		virtual void ShaderInit() override;
 		virtual void BufferInit() override;
 		virtual void TextureInit() =0;
+		virtual void UseSpellCardRender(float nowFrame);
 		static bool have_program_init,have_resource_init;
 		static GLuint tbo_static;
 		GLuint program_static;
 		/*!!!boss不使用XCBaseEnemy类中的vao和vbo!!!*/
 		GLuint vao_tex[12],vbo_tex[12],tbo;
 		xc_se::XCBossInfoSlot infoSlot;
+		xc_se::XCRing explode_se;
 	public:
-		void AddSpellCard(XCSpellCard *pspellcard);
+		void AddSpellCard(float maxHealth,XCSpellCard *pspellcard);
 		virtual void EnemyInit(size_t type) override;
 		virtual void EnemyRender(float nowFrame) override;
 		virtual void ReleaseResource() override;
