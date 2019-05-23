@@ -7,6 +7,6 @@ public:
 	long count = 0;
 	float deltaTime,lastFrame,nowFrame;
 	void* pScreen;
-	std::string workBossUUID;
+	std::string workBossUUID="";
 };
 #endif

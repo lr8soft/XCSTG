@@ -3,7 +3,7 @@
 using namespace xc_bullet;
 void XCTestSC::SpellCardInit()
 {
-	XCCircleBullet *ptrBullet = new XCCircleBullet[2000];
+	XCCircleBullet *ptrBullet = new XCCircleBullet[1000];
 	auto xfunc = [](float NowX, float NowY, float nowTime, float deltaTime, float v, float p)->float {
 		return NowX;
 	};
@@ -13,7 +13,7 @@ void XCTestSC::SpellCardInit()
 		else
 			return 1.0;
 	};
-	for (int i = 0; i < 2000;i++) {
+	for (int i = 0; i < 1000;i++) {
 		ptrBullet[i].SetMoveFunc(xfunc, yfunc);
 		ptrBullet[i].SetRotateAngle(rand());
 		ptrBullet[i].SetVelocity(0.5f);

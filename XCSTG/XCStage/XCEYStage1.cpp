@@ -63,7 +63,8 @@ void XCEYStage1::TaskRender(XCTaskRenderInfo * pInfo)
 {
 	TaskInit();
 	XCEnemyTask::TaskRender(pInfo);
-	pInfo->workBossUUID = "TESTBOSS0";
+	if(task_should_delete)
+		pInfo->workBossUUID = "TESTBOSS0";
 }
 
 void XCEYStage1::TaskCollisionCheck(XCTaskCollisionInfo * pInfo)

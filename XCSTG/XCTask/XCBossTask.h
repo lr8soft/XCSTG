@@ -54,10 +54,10 @@ public:
 	virtual void TaskInit() = 0;
 	virtual void TaskRender(XCTaskRenderInfo* pInfo) {
 		pRenderInfo = pInfo;
-		//if (pRenderInfo->workBossUUID == bossTaskUUID)
-		//{
+		if (pRenderInfo->workBossUUID == bossTaskUUID)
+		{
 			WorkSpellCardRender(pInfo->nowFrame);
-		//}
+		}
 	}
 	virtual void TaskRelease()
 	{
