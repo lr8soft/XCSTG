@@ -61,10 +61,7 @@ void xc_game::XCAttack::AttackInit()
 
 void xc_game::XCAttack::AttackRender(float nowFrame)
 {
-	float currentFrame = nowFrame;
-	deltaTime = currentFrame - lastFrame;
-	lastFrame = currentFrame;
-
+	attackTimer.Tick(nowFrame);
 	if (should_render) {
 		glUseProgram(program);
 		glBindVertexArray(vao);
@@ -84,7 +81,7 @@ void xc_game::XCAttack::AttackRender(float nowFrame)
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, render_tbo);
 		glm::mat4 transform_mat;
-		NowY += velocity * deltaTime;
+		NowY += velocity * attackTimer.getDeltaFrame();
 		transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
 		transform_mat = glm::scale(transform_mat, glm::vec3(0.04f, 0.04f, 0.04f));
 		auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
@@ -111,6 +108,7 @@ void xc_game::XCAttack::SetPositionAndVelocity(float x, float y, float z, float 
 void xc_game::XCAttack::CheckCollisionWithEnemy(xc_game::XCEnemyBase * enemy)
 {
 	auto *enemy_coord = enemy->GetNowCoord();
+	float deltaTime = attackTimer.getDeltaFrame();
 	float *tx = *(enemy_coord), *ty = *(enemy_coord + 1), *tz = *(enemy_coord + 2);
 	float x = *(tx), y = *(ty), z = *(tz);
 	if (x<NowX + attack_width && x>NowX - attack_width) {

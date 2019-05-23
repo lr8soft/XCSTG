@@ -1,7 +1,6 @@
 #include "../util/ImageLoader.h"
 #include "../util/ShaderReader.h"
 #include "../XCShape/XCDefaultShape.h"
-#include <glfw/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -53,19 +52,20 @@ void xc_se::XCRing::BufferInit()
 void xc_se::XCRing::RingReset()
 {
 	first_run = true;
-	NowSize = 0.015;
 	NowTime = 0;
 	switch (ring_type) {
 	case RingBossDead:
 		NowSize = 0.3f;break;
 	case RingPlayerDead:
 		NowSize = 0.3f; break;
+	default:
+		NowSize = 0.015; break;
 	}
 }
 void xc_se::XCRing::SpecialEffectInit(int type)
 {
 	ring_type = type;
-	NowSize= 0.015;
+	NowTime = 0;
 	ShaderInit();
 	TextureInit();
 	BufferInit();
@@ -77,21 +77,16 @@ void xc_se::XCRing::SpecialEffectInit(int type)
 		NowSize = 0.3f;
 		alive_time = 0.12f; break;
 	default:
+		NowSize = 0.015;
 		alive_time = 0.2f;break;
 	}
 }
 
 bool xc_se::XCRing::SpecialEffectRender(float x,float y,float z)
 {
-	float currentFrame = glfwGetTime();
-	deltaTime = currentFrame - lastFrame;
-	lastFrame = currentFrame;
-	if (first_run) {
-		deltaTime = 0.013;
-		first_run = false;
-	}
+	SETimer.Tick();
 	if (NowTime< alive_time) {
-		NowTime += deltaTime;
+		NowTime += SETimer.getDeltaFrame();
 		glUseProgram(program);
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -118,11 +113,11 @@ bool xc_se::XCRing::SpecialEffectRender(float x,float y,float z)
 		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / 2*sizeof(float));
 		switch (ring_type) {
 		case RingPlayerDead:
-			NowSize += 3.0f*deltaTime; break;
+			NowSize += 3.0f* SETimer.getDeltaFrame(); break;
 		case RingBossDead:
 			NowSize += 0.06f; break;
 		default:
-			 NowSize += 0.5f*deltaTime; break;
+			 NowSize += 0.03f; break;
 		}
 		return false;
 	}

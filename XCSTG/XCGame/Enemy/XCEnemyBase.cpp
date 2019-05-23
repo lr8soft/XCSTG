@@ -43,6 +43,13 @@ void xc_game::XCEnemyBase::CheckShouldEnd()
 	}
 }
 
+void xc_game::XCEnemyBase::EnemyRender(float nowFrame)
+{
+	if (should_render) {
+		is_render = true;
+	}
+}
+
 void xc_game::XCEnemyBase::ReleaseResource()
 {
 	glDeleteVertexArrays(1, &vao);
@@ -140,9 +147,14 @@ float ** xc_game::XCEnemyBase::GetNowCoord()
 	return coord_temp;
 }
 
-bool xc_game::XCEnemyBase::IsRendering()
+bool xc_game::XCEnemyBase::IsShouldRender()
 {
 	return should_render;
+}
+
+bool xc_game::XCEnemyBase::IsRenderNow()
+{
+	return is_render;
 }
 
 bool xc_game::XCEnemyBase::IsDead()

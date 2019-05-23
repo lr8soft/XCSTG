@@ -74,10 +74,7 @@ void xc_game::XCTrackAttack::AttackInit()
 
 void xc_game::XCTrackAttack::AttackRender(float nowFrame)
 {
-	float currentFrame = nowFrame;
-	deltaTime = currentFrame - lastFrame;
-	lastFrame = currentFrame;
-
+	attackTimer.Tick(nowFrame);
 	glUseProgram(program);
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -115,12 +112,12 @@ void xc_game::XCTrackAttack::AttackRender(float nowFrame)
 				ReCalcParameter();
 
 				if (should_positive) {//NowX初始值比destX小，每次递增NowX逼近destX
-					NowX += (velocity *cosf(temp_theta))*pow(deltaTime, 0.15f);///deltaTime;//(velocity *cosf(temp_theta))*pow(deltaTime,0.15f);
+					NowX += (velocity *cosf(temp_theta))*6;///deltaTime;//(velocity *cosf(temp_theta))*pow(deltaTime,0.15f);
 					if(NowX>=*destX)//超过了destX，越界即碰撞了
 						SetAttackMode_Inside(FOLLOW_ENEMY_MODE);
 				}
 				else {//NowX初始值比destX大，每次递减NowX逼近destX
-					NowX -= (velocity *cosf(temp_theta))*pow(deltaTime, 0.15f);
+					NowX -= (velocity *cosf(temp_theta))*6;
 					if (NowX <= *destX)//比destX还小，越界即碰撞了
 						SetAttackMode_Inside(FOLLOW_ENEMY_MODE);
 				}

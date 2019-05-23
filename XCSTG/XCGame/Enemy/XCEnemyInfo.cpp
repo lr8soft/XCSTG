@@ -34,7 +34,7 @@ std::vector<xc_game::XCEnemyBase*>* xc_game::XCEnemyInfo::GetRenderingEnemy()
 	auto iter_end = EnemyVector.end();
 	for (auto ptr = EnemyVector.begin(); ptr != iter_end;ptr++) {
 		auto *EnemyObj = (*(ptr));
-		if (EnemyObj->IsRendering()) {
+		if (EnemyObj->IsRenderNow()) {
 			RetVec.push_back(EnemyObj);
 		}
 	}

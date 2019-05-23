@@ -24,7 +24,7 @@ protected:
 		auto end_iter = pEnemyMap.end();
 		for (auto iter = pEnemyMap.begin(); iter != end_iter; iter++)
 		{
-			if (iter->second->IsRendering()) {//仍有要渲染的
+			if (iter->second->IsShouldRender()) {//仍有要渲染的
 				nothing_to_render = false;//并不是没有要渲染的
 				if (iter->first == render_priority) {//相同优先度
 					iter->second->EnemyRender(nowframe);

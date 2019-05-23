@@ -3,10 +3,10 @@
 #include "../util/ShaderReader.h"
 #include "../XCShape/XCDefaultShape.h"
 #include <GL3/gl3w.h>
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <GLFW/glfw3.h>
 using namespace xc_ogl;
 using namespace xc_se;
 void xc_se::XCBossInfoSlot::ShaderInit()

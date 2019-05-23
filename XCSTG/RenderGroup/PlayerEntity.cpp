@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#define _USE_TRACE_ATTACK_
 using namespace xc_ogl;
 void PlayerEntity::EveryRenderInit()
 {
@@ -80,21 +81,9 @@ void PlayerEntity::GroupInit()
 	PlayerTexture8x3Init(program[PLAYERTEX],vao_player,vbo_player,24);
 //////////////////////////玩家贴图初始化///////////////////////////////////////////////////
 	auto attack_count = sizeof(base_attack) / sizeof(xc_game::XCAttack);
-	auto trace_count = sizeof(trace_attack) / sizeof(xc_game::XCTrackAttack);
 	for (int i = 0; i < attack_count; i++) {
 		base_attack[i].AttackInit();
 	}	
-#ifdef _USE_TRACE_ATTACK_
-	for (int j = 0; j < trace_count; j++) {
-		trace_attack[j].AttackInit();
-		trace_attack[j].SetPlayerPosition(&NowX, &NowY, &NowZ);
-		trace_attack[j].SetVelocity(0.003f);
-		if (j %2==0)
-			trace_attack[j].SetOffsizeX((j +1)*(0.035));
-		else
-			trace_attack[j].SetOffsizeX(-j *(0.035));
-	}
-#endif
 	dead_se.SpecialEffectInit(dead_se.RingPlayerDead);
 }
 
@@ -155,15 +144,9 @@ void PlayerEntity::GroupRender(float nowFrame)
 	OGLSettingRenderEnd();
 	OGLSettingRenderStart();
 	auto attack_count = sizeof(base_attack) / sizeof(xc_game::XCAttack);
-	auto trace_count = sizeof(trace_attack)/sizeof(xc_game::XCTrackAttack);
 	for (int i = 0; i < attack_count; i++) {
 		base_attack[i].AttackRender(nowFrame);
 	}
-#ifdef _USE_TRACE_ATTACK_
-	for (int j = 0; j < trace_count; j++) {
-		trace_attack[j].AttackRender(nowFrame);
-	}
-#endif
 	if (dead_time) {
 		dead_time=!dead_se.SpecialEffectRender(NowX,NowY,NowZ);
 	}
@@ -175,24 +158,9 @@ void PlayerEntity::PlayerCollisonEvent(xc_game::XCEnemyInfo *enemy_info)
 	pEnemyInfo = enemy_info;
 	auto enemy_render = enemy_info->GetRenderingEnemy();
 	int base_attack_count = sizeof(base_attack) / sizeof(xc_game::XCAttack);
-	int trace_attack_count = sizeof(trace_attack) / sizeof(xc_game::XCTrackAttack);
 	if (enemy_render->empty()) {//当没有敌人的时候
-#ifdef _USE_TRACE_ATTACK_
-#pragma omp parallel for
-		for (int k = 0; k < trace_attack_count; k++) {
-			trace_attack[k].SetAttackMode(xc_game::XCTrackAttack::FOLLOW_PLAYER_MODE);
-		}
-#endif
+		;
 	}else {
-		for (auto iter = enemy_render->begin(); iter != enemy_render->end(); iter++) {//Get each alive enemy
-			auto enemy = *(iter);
-#ifdef _USE_TRACE_ATTACK_
-#pragma omp parallel for
-			for (int k = 0; k < trace_attack_count; k++) {
-				trace_attack[k].CheckCollisionWithEnemy(enemy);
-			}
-#endif
-		}
 		for (auto iter = enemy_render->begin(); iter != enemy_render->end(); iter++) {
 			auto enemy = *(iter);
 #pragma omp parallel for
@@ -208,14 +176,12 @@ void PlayerEntity::PlayerCollisonEvent(xc_game::XCEnemyInfo *enemy_info)
 void PlayerEntity::GroupKeyCheck(GLFWwindow* screen)
 {
 	EveryRenderInit();
-	float currentFrame = glfwGetTime();
-	deltaTime = currentFrame - lastFrame;
-	lastFrame = currentFrame;
+	playerTimer.Tick();
 	bool have_player_change_state = false;
 	if (glfwGetKey(screen, GLFW_KEY_ESCAPE)) {
 		glfwSetWindowShouldClose(screen, true);
 	}
-	float moveSpeed = base_speed *deltaTime; // adjust accordingly
+	float moveSpeed = base_speed * playerTimer.getDeltaFrame(); // adjust accordingly
 	if (glfwGetKey(screen, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 		moveSpeed = moveSpeed / 1.5f * 0.40f;
 		RenderDecisionPoint = true;
@@ -253,23 +219,6 @@ void PlayerEntity::GroupKeyCheck(GLFWwindow* screen)
 			base_attack[i].SetPositionAndVelocity(NowX, NowY + 0.3*i, NowZ, player_fire_power);
 			base_attack[i].SetAttack();
 		}
-#ifdef _USE_TRACE_ATTACK_
-		auto trace_count = sizeof(trace_attack) / sizeof(xc_game::XCTrackAttack);
-		if (pEnemyInfo!=nullptr)
-		{
-			for (int i = 0; i < trace_count; i++) {
-				auto enemy_ptr = pEnemyInfo->GetRenderingEnemy();
-				for (auto ptr = enemy_ptr->begin(); ptr != enemy_ptr->end(); ptr++) {
-					if (!(*ptr)->IsDead()) {
-						float **temp_coord = (*(ptr))->GetNowCoord();
-						float *x = *(temp_coord), *y = *(temp_coord + 1), *z = *(temp_coord + 2);
-						trace_attack[i].SetTarget(x, y, z);
-						trace_attack[i].SetAttackMode(xc_game::XCTrackAttack::MOVEING_MODE);
-					}
-				}
-			}
-		}
-#endif
 	}
 	if (!have_player_change_state) {
 		if(PlayerNowState!= PLAYER_TURNRIGHT&& PlayerNowState != PLAYER_TURNLEFT)

@@ -97,6 +97,7 @@ void xc_game::XCBoss::EnemyInit(size_t type)
 
 void xc_game::XCBoss::EnemyRender(float nowFrame)
 {
+	XCEnemyBase::EnemyRender(nowFrame);
 	if (should_render) {
 		OGLSettingRenderStart();
 		glUseProgram(program);
@@ -118,7 +119,7 @@ void xc_game::XCBoss::EnemyRender(float nowFrame)
 				switch (BossNowState) {
 				case BOSS_MOVING:
 				case BOSS_STANDBY:
-					++BossNowState;break;
+					BossNowState++;break;
 				case BOSS_ATTACK:
 					BossNowState = BOSS_STANDBY; break;
 				}
@@ -153,7 +154,7 @@ void xc_game::XCBoss::EnemyRender(float nowFrame)
 		infoSlot.SpecialEffectRender();
 		if (is_dead) {
 			if (explode_se.SpecialEffectRender(NowX, NowY, NowZ))//返回true即渲染完成
-				is_dead = false;//should_render = false;
+				is_dead = false;//should_render = false;boss不会主动停止渲染
 		}
 		OGLSettingRenderEnd();
 	}

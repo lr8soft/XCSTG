@@ -3,7 +3,6 @@
 #include "AppFrameWork.h"
 #include "ImageLoader.h"
 #include <GL3/gl3w.h>
-#include <GL/GLU.h>
 #include "stb_image.h"
 
 xc_ogl::AppFrameWork* xc_ogl::AppFrameWork::app_ptr = nullptr;
@@ -73,9 +72,9 @@ void xc_ogl::AppFrameWork::shader_init()
 void xc_ogl::AppFrameWork::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
-	float nowFrame = glfwGetTime();
+	gameTimer.Tick();
 	bggroup.GroupRender();
-	taskLoop.TaskProcess(nowFrame);
+	taskLoop.TaskProcess(gameTimer.getNowFrame());
 	
 }
 

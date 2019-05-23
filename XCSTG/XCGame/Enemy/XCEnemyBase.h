@@ -15,7 +15,8 @@ namespace xc_game {
 		float destX, destY, destZ, velocity;
 		GLuint vao, vbo, use_tbo, program;
 		int move_type,enemy_type;
-		bool should_render = false, should_positive, first_move = true, is_dead = true, be_attack = false;
+			/*有可能是应该被渲染的，但并未渲染															是否渲染中*/
+		bool should_render = false, should_positive, first_move = true, is_dead = true, be_attack = false,is_render=false;
 		bool have_start_pos = false, have_xyfunc = false, have_velocity = false;
 		EnemyFunctionType coordx_func, coordy_func;
 		float slope_k, parameter_b, parameter_theta;
@@ -29,7 +30,7 @@ namespace xc_game {
 		
 	public:
 		enum { SINGLE_COORD, FUNCTION_PATH };
-		virtual void EnemyRender(float nowFrame) = 0;
+		virtual void EnemyRender(float nowFrame);
 		virtual void ReleaseResource();
 		virtual void EnemyInit(size_t CoordType);
 		/*TYPE:SINGLE_COORD*/
@@ -45,7 +46,8 @@ namespace xc_game {
 		void SetDead();
 		void SetDamage(float damage);
 		float **GetNowCoord();
-		bool IsRendering();
+		bool IsShouldRender();
+		bool IsRenderNow();
 		bool IsDead();
 		size_t GetEnemyType();
 	};

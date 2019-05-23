@@ -3,6 +3,7 @@
 #define _BASE_ENEMY_H_
 #include "../../XCSpecialEffect/XCRing.h"
 #include "XCEnemyBase.h"
+#include "../../util/GameTimer.h"
 namespace xc_game {
 	class XCNormalEnemy:public XCEnemyBase {
 	public:
@@ -16,7 +17,7 @@ namespace xc_game {
 		static bool have_resource_init, have_program_init;
 		static GLuint tbo[2],program_static;
 		float full_enemy_life = 5.0f;
-		float deltaTime = 0.0f, lastFrame = 0.0f;
+		XCGameTimer enemyTimer;
 		virtual void ShaderInit() override;
 		virtual void BufferInit() override;
 		virtual void TextureInit() override;

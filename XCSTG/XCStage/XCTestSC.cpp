@@ -1,10 +1,9 @@
 #include "XCTestSC.h"
-#include "../XCBullet/XCCircleBullet.h"
 using namespace xc_bullet;
-XCCircleBullet *ptrBullet;
 void XCTestSC::SpellCardInit()
 {
-	ptrBullet = new XCCircleBullet[1000];
+	int init_count = 750;
+	ptrCBullet = new XCCircleBullet[init_count];
 	auto xfunc = [](float NowX, float NowY, float nowTime, float deltaTime, float v, float p)->float {
 		return NowX;
 	};
@@ -14,35 +13,36 @@ void XCTestSC::SpellCardInit()
 		else
 			return 1.0;
 	};
-	for (int i = 0; i < 1000;i++) {
-		ptrBullet[i].SetMoveFunc(xfunc, yfunc);
-		ptrBullet[i].SetRotateAngle(rand());
-		ptrBullet[i].SetVelocity(0.5f);
+	for (int i = 0; i < init_count;i++) {
+		ptrCBullet[i].SetMoveFunc(xfunc, yfunc);
+		ptrCBullet[i].SetRotateAngle(rand());
+		ptrCBullet[i].SetVelocity(0.5f);
 		if (i % 2 == 0) {
-			((XCCircleBullet*)ptrBullet)[i].SetStartingPoint(rand() / double(RAND_MAX), rand() / double(RAND_MAX), 0.0f);
-			ptrBullet[i].SetBulletType(ptrBullet[i].TINY);
+			ptrCBullet[i].SetStartingPoint(rand() / double(RAND_MAX), rand() / double(RAND_MAX), 0.0f);
+			ptrCBullet[i].SetBulletType(ptrCBullet[i].TINY);
 		}
 		else if (i % 3 == 0) {
-			((XCCircleBullet*)ptrBullet)[i].SetStartingPoint(-rand() / double(RAND_MAX), rand() / double(RAND_MAX), 0.0f);
-			ptrBullet[i].SetBulletType(ptrBullet[i].NORMAL);
+			ptrCBullet[i].SetStartingPoint(-rand() / double(RAND_MAX), rand() / double(RAND_MAX), 0.0f);
+			ptrCBullet[i].SetBulletType(ptrCBullet[i].NORMAL);
 		}
 		else if (i % 5 == 0) {
-			((XCCircleBullet*)ptrBullet)[i].SetStartingPoint(rand() / double(RAND_MAX), -rand() / double(RAND_MAX), 0.0f);
-			ptrBullet[i].SetBulletType(ptrBullet[i].LARGEISH);
+			ptrCBullet[i].SetStartingPoint(rand() / double(RAND_MAX), -rand() / double(RAND_MAX), 0.0f);
+			ptrCBullet[i].SetBulletType(ptrCBullet[i].LARGEISH);
 		}
 		else {
-			((XCCircleBullet*)ptrBullet)[i].SetStartingPoint(-rand() / double(RAND_MAX), -rand() / double(RAND_MAX), 0.0f);
-			ptrBullet[i].SetBulletType(ptrBullet[i].LARGEISH);
+			ptrCBullet[i].SetStartingPoint(-rand() / double(RAND_MAX), -rand() / double(RAND_MAX), 0.0f);
+			ptrCBullet[i].SetBulletType(ptrCBullet[i].LARGEISH);
 		}
-		((XCCircleBullet*)ptrBullet)[i].BulletInit();
-		pBullet.push_back(&ptrBullet[i]);
+		ptrCBullet[i].BulletInit();
+		pBullet.push_back(&ptrCBullet[i]);
 	}
 }
 
 void XCTestSC::SpellCardRelease()
 {
+	delete[] ptrCBullet;
 	XCSpellCard::SpellCardRelease();
-	//delete[] ptrBullet;
+	//
 }
 
 void XCTestSC::SpellCardCollisonCheck(XCTaskCollisionInfo * pInfo)

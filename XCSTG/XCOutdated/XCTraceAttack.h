@@ -2,6 +2,7 @@
 #ifndef _TraceAttack_h_
 #define _TraceAttack_h_
 #include "Enemy/XCEnemyBase.h"
+#include "../util/GameTimer.h"
 namespace xc_game {
 	class XCTrackAttack{
 	protected:
@@ -16,8 +17,8 @@ namespace xc_game {
 		float *playerX, *playerY, *playerZ;//玩家坐标指针
 		float NowX = 0, NowY = 0, NowZ = 0, velocity = 0;
 		float *destX=nullptr, *destY=nullptr, *destZ = nullptr;//敌人坐标指针
-		float deltaTime = 0.0f, lastFrame = 0.0f;
 		float temp_k, temp_b,temp_theta;
+		XCGameTimer attackTimer;
 		GLuint vao, vbo,program;
 		void ShaderInit();
 		void TextureInit();

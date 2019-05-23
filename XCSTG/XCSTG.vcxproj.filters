@@ -96,16 +96,10 @@
     <ClCompile Include="rendergroup\BackGroundRenderGroup.cpp">
       <Filter>源文件\RenderGroup</Filter>
     </ClCompile>
-    <ClCompile Include="XCSpecialEffect\XCExplode.cpp">
-      <Filter>源文件\XCSpecialEffect</Filter>
-    </ClCompile>
     <ClCompile Include="XCSpecialEffect\XCRing.cpp">
       <Filter>源文件\XCSpecialEffect</Filter>
     </ClCompile>
     <ClCompile Include="XCGame\XCNormalAttack.cpp">
-      <Filter>源文件\XCGame</Filter>
-    </ClCompile>
-    <ClCompile Include="XCGame\XCTraceAttack.cpp">
       <Filter>源文件\XCGame</Filter>
     </ClCompile>
     <ClCompile Include="XCGame\Enemy\XCNormalEnemy.cpp">
@@ -125,9 +119,6 @@
     </ClCompile>
     <ClCompile Include="XCTask\XCPlayerTask.cpp">
       <Filter>源文件\XCTask</Filter>
-    </ClCompile>
-    <ClCompile Include="rendergroup\PlayerEntity.cpp">
-      <Filter>源文件\RenderGroup</Filter>
     </ClCompile>
     <ClCompile Include="XCStage\XCBTStage1.cpp">
       <Filter>源文件\XCStage</Filter>
@@ -156,6 +147,12 @@
     <ClCompile Include="XCStage\XCBossTaskTest.cpp">
       <Filter>源文件\XCStage</Filter>
     </ClCompile>
+    <ClCompile Include="util\GameTimer.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderGroup\PlayerEntity.cpp">
+      <Filter>源文件\RenderGroup</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util\AppFrameWork.h">
@@ -170,9 +167,6 @@
     <ClInclude Include="rendergroup\BackGroundRenderGroup.h">
       <Filter>头文件\RenderGroup</Filter>
     </ClInclude>
-    <ClInclude Include="XCSpecialEffect\XCExplode.h">
-      <Filter>头文件\XCSpecialEffect</Filter>
-    </ClInclude>
     <ClInclude Include="XCSpecialEffect\XCRing.h">
       <Filter>头文件\XCSpecialEffect</Filter>
     </ClInclude>
@@ -180,9 +174,6 @@
       <Filter>头文件\XCShape</Filter>
     </ClInclude>
     <ClInclude Include="XCGame\XCNormalAttack.h">
-      <Filter>头文件\XCGame</Filter>
-    </ClInclude>
-    <ClInclude Include="XCGame\XCTraceAttack.h">
       <Filter>头文件\XCGame</Filter>
     </ClInclude>
     <ClInclude Include="XCGame\Enemy\XCNormalEnemy.h">
@@ -256,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="XCStage\XCTestSC.h">
       <Filter>头文件\XCStage</Filter>
+    </ClInclude>
+    <ClInclude Include="util\GameTimer.h">
+      <Filter>头文件\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

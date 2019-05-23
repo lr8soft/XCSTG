@@ -60,9 +60,8 @@ void xc_game::XCNormalEnemy::EnemyInit(size_t type)
 
 void xc_game::XCNormalEnemy::EnemyRender(float nowFrame)
 {
-	float currentFrame = nowFrame;
-	deltaTime = currentFrame - lastFrame;
-	lastFrame = currentFrame;
+	enemyTimer.Tick(nowFrame);
+	XCEnemyBase::EnemyRender(nowFrame);
 	if (should_render) {
 		OGLSettingRenderStart();
 		if (is_dead) {
@@ -79,14 +78,14 @@ void xc_game::XCNormalEnemy::EnemyRender(float nowFrame)
 			switch (move_type) {
 				case SINGLE_COORD:
 					if (should_positive)
-						NowX += velocity * cosf(parameter_theta)* deltaTime;
+						NowX += velocity * cosf(parameter_theta)* enemyTimer.getDeltaFrame();
 					else
-						NowX -= velocity * cosf(parameter_theta)* deltaTime;
+						NowX -= velocity * cosf(parameter_theta)* enemyTimer.getDeltaFrame();
 					NowY = GetCoordY();
 					break;
 				case FUNCTION_PATH:
-					NowX = coordx_func(NowX, NowY, nowFrame, deltaTime, velocity, 0);
-					NowY = coordy_func(NowX, NowY, nowFrame, deltaTime, velocity, 0);
+					NowX = coordx_func(NowX, NowY, nowFrame, enemyTimer.getDeltaFrame(), velocity, 0);
+					NowY = coordy_func(NowX, NowY, nowFrame, enemyTimer.getDeltaFrame(), velocity, 0);
 					break;
 			}
 			transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
