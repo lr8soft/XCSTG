@@ -9,7 +9,7 @@ out vec4 render_tex;
 void main()
 {
     float temp_x,temp_y;
-    switch(index){
+    switch(index++){
     case 0:
         temp_x=x/m;
         temp_y=y/n;

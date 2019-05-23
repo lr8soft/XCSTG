@@ -10,8 +10,10 @@ void TestBossTask::TaskInit()
 		bossTaskUUID = "TESTBOSS0";
 		XCTestSC *pSC = new XCTestSC;
 		pSC->SpellCardInit();
-		spellCardGroup.push_back(pSC);
-
+		XCTestSC *pSC2 = new XCTestSC;
+		pSC2->SpellCardInit();
+		AddSpellCardToTask(pSC2, 233);
+		AddSpellCardToTask(pSC, 666);
 		auto xfunc = [](float NowX, float NowY, float nowFrame, float deltaFrame, float v, float b) {
 			return NowX;
 		};

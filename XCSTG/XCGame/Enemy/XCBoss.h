@@ -32,9 +32,11 @@ namespace xc_game {
 		xc_se::XCBossInfoSlot infoSlot;
 		xc_se::XCRing explode_se;
 	public:
+		XCBoss();
 		virtual void EnemyInit(size_t type) override;
 		virtual void EnemyRender(float nowFrame) override;
 		virtual void ReleaseResource() override;
+		void SetInfo(float health,float maxhealth);
 	};
 }
 #endif

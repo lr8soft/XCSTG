@@ -16,6 +16,8 @@ void xc_game::XCBoss::ShaderInit()
 		ShaderReader BossShaderLoader;
 		BossShaderLoader.load_from_file("Shader/boss/BossBase.vert", GL_VERTEX_SHADER);
 		BossShaderLoader.load_from_file("Shader/boss/BossBase.frag", GL_FRAGMENT_SHADER);
+		/*BossShaderLoader.load_from_file("Shader/general/generalTex.vert",GL_VERTEX_SHADER);
+		BossShaderLoader.load_from_file("Shader/general/generalTex.frag",GL_FRAGMENT_SHADER);*/
 		BossShaderLoader.link_all_shader();
 		program_static = BossShaderLoader.get_program();
 		have_program_init = true;
@@ -79,6 +81,10 @@ void xc_game::XCBoss::BufferInit()
 	}
 
 	
+}
+xc_game::XCBoss::XCBoss()
+{
+	NowLife = 100000, MaxLife = 100000;
 }
 void xc_game::XCBoss::EnemyInit(size_t type)
 {
@@ -146,36 +152,23 @@ void xc_game::XCBoss::EnemyRender(float nowFrame)
 		glDrawArrays(GL_TRIANGLES, 0,sizeof(boss_standby_0_4x3)/4*sizeof(float));
 		infoSlot.SpecialEffectRender();
 		if (is_dead) {
-			if(explode_se.SpecialEffectRender(NowX, NowY, NowZ))//返回true即渲染完成
-				should_render = false;
+			if (explode_se.SpecialEffectRender(NowX, NowY, NowZ))//返回true即渲染完成
+				is_dead = false;//should_render = false;
 		}
 		OGLSettingRenderEnd();
 	}
 }
-/*void xc_game::XCBoss::UseSpellCardRender(float nowFrame)
-{
-	//if (spellCardList.empty())	is_dead = true;
-	auto iter = spellCardList.begin();
-	if (!iter->second->GetIsActive()) {
-		MaxLife = iter->first;
-		NowLife = iter->first;
-	}
-	iter->second->SpellCardRun(nowFrame);
-	
-	if (iter->second->IsFinish()) {
-		iter->second->SpellCardRelease();
-		if (next(iter) != spellCardList.end()) {
-			spellCardList.erase(iter++);
-		}
-		else {
-			spellCardList.erase(iter);
-			iter = spellCardList.begin();
-		}
-	}
-}*/
 
 void xc_game::XCBoss::ReleaseResource()
 {
 	glDeleteVertexArrays(12, vao_tex);
 	glDeleteBuffers(12, vbo_tex);
+}
+
+
+void xc_game::XCBoss::SetInfo(float health, float maxhealth)
+{
+	NowLife = health;
+	MaxLife = maxhealth;
+	is_dead = false;
 }

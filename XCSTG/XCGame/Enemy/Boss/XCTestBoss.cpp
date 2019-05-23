@@ -3,8 +3,6 @@
 using namespace xc_ogl;
 void TestBoss::TextureInit()
 {
-	MaxLife = 100;
-	NowLife = 100;
 	ImageLoader BossLoader;
 	BossLoader.LoadTextureData("Image/Boss/boss_test.png");
 	use_tbo = BossLoader.GetTBO();

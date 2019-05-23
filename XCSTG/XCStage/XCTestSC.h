@@ -6,7 +6,6 @@ class XCTestSC :public XCSpellCard{
 protected:
 public:
 	virtual void SpellCardInit() override;
-	virtual void SpellCardRun(float nowFrame) override;
 	virtual void SpellCardRelease()override;
 	virtual void SpellCardCollisonCheck(XCTaskCollisionInfo *pInfo)override;
 };

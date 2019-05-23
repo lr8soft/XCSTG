@@ -1,9 +1,10 @@
 #include "XCTestSC.h"
 #include "../XCBullet/XCCircleBullet.h"
 using namespace xc_bullet;
+XCCircleBullet *ptrBullet;
 void XCTestSC::SpellCardInit()
 {
-	XCCircleBullet *ptrBullet = new XCCircleBullet[1000];
+	ptrBullet = new XCCircleBullet[1000];
 	auto xfunc = [](float NowX, float NowY, float nowTime, float deltaTime, float v, float p)->float {
 		return NowX;
 	};
@@ -38,18 +39,10 @@ void XCTestSC::SpellCardInit()
 	}
 }
 
-void XCTestSC::SpellCardRun(float nowFrame)
-{
-	for (auto iter = pBullet.begin(); iter != pBullet.end(); iter++) {
-		if (((XCCircleBullet*)*iter)->IsBulletRender())
-			((XCCircleBullet*)*iter)->BulletRender(nowFrame);
-
-	}
-}
-
 void XCTestSC::SpellCardRelease()
 {
 	XCSpellCard::SpellCardRelease();
+	//delete[] ptrBullet;
 }
 
 void XCTestSC::SpellCardCollisonCheck(XCTaskCollisionInfo * pInfo)

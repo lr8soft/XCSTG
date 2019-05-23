@@ -15,16 +15,14 @@ protected:
 public:
 	virtual void SpellCardInit()=0;
 	virtual void SpellCardRun(float nowFrame) {
+		IsActived = true;
 		for (auto iter = pBullet.begin(); iter != pBullet.end(); iter++) {
-			if ((*iter)->IsBulletRender())
+			if ((*iter)->IsBulletRender()) {
 				(*iter)->BulletRender(nowFrame);
-
+			}
 		}
 	}
 	virtual void SpellCardRelease(){
-		for (auto iter = pBullet.begin(); iter != pBullet.end(); iter++) {
-			delete *iter;
-		}
 		pBullet.clear();
 	}
 	virtual void SpellCardCollisonCheck(XCTaskCollisionInfo *pInfo) {
