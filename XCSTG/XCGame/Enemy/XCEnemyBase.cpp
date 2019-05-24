@@ -140,7 +140,7 @@ void xc_game::XCEnemyBase::SetDamage(float damage)
 
 float ** xc_game::XCEnemyBase::GetNowCoord()
 {
-	float *coord_temp[3];
+	static float *coord_temp[3];
 	*(coord_temp) = &NowX;
 	*(coord_temp + 1) = &NowY;
 	*(coord_temp + 2) = &NowZ;

@@ -8,14 +8,16 @@
 using namespace xc_ogl;
 bool xc_game::XCAttack::have_program_init = false;
 bool xc_game::XCAttack::have_resource_init = false;
-GLuint xc_game::XCAttack::tbo[4]; 
+GLuint xc_game::XCAttack::tbo; 
 GLuint xc_game::XCAttack::program_static;
 void xc_game::XCAttack::ShaderInit()
 {
 	if (!have_program_init) {
 		ShaderReader SELoader;
-		SELoader.load_from_file("shader/se/GeneralSE.vert", GL_VERTEX_SHADER);
-		SELoader.load_from_file("shader/se/GeneralSE.frag", GL_FRAGMENT_SHADER);
+		/*SELoader.load_from_file("shader/se/GeneralSE.vert", GL_VERTEX_SHADER);
+		SELoader.load_from_file("shader/se/GeneralSE.frag", GL_FRAGMENT_SHADER);*/
+		SELoader.load_from_file("shader/general/generalShader.vert", GL_VERTEX_SHADER);
+		SELoader.load_from_file("shader/general/generalShader.frag", GL_FRAGMENT_SHADER);
 		SELoader.link_all_shader();
 		program_static = SELoader.get_program();
 		have_program_init = true;
@@ -26,15 +28,9 @@ void xc_game::XCAttack::ShaderInit()
 void xc_game::XCAttack::TextureInit()
 {
 	if (!have_resource_init) {
-		ImageLoader SEStart, SEMiddle, SEEnd, SEFinish;
-		SEStart.LoadTextureData("image/se/normal_attack.png");
-		SEMiddle.LoadTextureData("image/se/middle_attack.png");
-		SEEnd.LoadTextureData("image/se/end_attack.png");
-		SEFinish.LoadTextureData("image/se/finish_attack.png");
-		tbo[START] = SEStart.GetTBO();
-		tbo[MIDDLE] = SEMiddle.GetTBO();
-		tbo[END] = SEEnd.GetTBO();
-		tbo[FINISH] = SEFinish.GetTBO();
+		ImageLoader SELoader;
+		SELoader.LoadTextureData("image/se/attack_se.png");
+		tbo = SELoader.GetTBO();
 		have_resource_init = true;
 	}
 	glUniform1i(glGetUniformLocation(program,"tex"),0);
@@ -42,14 +38,20 @@ void xc_game::XCAttack::TextureInit()
 
 void xc_game::XCAttack::BufferInit()
 {
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER,vbo);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(covered_plane_vertex), covered_plane_vertex,GL_STATIC_DRAW);
-	glVertexAttribPointer(glGetAttribLocation(program,"in_coord"),2,GL_FLOAT,GL_FALSE,0,nullptr);
-	glEnableVertexAttribArray(glGetAttribLocation(program, "in_coord"));
-
+	glUseProgram(program);
+	glGenVertexArrays(4, vao);
+	glGenBuffers(4, vbo);
+	auto in_coord_loc = glGetAttribLocation(program, "render_pos");
+	auto in_tex_coord_loc = glGetAttribLocation(program, "tex_pos");
+	for (int i = 0; i < 4;i++) {
+		glBindVertexArray(vao[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo[i]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*24, GetSpecificTexture(4, 1,i+1,1), GL_STATIC_DRAW);
+		glVertexAttribPointer(in_coord_loc, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(0));
+		glVertexAttribPointer(in_tex_coord_loc, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2*sizeof(float)));
+		glEnableVertexAttribArray(in_coord_loc);
+		glEnableVertexAttribArray(in_tex_coord_loc);
+	}
 }
 
 void xc_game::XCAttack::AttackInit()
@@ -64,31 +66,35 @@ void xc_game::XCAttack::AttackRender(float nowFrame)
 	attackTimer.Tick(nowFrame);
 	if (should_render) {
 		glUseProgram(program);
-		glBindVertexArray(vao);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		if (destY- NowY< finish_dist/4) {
-			render_tbo = tbo[FINISH];
+		if (attackTimer.getAccumlateTime() < 0.1) {
+			glBindVertexArray(vao[0]);
+			glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
 		}
-		else if (destY - NowY < finish_dist / 3&&destY- NowY>= finish_dist / 4) {
-			render_tbo = tbo[END];
+		else if (attackTimer.getAccumlateTime() < 0.2) {
+			glBindVertexArray(vao[1]);
+			glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
 		}
-		else if (destY - NowY < finish_dist / 2 && destY - NowY >= finish_dist / 3) {
-			render_tbo = tbo[MIDDLE];
+		else if (attackTimer.getAccumlateTime() < 0.25) {
+			glBindVertexArray(vao[2]);
+			glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
 		}
-		else {
-			render_tbo = tbo[START];
+		else if (attackTimer.getAccumlateTime() < 0.30) {
+			glBindVertexArray(vao[3]);
+			glBindBuffer(GL_ARRAY_BUFFER, vbo[3]);
 		}
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, render_tbo);
+		glBindTexture(GL_TEXTURE_2D, tbo);
 		glm::mat4 transform_mat;
 		NowY += velocity * attackTimer.getDeltaFrame();
 		transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
-		transform_mat = glm::scale(transform_mat, glm::vec3(0.04f, 0.04f, 0.04f));
-		auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
+		transform_mat = glm::scale(transform_mat, glm::vec3(0.05f));
+		auto transform_mat_loc = glGetUniformLocation(program, "convert_mat");
 		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
-		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
-		if (NowY > destY)//当Y值超过预定上限时候停止渲染，回到初始状态
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		if (NowY > destY) {//当Y值超过预定上限时候停止渲染，回到初始状态
 			should_render = false;
+			attackTimer.Clear();
+		}
 	}
 
 }
@@ -107,6 +113,7 @@ void xc_game::XCAttack::SetPositionAndVelocity(float x, float y, float z, float 
 
 void xc_game::XCAttack::CheckCollisionWithEnemy(xc_game::XCEnemyBase * enemy)
 {
+	if (!enemy->IsRenderNow()) return;
 	auto *enemy_coord = enemy->GetNowCoord();
 	float deltaTime = attackTimer.getDeltaFrame();
 	float *tx = *(enemy_coord), *ty = *(enemy_coord + 1), *tz = *(enemy_coord + 2);
@@ -114,7 +121,6 @@ void xc_game::XCAttack::CheckCollisionWithEnemy(xc_game::XCEnemyBase * enemy)
 	if (x<NowX + attack_width && x>NowX - attack_width) {
 		if (y>= NowY - attack_height- velocity * deltaTime && y<= NowY + velocity * deltaTime + attack_height) {
 			if (!enemy->IsDead()) {
-			//	render_tbo = tbo[FINISH];
 				enemy->SetDamage(1.0f);
 				this->should_render = false;
 			}

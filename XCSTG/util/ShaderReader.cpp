@@ -3,18 +3,38 @@
 #include<string>
 #include<fstream>
 #include<sstream>
-using std::stringstream;
-using std::ifstream;
-void xc_ogl::ShaderReader::show_failed_info(string sre)
+#include <glfw/glfw3.h>
+using namespace std;
+void xc_ogl::ShaderReader::show_failed_info(GLuint temp_shader,string sre,int type)
 {
+	//glGetProgramiv(temp_program, GL_INFO_LOG_LENGTH, &len);
 	GLsizei len;
-	glGetProgramiv(temp_program, GL_INFO_LOG_LENGTH, &len);
-	char* log = new char[len + 1];
-	char* show_info = new char[len + 256];
-	glGetProgramInfoLog(temp_program, len, &len, log);
-	sprintf_s(show_info,len+256,"[ERROR]%s failed.\n%s",sre.c_str(),log);
+	GLchar* log = nullptr;
+	switch (type) {
+	case GL_COMPILE_STATUS:
+		glGetShaderiv(temp_shader, GL_INFO_LOG_LENGTH, &len);
+		log = new GLchar[len + 1];
+		glGetShaderInfoLog(temp_shader, len, &len, log);
+		MessageBox(NULL, log, "ERROR", MB_ICONERROR);
+		delete[] log;
+		break;
+	case GL_LINK_STATUS:
+		glGetProgramiv(temp_shader, GL_INFO_LOG_LENGTH, &len);
+		log = new GLchar[1024];
+		glGetProgramInfoLog(temp_shader, 1024, &len, log);
+		MessageBox(NULL, log, "ERROR", MB_ICONERROR);
+		delete[] log;
+		break;
+	}
+/*	stringstream ss; string filename;
+	ss <<  glfwGetTimerValue()<<"_error_log.txt";
+	fstream fs(ss.str(),ios::out);
+	fs.write(log,len+1);
+	fs.close();
+	sprintf_s(show_info,len+256,"[ERROR]%s failed.",sre.c_str());
 	MessageBox(NULL, show_info,"ERROR", MB_OKCANCEL| MB_ICONERROR);
-	delete[] log; delete[] show_info;
+	delete[] log; 
+	delete[] show_info;*/
 }
 const GLchar * xc_ogl::ShaderReader::read_from_file(const char* path)
 {
@@ -66,7 +86,7 @@ GLboolean xc_ogl::ShaderReader::load_from_file(const char *path, GLenum type)
 	if (!success) {
 		char error_log[512] = {'\0'};
 		sprintf_s(error_log,"Shader \"%s\" compilation", path);
-		show_failed_info(error_log);
+		show_failed_info(temp_shader,error_log, GL_COMPILE_STATUS);
 	}
 	else {
 		glAttachShader(temp_program, temp_shader);
@@ -86,9 +106,7 @@ GLboolean xc_ogl::ShaderReader::load_from_info(const char *info,GLenum type)
 	GLint success;
 	glGetShaderiv(temp_shader,GL_COMPILE_STATUS, &success);
 	if (!success) {
-#ifdef _DEBUG
-		show_failed_info("Shader compilation");
-#endif // DEBUG Mode
+		show_failed_info(temp_shader,"Shader compilation", GL_COMPILE_STATUS);
 	}
 	else {
 		glAttachShader(temp_program, temp_shader);
@@ -106,9 +124,7 @@ GLboolean xc_ogl::ShaderReader::add_new_shader(GLuint shader, GLenum type)
 
 		glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 		if (!success) {
-#ifdef _DEBUG
-			show_failed_info("Shader compilation");
-#endif // DEBUG Mode
+			show_failed_info(shader,"Shader compilation", GL_COMPILE_STATUS);
 		}
 		else {
 			glAttachShader(temp_program, shader);
@@ -125,7 +141,7 @@ GLboolean xc_ogl::ShaderReader::link_all_shader()
 		GLint success;
 		glGetProgramiv(temp_program, GL_LINK_STATUS, &success);
 		if (!success) {
-			show_failed_info("Shader linking");
+			show_failed_info(temp_program,"Shader linking",GL_LINK_STATUS);
 			return GL_FALSE;
 		}
 		else {

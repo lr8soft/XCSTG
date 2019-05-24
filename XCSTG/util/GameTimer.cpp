@@ -13,6 +13,7 @@ void XCGameTimer::Tick()
 		lastTime = nowFrame;
 		FirstRun = false;
 	}
+	accumulateTime += deltaFrame;
 }
 
 void XCGameTimer::Tick(float update_nowFrame)
@@ -28,6 +29,16 @@ void XCGameTimer::Tick(float update_nowFrame)
 		lastTime = nowFrame;
 		FirstRun = false;
 	}
+	accumulateTime += deltaFrame;
+}
+
+void XCGameTimer::Clear()
+{
+	nowFrame = 0.0f;
+	deltaFrame = 0.0f;
+	lastTime = 0.0f;
+	accumulateTime = 0.0;
+	FirstRun = true;
 }
 
 float XCGameTimer::getNowFrame()
@@ -43,4 +54,9 @@ float XCGameTimer::getDeltaFrame()
 float XCGameTimer::getLastFrame()
 {
 	return lastTime;
+}
+
+double XCGameTimer::getAccumlateTime()
+{
+	return accumulateTime;
 }

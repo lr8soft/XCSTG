@@ -138,6 +138,7 @@
     <ClCompile Include="XCGame\Enemy\XCEnemyInfo.cpp" />
     <ClCompile Include="XCGame\Enemy\XCNormalEnemy.cpp" />
     <ClCompile Include="XCGame\XCNormalAttack.cpp" />
+    <ClCompile Include="XCShape\XCDefaultShape.cpp" />
     <ClCompile Include="XCShape\XCDefaultTexturePosition.cpp" />
     <ClCompile Include="XCSpecialEffect\XCBossInfoSlot.cpp" />
     <ClCompile Include="XCSpecialEffect\XCRing.cpp" />

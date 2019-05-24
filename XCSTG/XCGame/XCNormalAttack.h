@@ -8,14 +8,14 @@ namespace xc_game {
 	class XCAttack {
 	protected:
 		static bool have_resource_init,have_program_init;
-		static GLuint tbo[4],program_static;
+		static GLuint tbo,program_static;
 		bool should_render;
 		XCGameTimer attackTimer;
 		const float finish_dist = 2.0f;
 		const float attack_width = 0.1f,attack_height=0.1f;
 		float NowX=0, NowY=0, NowZ=0,velocity=0,destY;
-		GLuint vao, vbo,program,render_tbo;
-		enum ATTACK_STATE{START,MIDDLE,END,FINISH};
+		GLuint vao[4], vbo[4],program;
+		//enum ATTACK_STATE{START,MIDDLE,END,FINISH};
 		void ShaderInit();
 		void TextureInit();
 		void BufferInit();

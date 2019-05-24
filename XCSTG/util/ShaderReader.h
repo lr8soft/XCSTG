@@ -9,7 +9,7 @@ namespace xc_ogl {
 	private:
 		GLuint temp_program=0;
 		size_t shader_count=0;
-		void show_failed_info(string);
+		void show_failed_info(GLuint temp_shader,string,int type);
 		const GLchar* read_from_file(const char*);
 	public:
 		ShaderReader();
