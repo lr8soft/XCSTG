@@ -66,11 +66,7 @@ void xc_game::XCAttack::AttackRender(float nowFrame)
 	attackTimer.Tick(nowFrame);
 	if (should_render) {
 		glUseProgram(program);
-		if (attackTimer.getAccumlateTime() < 0.1) {
-			glBindVertexArray(vao[0]);
-			glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
-		}
-		else if (attackTimer.getAccumlateTime() < 0.2) {
+		if (attackTimer.getAccumlateTime() < 0.2) {
 			glBindVertexArray(vao[1]);
 			glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
 		}
@@ -81,6 +77,10 @@ void xc_game::XCAttack::AttackRender(float nowFrame)
 		else if (attackTimer.getAccumlateTime() < 0.30) {
 			glBindVertexArray(vao[3]);
 			glBindBuffer(GL_ARRAY_BUFFER, vbo[3]);
+		}
+		else {
+			glBindVertexArray(vao[0]);
+			glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
 		}
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, tbo);
