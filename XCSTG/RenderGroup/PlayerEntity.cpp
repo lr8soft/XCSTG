@@ -3,7 +3,7 @@
 #include "../util/ShaderReader.h"
 #include "../XCShape/XCDefaultShape.h"
 #include <GLFW/glfw3.h>
-#include "../XCShape/XCDefaultTexturePosition.h"
+#include "../XCShape/XCTextureFucntions.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -78,7 +78,7 @@ void PlayerEntity::GroupInit()
 //////////////////////////玩家贴图初始化///////////////////////////////////////////////////
 	glGenVertexArrays(24, vao_player);
 	glGenBuffers(24, vbo_player);
-	PlayerTexture8x3Init(program[PLAYERTEX],vao_player,vbo_player,24);
+	PlayerTexture8x3Init(program[PLAYERTEX],vao_player,vbo_player);
 //////////////////////////玩家贴图初始化///////////////////////////////////////////////////
 	auto attack_count = sizeof(base_attack) / sizeof(xc_game::XCAttack);
 	for (int i = 0; i < attack_count; i++) {

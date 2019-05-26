@@ -1,6 +1,7 @@
 #include "../../util/ImageLoader.h"
 #include "../../util/ShaderReader.h"
 #include "../../XCShape/XCDefaultShape.h"
+#include "../../XCShape/XCTextureFucntions.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -14,8 +15,8 @@ void xc_game::XCNormalEnemy::ShaderInit()
 {
 	if (!have_program_init) {
 		ShaderReader EYLoader;
-		EYLoader.load_from_file("shader/enemy/normal.vert", GL_VERTEX_SHADER);
-		EYLoader.load_from_file("shader/enemy/normal.frag", GL_FRAGMENT_SHADER);
+		EYLoader.load_from_file("shader/enemy/enemyGeneral.vert", GL_VERTEX_SHADER);
+		EYLoader.load_from_file("shader/enemy/enemyGeneral.frag", GL_FRAGMENT_SHADER);
 		EYLoader.link_all_shader();
 		program_static = EYLoader.get_program();
 		have_program_init = true;
@@ -25,21 +26,16 @@ void xc_game::XCNormalEnemy::ShaderInit()
 
 void xc_game::XCNormalEnemy::BufferInit()
 {
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-	glGenBuffers(1,&vbo);
-	glBindBuffer(GL_ARRAY_BUFFER,vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(covered_plane_vertex), covered_plane_vertex,GL_STATIC_DRAW);
-	auto vert_pos = glGetAttribLocation(program,"in_vert");
-	glVertexAttribPointer(vert_pos,2,GL_FLOAT,GL_FALSE,0,nullptr);
-	glEnableVertexAttribArray(vert_pos);
+	glGenVertexArrays(8, vao);
+	glGenBuffers(8,vbo);
+	EnemyTexture8x1Init(program,vao,vbo);
 }
 
 void xc_game::XCNormalEnemy::TextureInit()
 {
 	if (!have_resource_init) {
 		ImageLoader FairyLoader, HairBallLoader;
-		FairyLoader.LoadTextureData("image/enemy/fairy.png");
+		FairyLoader.LoadTextureData("image/enemy/fairy_tex.png");
 		HairBallLoader.LoadTextureData("image/enemy/hairball.png");
 		tbo[FAIRY] = FairyLoader.GetTBO();
 		tbo[HAIRBALL] = HairBallLoader.GetTBO();
@@ -47,6 +43,11 @@ void xc_game::XCNormalEnemy::TextureInit()
 	}
 	glUniform1i(glGetUniformLocation(program,"tex"),0);
 	SetUseTBO(tbo[FAIRY]);//Default fairy
+
+	EachStateInterval = 3.8;/*Texture data init*/
+	AttackInterval = 0.080f;
+	StandByInterval = 0.040f;
+	MovingInterval = 0.080f;
 }
 void xc_game::XCNormalEnemy::EnemyInit(size_t type)
 {
@@ -70,8 +71,6 @@ void xc_game::XCNormalEnemy::EnemyRender(float nowFrame)
 		}
 		else {
 			glUseProgram(program);
-			glBindVertexArray(vao);
-			glBindBuffer(GL_ARRAY_BUFFER, vbo);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, use_tbo);
 			glm::mat4 transform_mat;
@@ -87,6 +86,17 @@ void xc_game::XCNormalEnemy::EnemyRender(float nowFrame)
 					NowX = coordx_func(NowX, NowY, nowFrame, enemyTimer.getDeltaFrame(), velocity, 0);
 					NowY = coordy_func(NowX, NowY, nowFrame, enemyTimer.getDeltaFrame(), velocity, 0);
 					break;
+			}
+			switch (EnemyNowState) {
+			case ENEMY_MOVING:
+				glBindVertexArray(*(vao + (size_t)EnemySameStateTime + 4));
+				glBindBuffer(GL_ARRAY_BUFFER, *(vbo + (size_t)EnemySameStateTime + 4));
+				break;
+			case ENEMY_STANDBY:
+			case ENEMY_ATTACK:
+				glBindVertexArray(*(vao + (size_t)EnemySameStateTime));
+				glBindBuffer(GL_ARRAY_BUFFER, *(vbo + (size_t)EnemySameStateTime));
+				break;
 			}
 			transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
 			transform_mat = glm::scale(transform_mat, glm::vec3(0.06f, 0.06f, 0.06f));

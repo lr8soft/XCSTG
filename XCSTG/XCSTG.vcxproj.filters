@@ -135,9 +135,6 @@
     <ClCompile Include="XCGame\Enemy\Boss\XCTestBoss.cpp">
       <Filter>源文件\XCGame\Enemy\XCBoss</Filter>
     </ClCompile>
-    <ClCompile Include="XCShape\XCDefaultTexturePosition.cpp">
-      <Filter>源文件\XCShape</Filter>
-    </ClCompile>
     <ClCompile Include="XCSpecialEffect\XCBossInfoSlot.cpp">
       <Filter>源文件\XCSpecialEffect</Filter>
     </ClCompile>
@@ -154,6 +151,9 @@
       <Filter>源文件\RenderGroup</Filter>
     </ClCompile>
     <ClCompile Include="XCShape\XCDefaultShape.cpp">
+      <Filter>源文件\XCShape</Filter>
+    </ClCompile>
+    <ClCompile Include="XCShape\XCTextureFucntions.cpp">
       <Filter>源文件\XCShape</Filter>
     </ClCompile>
   </ItemGroup>
@@ -230,9 +230,6 @@
     <ClInclude Include="XCSpellCard\XCSpellCard.h">
       <Filter>头文件\XCSpellCard</Filter>
     </ClInclude>
-    <ClInclude Include="XCShape\XCDefaultTexturePosition.h">
-      <Filter>头文件\XCShape</Filter>
-    </ClInclude>
     <ClInclude Include="XCGame\Enemy\Boss\XCTestBoss.h">
       <Filter>头文件\XCGame\Enemy\XCBoss</Filter>
     </ClInclude>
@@ -253,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="util\GameTimer.h">
       <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="XCShape\XCTextureFucntions.h">
+      <Filter>头文件\XCShape</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

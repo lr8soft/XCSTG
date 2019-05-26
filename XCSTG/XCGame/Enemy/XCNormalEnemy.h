@@ -15,6 +15,7 @@ namespace xc_game {
 	protected:
 		xc_se::XCRing dead_se, damage_se;
 		static bool have_resource_init, have_program_init;
+		GLuint vao[8], vbo[8];
 		static GLuint tbo[2],program_static;
 		float full_enemy_life = 5.0f;
 		XCGameTimer enemyTimer;

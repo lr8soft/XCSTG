@@ -139,7 +139,7 @@
     <ClCompile Include="XCGame\Enemy\XCNormalEnemy.cpp" />
     <ClCompile Include="XCGame\XCNormalAttack.cpp" />
     <ClCompile Include="XCShape\XCDefaultShape.cpp" />
-    <ClCompile Include="XCShape\XCDefaultTexturePosition.cpp" />
+    <ClCompile Include="XCShape\XCTextureFucntions.cpp" />
     <ClCompile Include="XCSpecialEffect\XCBossInfoSlot.cpp" />
     <ClCompile Include="XCSpecialEffect\XCRing.cpp" />
     <ClCompile Include="XCStage\XCBossTaskTest.cpp" />
@@ -170,7 +170,7 @@
     <ClInclude Include="XCGame\Enemy\XCNormalEnemy.h" />
     <ClInclude Include="XCGame\XCNormalAttack.h" />
     <ClInclude Include="XCShape\XCDefaultShape.h" />
-    <ClInclude Include="XCShape\XCDefaultTexturePosition.h" />
+    <ClInclude Include="XCShape\XCTextureFucntions.h" />
     <ClInclude Include="XCSpecialEffect\XCBossInfoSlot.h" />
     <ClInclude Include="XCSpecialEffect\XCRing.h" />
     <ClInclude Include="XCSpellCard\XCSpellCard.h" />

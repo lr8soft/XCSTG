@@ -3,14 +3,6 @@
 #define _default_shape_
 #define FLAT_COVERED_PLANE 0xffa
 #define DEFAULT_CUBE_WITH_COLOR 0xffb
-static float test_Vertex[] = {
-	1.0f, 1.0f,0.75f,0.667f,
-	1.0f,-1.0f,0.75f,0.333f,
-	-1.0,-1.0f,0.50f,0.333f,
-	-1.0,-1.0f,0.50f,0.333f,
-	-1.0, 1.0f,0.50f,0.667f,
-	1.0f, 1.0f,0.75f,0.667f
-};
 /***!!!It should be render as "GL_TRIANGLES" mode.!!!***/
 static float covered_plane_vertex[] = {
 	1.0f, 1.0f,

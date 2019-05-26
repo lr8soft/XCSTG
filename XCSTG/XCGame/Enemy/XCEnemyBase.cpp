@@ -47,13 +47,44 @@ void xc_game::XCEnemyBase::EnemyRender(float nowFrame)
 {
 	if (should_render) {
 		is_render = true;
+		if (EnemyNowState == EnemyLastState) {
+			if (EnemySameStateTime < EachStateInterval) {
+				switch (EnemyNowState) {
+				case ENEMY_ATTACK:
+					EnemySameStateTime += AttackInterval; break;
+				case ENEMY_STANDBY:
+					EnemySameStateTime += StandByInterval; break;
+				case ENEMY_MOVING:
+					EnemySameStateTime += MovingInterval; break;
+				}
+
+				}
+				else {
+					EnemySameStateTime = 0;
+#ifdef _DEBUG
+#define _ENEMY_MODE_SHOW_
+#endif
+#ifdef _ENEMY_MODE_SHOW_
+					switch (EnemyNowState) {//±éÀústate
+					case ENEMY_MOVING:
+					case ENEMY_STANDBY:
+						EnemyNowState++; break;
+					case ENEMY_ATTACK:
+						EnemyNowState = ENEMY_STANDBY; break;
+					}
+#endif
+				}
+			}
+			else {
+				EnemySameStateTime = 0;
+				EnemyLastState = EnemyNowState;
+			}
 	}
 }
 
 void xc_game::XCEnemyBase::ReleaseResource()
 {
-	glDeleteVertexArrays(1, &vao);
-	glDeleteBuffers(1, &vbo);
+	;
 }
 
 void xc_game::XCEnemyBase::EnemyInit(size_t type)
