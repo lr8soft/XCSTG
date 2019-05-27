@@ -4,10 +4,15 @@
 #include <gl/glcorearb.h>
 #include <GLFW/glfw3.h>
 #include "../util/GameTimer.h"
+#include "../util/ConfigManager.h"
 #include "../XCGame/Enemy/XCEnemyInfo.h"
 #include "../XCGame/XCNormalAttack.h"
 #include "../XCSpecialEffect/XCRing.h"
 class PlayerEntity {
+private:
+	xc_std::ConfigManager *playercfg;
+	int keyup = GLFW_KEY_UP, keydown=GLFW_KEY_DOWN, keyright=GLFW_KEY_RIGHT, keyleft=GLFW_KEY_LEFT;
+	int keyslowdown = GLFW_KEY_LEFT_SHIFT, keyshoot=GLFW_KEY_Z,keyspecialattack=GLFW_KEY_X,keyitem=GLFW_KEY_C;
 private:
 	xc_se::XCRing dead_se;
 	bool dead_time = false;

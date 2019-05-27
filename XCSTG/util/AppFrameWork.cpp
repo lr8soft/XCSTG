@@ -10,7 +10,6 @@ void xc_ogl::AppFrameWork::finalizer()
 {
 	glfwDestroyWindow(screen);
 	glfwTerminate();
-	delete XCConfig;
 }
 void xc_ogl::AppFrameWork::screen_resize(GLFWwindow* screen, int w, int h)
 {
@@ -24,8 +23,6 @@ void xc_ogl::AppFrameWork::screen_resize(GLFWwindow* screen, int w, int h)
 void xc_ogl::AppFrameWork::init()
 {
 	have_init = true;
-	XCConfig = new xc_std::ConfigManager("xcstg.cfg");
-	std::stringstream keyUp=XCConfig->get_value("keyup");
 
 	glfwInit();
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);//No resizable.

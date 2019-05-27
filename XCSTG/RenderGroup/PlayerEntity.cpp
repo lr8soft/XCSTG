@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <sstream>
 #define _USE_TRACE_ATTACK_
 using namespace xc_ogl;
 void PlayerEntity::EveryRenderInit()
@@ -66,25 +67,70 @@ void PlayerEntity::GroupInit()
 {
 	ShaderLoader();
 	TextureLoader();
-//////////////////////////判定点初始化///////////////////////////////////////////////////
+	//////////////////////////判定点初始化///////////////////////////////////////////////////
 	glGenVertexArrays(1, &vao_deci);
 	glGenBuffers(1, &vbo_deci);
 	glBindVertexArray(vao_deci);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_deci);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(covered_plane_vertex), covered_plane_vertex, GL_STATIC_DRAW);
 	auto player_loc = glGetAttribLocation(program[DECISIONTEX], "player_pos");
-	glVertexAttribPointer(player_loc,2,GL_FLOAT,GL_FALSE,0,nullptr);
+	glVertexAttribPointer(player_loc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glEnableVertexAttribArray(player_loc);
-//////////////////////////玩家贴图初始化///////////////////////////////////////////////////
+	//////////////////////////玩家贴图初始化///////////////////////////////////////////////////
 	glGenVertexArrays(24, vao_player);
 	glGenBuffers(24, vbo_player);
-	PlayerTexture8x3Init(program[PLAYERTEX],vao_player,vbo_player);
-//////////////////////////玩家贴图初始化///////////////////////////////////////////////////
+	PlayerTexture8x3Init(program[PLAYERTEX], vao_player, vbo_player);
+	//////////////////////////玩家贴图初始化///////////////////////////////////////////////////
+		//////////////////////////攻击初始化///////////////////////////////////////////////////
 	auto attack_count = sizeof(base_attack) / sizeof(xc_game::XCAttack);
 	for (int i = 0; i < attack_count; i++) {
 		base_attack[i].AttackInit();
-	}	
+	}
+	//////////////////////////攻击初始化///////////////////////////////////////////////////
 	dead_se.SpecialEffectInit(dead_se.RingPlayerDead);
+	/////////////////////////读取玩家配置文件/////////////////////////////////////////////////
+	playercfg = new xc_std::ConfigManager("xcstg.cfg");
+	if (playercfg->IsFirstRun()) {
+		std::stringstream tempss;
+		tempss << GLFW_KEY_UP;
+		playercfg->AddNewInfo("keyup", tempss.str());
+		tempss.clear(); tempss.str(""); tempss << GLFW_KEY_DOWN;
+		playercfg->AddNewInfo("keydown", tempss.str());
+		tempss.clear();  tempss.str(""); tempss << GLFW_KEY_LEFT;
+		playercfg->AddNewInfo("keyleft", tempss.str());
+		tempss.clear();  tempss.str(""); tempss << GLFW_KEY_RIGHT;
+		playercfg->AddNewInfo("keyright", tempss.str());
+		tempss.clear();  tempss.str(""); tempss << GLFW_KEY_Z;
+		playercfg->AddNewInfo("keyshoot", tempss.str());
+		tempss.clear();  tempss.str(""); tempss << GLFW_KEY_LEFT_SHIFT;
+		playercfg->AddNewInfo("keyslowdown", tempss.str());
+		tempss.clear();  tempss.str(""); tempss << GLFW_KEY_X;
+		playercfg->AddNewInfo("keysa", tempss.str());
+		tempss.clear();  tempss.str(""); tempss << GLFW_KEY_C;
+		playercfg->AddNewInfo("keyitem", tempss.str());
+#ifdef _DEBUG
+		std::cout << "key evironment setup." << std::endl;
+#endif
+	}
+	else {
+		auto upss=playercfg->GetValue("keyup");
+		auto downss = playercfg->GetValue("keydown");
+		auto leftss = playercfg->GetValue("keyleft");
+		auto rightss = playercfg->GetValue("keyright");
+		auto shootss = playercfg->GetValue("keyshoot");
+		auto slowdss = playercfg->GetValue("keyslowdown");
+		auto sass= playercfg->GetValue("keysa");
+		auto itemss= playercfg->GetValue("keyitem");
+		upss>>keyup;
+		downss >> keydown;
+		leftss >> keyleft;
+		rightss >> keyright;
+		shootss >> keyshoot;
+		slowdss >> keyslowdown;
+		sass >> keyspecialattack;
+		itemss >> keyitem;
+	}
+	/////////////////////////读取玩家配置文件/////////////////////////////////////////////////
 }
 
 void PlayerEntity::GroupRender(float nowFrame)
@@ -182,38 +228,38 @@ void PlayerEntity::GroupKeyCheck(GLFWwindow* screen)
 		glfwSetWindowShouldClose(screen, true);
 	}
 	float moveSpeed = base_speed * playerTimer.getDeltaFrame(); // adjust accordingly
-	if (glfwGetKey(screen, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+	if (glfwGetKey(screen, keyslowdown) == GLFW_PRESS) {
 		moveSpeed = moveSpeed / 1.5f * 0.40f;
 		RenderDecisionPoint = true;
 	}
-	if (glfwGetKey(screen, GLFW_KEY_UP) == GLFW_PRESS) {
+	if (glfwGetKey(screen, keyup) == GLFW_PRESS) {
 		if (NowY+moveSpeed<1.0f)//防止越界
 			NowY += moveSpeed;
 		SetPlayerDirection(PLAYER_STANDBY);
 		have_player_change_state = true;
 	}
 
-	if (glfwGetKey(screen, GLFW_KEY_DOWN) == GLFW_PRESS) {
+	if (glfwGetKey(screen, keydown) == GLFW_PRESS) {
 		if (NowY - moveSpeed > -1.0f)
 			NowY -= moveSpeed;
 		SetPlayerDirection(PLAYER_STANDBY);
 		have_player_change_state = true;
 	}
-	if (glfwGetKey(screen, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+	if (glfwGetKey(screen, keyright) == GLFW_PRESS) {
 		if (NowX + moveSpeed <1.0f)
 			NowX += moveSpeed;
 		SetPlayerDirection(PLAYER_TURNRIGHT);
 		have_player_change_state = true;
 	}
 
-	if (glfwGetKey(screen, GLFW_KEY_LEFT) == GLFW_PRESS) {
+	if (glfwGetKey(screen, keyleft) == GLFW_PRESS) {
 		if (NowX - moveSpeed > -1.0f)
 			NowX -= moveSpeed;
 		SetPlayerDirection(PLAYER_TURNLEFT);
 		have_player_change_state = true;
 	}
 
-	if (glfwGetKey(screen, GLFW_KEY_Z) == GLFW_PRESS) {
+	if (glfwGetKey(screen, keyshoot) == GLFW_PRESS) {
 		auto attack_count = sizeof(base_attack) / sizeof(xc_game::XCAttack);
 		for (int i = 0; i < attack_count; i++) {//deltaX, deltaY + 0.12+0.3*i, deltaZ,12.0f
 			base_attack[i].SetPositionAndVelocity(NowX, NowY + 0.3*i, NowZ, player_fire_power);

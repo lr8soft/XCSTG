@@ -13,11 +13,13 @@ namespace xc_std {
 		ConfigManager() = delete;
 		explicit ConfigManager(string);
 		~ConfigManager()=default;
-		bool add_new_info(string,string);
-		bool delete_old_info(string);
-		bool replace_old_info(string,string);
-		stringstream get_value(string);
+		bool AddNewInfo(string,string);
+		bool DeleteOldInfo(string);
+		bool ReplaceOldInfo(string,string);
+		stringstream GetValue(string);
+		bool IsFirstRun();
 	private:
+		bool isFirstRun = false;
 		map<string, string> map_info;
 		string info_path;
 		bool load_from_file();

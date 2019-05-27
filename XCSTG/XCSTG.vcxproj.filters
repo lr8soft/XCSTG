@@ -79,6 +79,12 @@
     <Filter Include="源文件\XCGame\Enemy\XCBoss">
       <UniqueIdentifier>{895cc25d-0c5e-4a9a-a3d2-fef7eb3cf8b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\XCAudio">
+      <UniqueIdentifier>{a2e23f7a-7b18-4ea3-8259-ae048ba1e267}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\XCAudio">
+      <UniqueIdentifier>{fbe3d31f-4653-4781-9b2f-4f23325a96aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="util\AppFrameWork.cpp">
@@ -158,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="util\ConfigManager.cpp">
       <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="XCAudio\XCExplodeEffect.cpp">
+      <Filter>源文件\XCAudio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +268,12 @@
     </ClInclude>
     <ClInclude Include="util\ConfigManager.h">
       <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="XCAudio\XCAudio.h">
+      <Filter>头文件\XCAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="XCAudio\XCExplodeEffect.h">
+      <Filter>头文件\XCAudio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

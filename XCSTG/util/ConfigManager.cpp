@@ -10,17 +10,17 @@ using namespace std;
 xc_std::ConfigManager::ConfigManager(string file_path):info_path(file_path){
 	load_from_file();
 }
-bool xc_std::ConfigManager::add_new_info(string key, string value){
+bool xc_std::ConfigManager::AddNewInfo(string key, string value){
 	auto ret=map_info.emplace(key,value);
 	save_to_file();
 	return ret.second;
 }
-bool xc_std::ConfigManager::delete_old_info(string key) {
+bool xc_std::ConfigManager::DeleteOldInfo(string key) {
 	auto ret=map_info.erase(key) ? true : false;
 	save_to_file();
 	return ret;
 }
-bool xc_std::ConfigManager::replace_old_info(string key, string value){
+bool xc_std::ConfigManager::ReplaceOldInfo(string key, string value){
 	if(!find_key_exist(key))
 		return false;
 	else {
@@ -29,7 +29,7 @@ bool xc_std::ConfigManager::replace_old_info(string key, string value){
 		return true;
 	}
 }
-stringstream xc_std::ConfigManager::get_value(string key){
+stringstream xc_std::ConfigManager::GetValue(string key){
 	stringstream ret;
 	if(find_key_exist(key)){
 		auto t_pair=map_info.find(key);
@@ -37,9 +37,17 @@ stringstream xc_std::ConfigManager::get_value(string key){
 	}
 	return ret;
 }
+bool xc_std::ConfigManager::IsFirstRun()
+{
+	return isFirstRun;
+}
 bool xc_std::ConfigManager::load_from_file(){
 	ifstream file_io(info_path, ios::in);
 	if (!file_io) {
+		ofstream file_init(info_path, ios::out);
+		file_init << '0';
+		file_init.close();//Add this file
+		isFirstRun = true;
 		return false;
 	}
 	else {
@@ -59,6 +67,7 @@ bool xc_std::ConfigManager::save_to_file(){
 			file_io << '[' << head_key << "]=["<< tail_key << ']' << endl;
 		}
 		file_io.close();
+		isFirstRun = false;
 		return true;
 	}
 
