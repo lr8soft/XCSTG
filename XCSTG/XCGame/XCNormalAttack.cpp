@@ -14,8 +14,6 @@ void xc_game::XCAttack::ShaderInit()
 {
 	if (!have_program_init) {
 		ShaderReader SELoader;
-		/*SELoader.load_from_file("shader/se/GeneralSE.vert", GL_VERTEX_SHADER);
-		SELoader.load_from_file("shader/se/GeneralSE.frag", GL_FRAGMENT_SHADER);*/
 		SELoader.load_from_file("shader/general/generalShader.vert", GL_VERTEX_SHADER);
 		SELoader.load_from_file("shader/general/generalShader.frag", GL_FRAGMENT_SHADER);
 		SELoader.link_all_shader();
@@ -59,41 +57,46 @@ void xc_game::XCAttack::AttackInit()
 	ShaderInit();
 	TextureInit();
 	BufferInit();
+	attackAudioEffect.MusicResourceInit(attackAudioEffect.ATTACK_EFFECT);
 }
 
 void xc_game::XCAttack::AttackRender(float nowFrame)
 {
 	attackTimer.Tick(nowFrame);
 	if (should_render) {
-		glUseProgram(program);
-		if (attackTimer.getAccumlateTime() < 0.2) {
-			glBindVertexArray(vao[1]);
-			glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
+		NowY += velocity * attackTimer.getDeltaFrame();//首先他在动（碰撞后仍然在计算）
+		if (should_render_attack) {//还没碰撞的
+			glUseProgram(program);
+			if (attackTimer.getAccumlateTime() < 0.2) {
+				glBindVertexArray(vao[1]);
+				glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
+			}
+			else if (attackTimer.getAccumlateTime() < 0.25) {
+				glBindVertexArray(vao[2]);
+				glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
+			}
+			else if (attackTimer.getAccumlateTime() < 0.30) {
+				glBindVertexArray(vao[3]);
+				glBindBuffer(GL_ARRAY_BUFFER, vbo[3]);
+			}
+			else {
+				glBindVertexArray(vao[0]);
+				glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
+			}
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, tbo);
+			glm::mat4 transform_mat;
+			transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
+			transform_mat = glm::scale(transform_mat, glm::vec3(0.05f));
+			auto transform_mat_loc = glGetUniformLocation(program, "convert_mat");
+			glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+			attackAudioEffect.MusicPlay();
 		}
-		else if (attackTimer.getAccumlateTime() < 0.25) {
-			glBindVertexArray(vao[2]);
-			glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
-		}
-		else if (attackTimer.getAccumlateTime() < 0.30) {
-			glBindVertexArray(vao[3]);
-			glBindBuffer(GL_ARRAY_BUFFER, vbo[3]);
-		}
-		else {
-			glBindVertexArray(vao[0]);
-			glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
-		}
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, tbo);
-		glm::mat4 transform_mat;
-		NowY += velocity * attackTimer.getDeltaFrame();
-		transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
-		transform_mat = glm::scale(transform_mat, glm::vec3(0.05f));
-		auto transform_mat_loc = glGetUniformLocation(program, "convert_mat");
-		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
-		glDrawArrays(GL_TRIANGLES, 0, 6);
 		if (NowY > destY) {//当Y值超过预定上限时候停止渲染，回到初始状态
 			should_render = false;
 			attackTimer.Clear();
+			attackAudioEffect.MusicStop();
 		}
 	}
 
@@ -107,6 +110,7 @@ void xc_game::XCAttack::SetPositionAndVelocity(float x, float y, float z, float 
 		NowZ = z;
 		velocity = v;
 		should_render = true;
+		should_render_attack = true;
 		destY = finish_dist+y;//超过屏幕一个身位
 	}
 }
@@ -114,6 +118,7 @@ void xc_game::XCAttack::SetPositionAndVelocity(float x, float y, float z, float 
 void xc_game::XCAttack::CheckCollisionWithEnemy(xc_game::XCEnemyBase * enemy)
 {
 	if (!enemy->IsRenderNow()) return;
+	if (!should_render_attack) return;//已经碰撞过了，防止发射加速得继续计算但不能碰撞
 	auto *enemy_coord = enemy->GetNowCoord();
 	float deltaTime = attackTimer.getDeltaFrame();
 	float *tx = *(enemy_coord), *ty = *(enemy_coord + 1), *tz = *(enemy_coord + 2);
@@ -121,8 +126,8 @@ void xc_game::XCAttack::CheckCollisionWithEnemy(xc_game::XCEnemyBase * enemy)
 	if (x<NowX + attack_width && x>NowX - attack_width) {
 		if (y>= NowY - attack_height- velocity * deltaTime && y<= NowY + velocity * deltaTime + attack_height) {
 			if (!enemy->IsDead()) {
-				enemy->SetDamage(1.0f);
-				this->should_render = false;
+				enemy->SetDamage(3.0f);
+				this->should_render_attack = false;
 			}
 		}
 	}

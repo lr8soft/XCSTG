@@ -48,6 +48,7 @@ void xc_se::XCRing::BufferInit()
 	auto vert_loc = glGetAttribLocation(program, "in_coord");
 	glVertexAttribPointer(vert_loc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glEnableVertexAttribArray(vert_loc);
+
 }
 void xc_se::XCRing::RingReset()
 {
@@ -72,13 +73,19 @@ void xc_se::XCRing::SpecialEffectInit(int type)
 	switch (ring_type) {
 	case RingBossDead:
 		NowSize = 0.3f;
-		alive_time = 0.12f; break;
+		alive_time = 0.12f; 
+		seaudio.MusicResourceInit(seaudio.BOSS_DEAD_EFFECT);
+		break;
 	case RingPlayerDead:
 		NowSize = 0.3f;
-		alive_time = 0.12f; break;
+		alive_time = 0.12f;
+		seaudio.MusicResourceInit(seaudio.PLAYER_DEAD_EFFECT);
+		break;
 	default:
 		NowSize = 0.015;
-		alive_time = 0.2f;break;
+		alive_time = 0.2f;
+		seaudio.MusicResourceInit(seaudio.ENEMY_DEAD_EFFECT);
+		break;
 	}
 }
 
@@ -111,6 +118,7 @@ bool xc_se::XCRing::SpecialEffectRender(float x,float y,float z)
 		transform_mat = glm::scale(transform_mat, glm::vec3(NowSize/3));
 		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / 2*sizeof(float));
+		seaudio.MusicPlay();
 		switch (ring_type) {
 		case RingPlayerDead:
 			NowSize += 3.0f* SETimer.getDeltaFrame(); break;

@@ -18,9 +18,9 @@ private:
 	bool dead_time = false;
 	XCGameTimer playerTimer;
 	xc_game::XCEnemyInfo *pEnemyInfo=nullptr;
-	xc_game::XCAttack base_attack[2];
+	xc_game::XCAttack base_attack[1];
 	const float base_speed = 1.45f, trace_interval = 0.05f;;
-	float player_fire_power = 6.0f;//attack speed
+	float player_fire_power = 10.0f;//attack speed
 	float NowX = 0, NowY = -0.1, NowZ = 0;
 	bool RenderDecisionPoint = false;
 	/*≈–∂®µ„vao°¢vbo”Îtbo*/

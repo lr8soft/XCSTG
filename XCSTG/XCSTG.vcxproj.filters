@@ -165,7 +165,7 @@
     <ClCompile Include="util\ConfigManager.cpp">
       <Filter>源文件\util</Filter>
     </ClCompile>
-    <ClCompile Include="XCAudio\XCExplodeEffect.cpp">
+    <ClCompile Include="XCAudio\XCAudioEffect.cpp">
       <Filter>源文件\XCAudio</Filter>
     </ClCompile>
   </ItemGroup>
@@ -272,7 +272,7 @@
     <ClInclude Include="XCAudio\XCAudio.h">
       <Filter>头文件\XCAudio</Filter>
     </ClInclude>
-    <ClInclude Include="XCAudio\XCExplodeEffect.h">
+    <ClInclude Include="XCAudio\XCAudioEffect.h">
       <Filter>头文件\XCAudio</Filter>
     </ClInclude>
   </ItemGroup>

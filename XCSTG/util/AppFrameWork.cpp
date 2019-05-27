@@ -5,11 +5,13 @@
 #include <GL3/gl3w.h>
 #include "stb_image.h"
 #include <sstream>
+#include <al/alut.h>
 xc_ogl::AppFrameWork* xc_ogl::AppFrameWork::app_ptr = nullptr;
 void xc_ogl::AppFrameWork::finalizer()
 {
 	glfwDestroyWindow(screen);
 	glfwTerminate();
+	alutExit();
 }
 void xc_ogl::AppFrameWork::screen_resize(GLFWwindow* screen, int w, int h)
 {

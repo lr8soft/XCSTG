@@ -132,7 +132,7 @@
     <ClCompile Include="util\ConfigManager.cpp" />
     <ClCompile Include="util\GameTimer.cpp" />
     <ClCompile Include="util\gl3w.c" />
-    <ClCompile Include="XCAudio\XCExplodeEffect.cpp" />
+    <ClCompile Include="XCAudio\XCAudioEffect.cpp" />
     <ClCompile Include="XCBullet\XCCircleBullet.cpp" />
     <ClCompile Include="XCGame\Enemy\Boss\XCTestBoss.cpp" />
     <ClCompile Include="XCGame\Enemy\XCBoss.cpp" />
@@ -165,7 +165,7 @@
     <ClInclude Include="util\ImageLoader.h" />
     <ClInclude Include="util\ShaderReader.h" />
     <ClInclude Include="XCAudio\XCAudio.h" />
-    <ClInclude Include="XCAudio\XCExplodeEffect.h" />
+    <ClInclude Include="XCAudio\XCAudioEffect.h" />
     <ClInclude Include="XCBullet\XCBullet.h" />
     <ClInclude Include="XCBullet\XCCircleBullet.h" />
     <ClInclude Include="XCGame\Enemy\Boss\XCTestBoss.h" />

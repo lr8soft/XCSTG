@@ -4,13 +4,15 @@
 #include <gl/glcorearb.h>
 #include "../util/GameTimer.h"
 #include "Enemy/XCEnemyBase.h"
+#include "../XCAudio/XCAudioEffect.h"
 namespace xc_game {
 	class XCAttack {
 	protected:
 		static bool have_resource_init,have_program_init;
 		static GLuint tbo,program_static;
-		bool should_render;
+		bool should_render,should_render_attack=true;
 		XCGameTimer attackTimer;
+		XCAudioEffect attackAudioEffect;
 		const float finish_dist = 2.0f;
 		const float attack_width = 0.1f,attack_height=0.1f;
 		float NowX=0, NowY=0, NowZ=0,velocity=0,destY;

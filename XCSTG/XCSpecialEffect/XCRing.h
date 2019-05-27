@@ -2,12 +2,14 @@
 #ifndef _XCRING_H_
 #define _XCRING_H_
 #include "../util/GameTimer.h"
+#include "../XCAudio/XCAudioEffect.h"
 #include <gl/glcorearb.h>
 namespace xc_se {
 	class XCRing {
 	private:
 		static bool have_tbo_init,have_program_init;
 		static GLuint tbo[4],program_static;
+		XCAudioEffect seaudio;
 		int ring_type;
 		float RenderX, RenderY, RenderZ;
 		float NowSize = 0.015f,NowTime=0.0f, alive_time=0.2f;
