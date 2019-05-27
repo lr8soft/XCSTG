@@ -4,12 +4,13 @@
 #include "ImageLoader.h"
 #include <GL3/gl3w.h>
 #include "stb_image.h"
-
+#include <sstream>
 xc_ogl::AppFrameWork* xc_ogl::AppFrameWork::app_ptr = nullptr;
 void xc_ogl::AppFrameWork::finalizer()
 {
 	glfwDestroyWindow(screen);
 	glfwTerminate();
+	delete XCConfig;
 }
 void xc_ogl::AppFrameWork::screen_resize(GLFWwindow* screen, int w, int h)
 {
@@ -23,6 +24,8 @@ void xc_ogl::AppFrameWork::screen_resize(GLFWwindow* screen, int w, int h)
 void xc_ogl::AppFrameWork::init()
 {
 	have_init = true;
+	XCConfig = new xc_std::ConfigManager("xcstg.cfg");
+	std::stringstream keyUp=XCConfig->get_value("keyup");
 
 	glfwInit();
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);//No resizable.
@@ -35,7 +38,6 @@ void xc_ogl::AppFrameWork::init()
 	glfwMakeContextCurrent(screen);
 	glfwSwapInterval(1);
 	glfwSetFramebufferSizeCallback(screen, screen_resize);
-	
 	gl3wInit();
 	shader_init();
 }

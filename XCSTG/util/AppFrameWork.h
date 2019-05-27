@@ -9,6 +9,7 @@
 #include "../rendergroup/BackGroundRenderGroup.h"
 #include "../XCStage/XCBossTaskTest.h"
 #include "GameTimer.h"
+#include "ConfigManager.h"
 namespace xc_ogl {
 	class AppFrameWork
 	{
@@ -21,6 +22,7 @@ namespace xc_ogl {
 		BackGroundRenderGroup bggroup;
 
 		XCGameTimer gameTimer;
+		xc_std::ConfigManager *XCConfig;
 		static AppFrameWork* app_ptr;
 		const char* title;
 		int width, height;

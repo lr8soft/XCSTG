@@ -156,6 +156,9 @@
     <ClCompile Include="XCShape\XCTextureFucntions.cpp">
       <Filter>源文件\XCShape</Filter>
     </ClCompile>
+    <ClCompile Include="util\ConfigManager.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util\AppFrameWork.h">
@@ -253,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="XCShape\XCTextureFucntions.h">
       <Filter>头文件\XCShape</Filter>
+    </ClInclude>
+    <ClInclude Include="util\ConfigManager.h">
+      <Filter>头文件\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
