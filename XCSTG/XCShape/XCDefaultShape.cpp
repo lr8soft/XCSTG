@@ -40,11 +40,21 @@ float* GetSpecificTexture(int column, int row, int ix, int iy)
 #endif
 	return returnArray;
 }
+float * GetPointSpriteVertex(float x, float y, float size)
+{
+	static float returnArray[5];
+	returnArray[0] = 0.0f;
+	returnArray[1] = 0.0f;
+	returnArray[2] = x;
+	returnArray[3] = y;
+	returnArray[4] = size;
+	return returnArray;
+}
 void testfunc(float *arrayptr) {
 	for (int i = 0; i < 24;i++) {
 		std::cout << arrayptr[i] << "  ";
 		if ((i + 1) % 4 == 0)
-			std::cout << std::endl;
+			;//std::cout << std::endl;
 	}
 	std::cout << std::endl;
 }

@@ -25,7 +25,6 @@ void xc_ogl::AppFrameWork::screen_resize(GLFWwindow* screen, int w, int h)
 void xc_ogl::AppFrameWork::init()
 {
 	have_init = true;
-
 	glfwInit();
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);//No resizable.
 	//glfwWindowHint(GLFW_SCALE_TO_MONITOR, GL_TRUE);//Auto change size

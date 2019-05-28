@@ -143,6 +143,7 @@
     <ClCompile Include="XCShape\XCDefaultShape.cpp" />
     <ClCompile Include="XCShape\XCTextureFucntions.cpp" />
     <ClCompile Include="XCSpecialEffect\XCBossInfoSlot.cpp" />
+    <ClCompile Include="XCSpecialEffect\XCParticle.cpp" />
     <ClCompile Include="XCSpecialEffect\XCRing.cpp" />
     <ClCompile Include="XCStage\XCBossTaskTest.cpp" />
     <ClCompile Include="XCStage\XCBTStage1.cpp" />
@@ -177,7 +178,9 @@
     <ClInclude Include="XCShape\XCDefaultShape.h" />
     <ClInclude Include="XCShape\XCTextureFucntions.h" />
     <ClInclude Include="XCSpecialEffect\XCBossInfoSlot.h" />
+    <ClInclude Include="XCSpecialEffect\XCParticle.h" />
     <ClInclude Include="XCSpecialEffect\XCRing.h" />
+    <ClInclude Include="XCSpecialEffect\XCSpecialEffect.h" />
     <ClInclude Include="XCSpellCard\XCSpellCard.h" />
     <ClInclude Include="XCStage\XCBossTaskTest.h" />
     <ClInclude Include="XCStage\XCBTStage1.h" />

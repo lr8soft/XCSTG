@@ -15,8 +15,9 @@ xc_ogl::ImageLoader::ImageLoader()
 
 xc_ogl::ImageLoader::ImageLoader(GLenum type,GLuint itbo)
 {
-	ImageLoader();
 	texture_type = type;
+	texture_ptr = nullptr;
+	have_release = true;
 	tbo = itbo;
 	glBindTexture(texture_type, tbo);
 }
@@ -51,7 +52,7 @@ void * xc_ogl::ImageLoader::LoadTextureData(const char * path)
 	}
 	else {
 		char *str = new char[256];
-		sprintf_s(str, 256, "[ERROR]Failed to load %s",path);
+		sprintf_s(str, 256, "[ERROR]Œﬁ∑®º”‘ÿÕºœÒ %s",path);
 		MessageBox(NULL, str,"XCSTG ERROR", MB_OKCANCEL|MB_ICONERROR);
 		delete[] str;
 	}

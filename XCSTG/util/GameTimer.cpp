@@ -4,7 +4,7 @@ void XCGameTimer::Tick()
 {
 	if (!FirstRun) {
 		nowFrame = glfwGetTime();
-		deltaFrame = nowFrame - lastTime;
+		deltaFrame = (nowFrame - lastTime)*increaseRate;
 		lastTime = nowFrame;
 	}
 	else {
@@ -20,7 +20,7 @@ void XCGameTimer::Tick(float update_nowFrame)
 {
 	if (!FirstRun) {
 		nowFrame = update_nowFrame;
-		deltaFrame = nowFrame - lastTime;
+		deltaFrame = (nowFrame - lastTime)*increaseRate;
 		lastTime = nowFrame;
 	}
 	else {
@@ -32,12 +32,18 @@ void XCGameTimer::Tick(float update_nowFrame)
 	accumulateTime += deltaFrame;
 }
 
+void XCGameTimer::SetIncreaseRate(float rate)
+{
+	increaseRate = rate;
+}
+
 void XCGameTimer::Clear()
 {
 	nowFrame = 0.0f;
 	deltaFrame = 0.0f;
 	lastTime = 0.0f;
 	accumulateTime = 0.0;
+	increaseRate = 1.0f;
 	FirstRun = true;
 }
 

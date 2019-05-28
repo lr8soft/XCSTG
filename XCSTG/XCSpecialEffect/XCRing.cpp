@@ -50,40 +50,39 @@ void xc_se::XCRing::BufferInit()
 	glEnableVertexAttribArray(vert_loc);
 
 }
-void xc_se::XCRing::RingReset()
+void xc_se::XCRing::SpecialEffectReset()
 {
-	first_run = true;
-	NowTime = 0;
+	XCSpecialEffect::SpecialEffectReset();
 	switch (ring_type) {
 	case RingBossDead:
-		NowSize = 0.3f;break;
+		RenderSize = 0.3f;break;
 	case RingPlayerDead:
-		NowSize = 0.3f; break;
+		RenderSize = 0.3f; break;
 	default:
-		NowSize = 0.015; break;
+		RenderSize = 0.015; break;
 	}
 }
 void xc_se::XCRing::SpecialEffectInit(int type)
 {
 	ring_type = type;
-	NowTime = 0;
+	SETimer.Clear();
 	ShaderInit();
 	TextureInit();
 	BufferInit();
 	switch (ring_type) {
 	case RingBossDead:
-		NowSize = 0.3f;
-		alive_time = 0.12f; 
+		RenderSize = 0.3f;
+		RenderTime = 0.12f;
 		seaudio.MusicResourceInit(seaudio.BOSS_DEAD_EFFECT);
 		break;
 	case RingPlayerDead:
-		NowSize = 0.3f;
-		alive_time = 0.12f;
+		RenderSize = 0.3f;
+		RenderTime = 0.12f;
 		seaudio.MusicResourceInit(seaudio.PLAYER_DEAD_EFFECT);
 		break;
 	default:
-		NowSize = 0.015;
-		alive_time = 0.2f;
+		RenderSize = 0.015;
+		RenderTime = 0.2f;
 		seaudio.MusicResourceInit(seaudio.ENEMY_DEAD_EFFECT);
 		break;
 	}
@@ -92,8 +91,7 @@ void xc_se::XCRing::SpecialEffectInit(int type)
 bool xc_se::XCRing::SpecialEffectRender(float x,float y,float z)
 {
 	SETimer.Tick();
-	if (NowTime< alive_time) {
-		NowTime += SETimer.getDeltaFrame();
+	if (SETimer.getAccumlateTime()< RenderTime) {
 		glUseProgram(program);
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -107,7 +105,7 @@ bool xc_se::XCRing::SpecialEffectRender(float x,float y,float z)
 		case RingBossDead:
 			temp_mat = glm::translate(temp_mat, glm::vec3(x, y, z));
 			temp_mat = glm::rotate(temp_mat, glm::degrees(rand() / RAND_MAX * 180.0f), glm::vec3(0,0,1));
-			temp_mat = glm::scale(temp_mat, glm::vec3(NowSize));
+			temp_mat = glm::scale(temp_mat, glm::vec3(RenderSize));
 			glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(temp_mat));
 			glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
 			break;
@@ -115,22 +113,22 @@ bool xc_se::XCRing::SpecialEffectRender(float x,float y,float z)
 			break;
 		}
 		transform_mat = glm::translate(transform_mat, glm::vec3(x, y, z));
-		transform_mat = glm::scale(transform_mat, glm::vec3(NowSize/3));
+		transform_mat = glm::scale(transform_mat, glm::vec3(RenderSize /3));
 		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / 2*sizeof(float));
 		seaudio.MusicPlay();
 		switch (ring_type) {
 		case RingPlayerDead:
-			NowSize += 3.0f* SETimer.getDeltaFrame(); break;
+			RenderSize += 3.0f* SETimer.getDeltaFrame(); break;
 		case RingBossDead:
-			NowSize += 0.06f; break;
+			RenderSize += 0.06f; break;
 		default:
-			 NowSize += 0.03f; break;
+			RenderSize += 0.03f; break;
 		}
 		return false;
 	}
 	else {
-		RingReset();
+		SpecialEffectReset();
 		return true;
 	}
 }
