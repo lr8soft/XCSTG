@@ -7,7 +7,7 @@ namespace xc_ogl {
 	class ImageLoader
 	{
 	private:
-		GLuint tbo; GLenum texture_type;
+		GLuint tbo=-1; GLenum texture_type;
 		int width, height, channel;
 		void* texture_ptr;
 		bool have_release;

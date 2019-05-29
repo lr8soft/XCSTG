@@ -77,5 +77,5 @@ static float default_cube_color[] =
 };
 /*共column列，row行；取第x列 第y行（以该子纹理右上角坐标为准）*/
 float* GetSpecificTexture(int column, int row, int x, int y);
-float* GetPointSpriteVertex(float x, float y, float size);
+float* GetPointSpriteVertex(float size);
 #endif

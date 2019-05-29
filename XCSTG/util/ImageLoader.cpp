@@ -43,10 +43,14 @@ void * xc_ogl::ImageLoader::LoadTextureData(const char * path)
 	texture_ptr = stbi_load(path, &width, &height, &channel, STBI_rgb_alpha);
 	glBindTexture(texture_type, tbo);
 	if (texture_ptr) {
-		if (channel == 3)//三通道rgb 适用于jpg图像
+		if (channel == 3){//三通道rgb 适用于jpg图像
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_ptr);//后面一个是RGBA
-		else if (channel == 4)//四通道rgba 适用于png图像
+			std::cout << path<< " RGB" << std::endl;
+		}
+		else if (channel == 4){//四通道rgba 适用于png图像
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_ptr);//注意，两个都是RGBA
+			std::cout << path << " RGBA" << std::endl;
+		}
 		glGenerateMipmap(texture_type);
 		have_release = false;
 	}

@@ -1,7 +1,8 @@
 #version 330 core
 uniform sampler2D tex;
-in vec2 middle_tex_coord;
-out vec4 out_frag;
+uniform float rand;
+in vec4 color;
 void main(){
-    out_frag=texture(tex,gl_PointCoord);
+    vec2 tex_coord=gl_PointCoord;
+    gl_FragColor = texture2D(tex,tex_coord);//;
 }

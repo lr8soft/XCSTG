@@ -1,10 +1,10 @@
 #version 330 core
-uniform mat4 convert_mat;
+uniform mat4 transform_mat;
+uniform float rand;
 layout (location=0) in vec4 display_coord;
-layout (location=1) in vec3 tex_info;//x,y:tex_coord,z:point size
-out vec2 middle_tex_coord;
+out vec4 color;
 void main(){
-    gl_Position=convert_mat*display_coord;
-    gl_PointSize=tex_info.z;
-    middle_tex_coord=vec2(tex_info);
+    gl_Position=transform_mat*display_coord;
+    gl_PointSize=50.0f;
+    color=vec4(abs(sin(rand)),abs(cos(rand)),0.0,0.0);
 }

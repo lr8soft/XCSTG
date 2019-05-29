@@ -88,6 +88,7 @@ void PlayerEntity::GroupInit()
 	}
 	//////////////////////////攻击初始化///////////////////////////////////////////////////
 	dead_se.SpecialEffectInit(dead_se.RingPlayerDead);
+	player_particle.SpecialEffectInit(-1);
 	/////////////////////////读取玩家配置文件/////////////////////////////////////////////////
 	playercfg = new xc_std::ConfigManager("xcstg.cfg");
 	if (playercfg->IsFirstRun()) {
@@ -137,6 +138,7 @@ void PlayerEntity::GroupRender(float nowFrame)
 {
 	OGLSettingRenderStart();
 	glm::mat4 change_matrix, tx_matrix, change_matrix_anti;
+	
 /////////////////////////////////////先渲染玩家贴图///////////////////////////////
 	glUseProgram(program[PLAYERTEX]);
 	
@@ -196,6 +198,7 @@ void PlayerEntity::GroupRender(float nowFrame)
 	if (dead_time) {
 		dead_time=!dead_se.SpecialEffectRender(NowX,NowY,NowZ);
 	}
+	player_particle.SpecialEffectRender(0, 0, 0);
 	OGLSettingRenderEnd();
 }
 
