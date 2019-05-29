@@ -1,38 +1,41 @@
 #include "ParticleGroup.h"
 #include <glfw/glfw3.h>
-#define DISPERSE_COORD_DEFINE_FUNC(coord,src_coord) if (rand() % 2 == 0) coord = src_coord + (rand()%10)*0.1; else coord = src_coord - (rand()%10)*0.1;
+#include <random>
 using namespace xc_se;
+using namespace std;
 void ParticleGroup::SetGroupRenderType(int groupType)
 {
 	groupRenderType = groupType;
 }
 void ParticleGroup::GroupInit(int type, int count, float rendertime)
 {
+	particle_count = count;
+	StorageParticleGroup = new XCParticle[particle_count];
 	for (int i = 0; i < count;i++) {
-		XCParticle particleTemp;
-		particleTemp.SpecialEffectInit(type);
-		particleTemp.SetRenderTime(rendertime);
-		StorageParticleGroup.push_back(particleTemp);
+		StorageParticleGroup[i].SpecialEffectInit(type);
+		StorageParticleGroup[i].SetRenderTime(rendertime);
+		
 	}
 }
 
 bool ParticleGroup::GroupRender(float x, float y, float z)
 {
-	auto iter_end = StorageParticleGroup.end();
 	bool is_render_finish = true;
-	for (auto iter = StorageParticleGroup.begin(); iter != iter_end; iter++) {
-		srand(glfwGetTime());
-		if ((*iter).ShouldRender()) {
+	int i=0;
+	default_random_engine rand_engine(glfwGetTime());
+	for (int i = 0; i < particle_count; i++) {
+		if (StorageParticleGroup[i].ShouldRender()) {
 			switch (groupRenderType) {
 			case ALL_ONE_COORD:
-				iter->SpecialEffectRender(x, y, z);
-				is_render_finish = false; break;
+				StorageParticleGroup[i].SpecialEffectRender(x, y, z);
+				is_render_finish = false; 
+				break;
 			case DISPERSE_COORD:
 				float temp_x=0, temp_y=0, temp_z=0;
-				DISPERSE_COORD_DEFINE_FUNC(temp_x,x)
-				DISPERSE_COORD_DEFINE_FUNC(temp_y,y)
-				DISPERSE_COORD_DEFINE_FUNC(temp_z,z)
-				iter->SpecialEffectRender(temp_x, temp_y, temp_z);
+				temp_x = x + sin(glfwGetTime()+i)/3;
+				temp_y = y + cos(glfwGetTime()+i)/3;
+				temp_z = z;
+				StorageParticleGroup[i].SpecialEffectRender(temp_x, temp_y, z);
 				is_render_finish = false; 
 				break;
 			}
@@ -44,8 +47,6 @@ bool ParticleGroup::GroupRender(float x, float y, float z)
 
 void ParticleGroup::GroupRelease()
 {
-	auto iter_end = StorageParticleGroup.end();
-	for (auto iter = StorageParticleGroup.begin(); iter != iter_end; iter++) {
-		iter->SpecialEffectRelease();
-	}
+	if(particle_count>0)
+		delete[] StorageParticleGroup;
 }

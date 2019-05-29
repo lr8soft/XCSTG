@@ -52,7 +52,7 @@ void xc_se::XCParticle::BufferInit()
 	glGenBuffers(1, &vbo);
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER,4*sizeof(float),GetPointSpriteVertex(3.0f),GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER,4*sizeof(float),GetPointSpriteVertex(15.0f),GL_STATIC_DRAW);
 	auto coord_loc = glGetAttribLocation(program, "display_coord");
 	glVertexAttribPointer(coord_loc, 4, GL_FLOAT, GL_FALSE, 4*sizeof(float), nullptr);
 	glEnableVertexAttribArray(coord_loc);
@@ -83,12 +83,11 @@ bool xc_se::XCParticle::SpecialEffectRender(float x, float y, float z)
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, tbo[particle_type]);
 			glm::mat4 transform_mat;
-			auto rand_loc = glGetUniformLocation(program, "rand");
 			auto convert_mat_loc = glGetUniformLocation(program, "transform_mat");
+			auto time_loc		 = glGetUniformLocation(program, "time");
 			transform_mat = glm::translate(transform_mat, glm::vec3(x, y, z));
 			glUniformMatrix4fv(convert_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
-			glUniform1f(rand_loc, SETimer.getAccumlateTime());
-
+			glUniform1f(time_loc, SETimer.getAccumlateTime());
 			glDrawArrays(GL_POINTS, 0, 1);
 			glDisable(GL_PROGRAM_POINT_SIZE);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
