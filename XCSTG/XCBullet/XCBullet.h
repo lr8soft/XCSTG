@@ -3,7 +3,7 @@
 #define _BULLET_BASE_H_
 #include <gl/glcorearb.h>
 #include <functional>
-#include "../rendergroup/PlayerEntity.h"
+#include "../XCRenderGroup/PlayerEntity.h"
 
 namespace xc_bullet {
 	/*²ÎÊý:NowX, NowY, nowTime, deltaTime, velocity, parameter*/

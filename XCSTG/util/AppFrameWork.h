@@ -6,7 +6,7 @@
 #include "../XCTask/XCPlayerTask.h"
 #include "../XCStage/XCBTStage1.h"
 #include "../XCStage/XCEYStage1.h"
-#include "../rendergroup/BackGroundRenderGroup.h"
+#include "../XCRenderGroup/BackGroundRenderGroup.h"
 #include "../XCStage/XCBossTaskTest.h"
 #include "GameTimer.h"
 namespace xc_ogl {

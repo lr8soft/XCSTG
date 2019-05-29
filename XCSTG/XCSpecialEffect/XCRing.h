@@ -28,6 +28,7 @@ namespace xc_se {
 		virtual bool SpecialEffectRender(float x, float y, float z) override;
 		virtual void SpecialEffectInit(int type) override;
 		virtual void SpecialEffectReset() override;
+		virtual void SpecialEffectRelease() override;
 	};
 }
 #endif

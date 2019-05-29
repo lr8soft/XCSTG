@@ -8,7 +8,7 @@
 #include "../XCGame/Enemy/XCEnemyInfo.h"
 #include "../XCGame/XCNormalAttack.h"
 #include "../XCSpecialEffect/XCRing.h"
-#include "../XCSpecialEffect/XCParticle.h"
+#include "ParticleGroup.h"
 class PlayerEntity {
 private:
 	xc_std::ConfigManager *playercfg;
@@ -16,7 +16,7 @@ private:
 	int keyslowdown = GLFW_KEY_LEFT_SHIFT, keyshoot=GLFW_KEY_Z,keyspecialattack=GLFW_KEY_X,keyitem=GLFW_KEY_C;
 private:
 	xc_se::XCRing dead_se;
-	xc_se::XCParticle player_particle;
+	ParticleGroup playerParticle;
 	bool dead_time = false;
 	XCGameTimer playerTimer;
 	xc_game::XCEnemyInfo *pEnemyInfo=nullptr;

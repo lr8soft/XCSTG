@@ -49,12 +49,6 @@
     <Filter Include="源文件\XCGame\Enemy">
       <UniqueIdentifier>{906ab26a-f867-4406-ac2c-ae2aaf755d23}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\RenderGroup">
-      <UniqueIdentifier>{ceec9f41-8aed-47a1-8dea-2ef83d4c9ba8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\RenderGroup">
-      <UniqueIdentifier>{6481d8cc-2edf-42f7-986b-ef56606ba050}</UniqueIdentifier>
-    </Filter>
     <Filter Include="头文件\XCTask">
       <UniqueIdentifier>{92a0022a-dca1-47e3-b4cf-d734ab600635}</UniqueIdentifier>
     </Filter>
@@ -85,6 +79,12 @@
     <Filter Include="源文件\XCAudio">
       <UniqueIdentifier>{fbe3d31f-4653-4781-9b2f-4f23325a96aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\XCRenderGroup">
+      <UniqueIdentifier>{6481d8cc-2edf-42f7-986b-ef56606ba050}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\XCRenderGroup">
+      <UniqueIdentifier>{ceec9f41-8aed-47a1-8dea-2ef83d4c9ba8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="util\AppFrameWork.cpp">
@@ -98,9 +98,6 @@
     </ClCompile>
     <ClCompile Include="XCustomizedSTGMain.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="rendergroup\BackGroundRenderGroup.cpp">
-      <Filter>源文件\RenderGroup</Filter>
     </ClCompile>
     <ClCompile Include="XCSpecialEffect\XCRing.cpp">
       <Filter>源文件\XCSpecialEffect</Filter>
@@ -150,9 +147,6 @@
     <ClCompile Include="util\GameTimer.cpp">
       <Filter>源文件\util</Filter>
     </ClCompile>
-    <ClCompile Include="RenderGroup\PlayerEntity.cpp">
-      <Filter>源文件\RenderGroup</Filter>
-    </ClCompile>
     <ClCompile Include="XCShape\XCDefaultShape.cpp">
       <Filter>源文件\XCShape</Filter>
     </ClCompile>
@@ -171,6 +165,15 @@
     <ClCompile Include="XCSpecialEffect\XCParticle.cpp">
       <Filter>源文件\XCSpecialEffect</Filter>
     </ClCompile>
+    <ClCompile Include="XCRenderGroup\BackGroundRenderGroup.cpp">
+      <Filter>源文件\XCRenderGroup</Filter>
+    </ClCompile>
+    <ClCompile Include="XCRenderGroup\PlayerEntity.cpp">
+      <Filter>源文件\XCRenderGroup</Filter>
+    </ClCompile>
+    <ClCompile Include="XCRenderGroup\ParticleGroup.cpp">
+      <Filter>源文件\XCRenderGroup</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util\AppFrameWork.h">
@@ -181,9 +184,6 @@
     </ClInclude>
     <ClInclude Include="util\ShaderReader.h">
       <Filter>头文件\util</Filter>
-    </ClInclude>
-    <ClInclude Include="rendergroup\BackGroundRenderGroup.h">
-      <Filter>头文件\RenderGroup</Filter>
     </ClInclude>
     <ClInclude Include="XCSpecialEffect\XCRing.h">
       <Filter>头文件\XCSpecialEffect</Filter>
@@ -223,9 +223,6 @@
     </ClInclude>
     <ClInclude Include="XCTask\XCPlayerTask.h">
       <Filter>头文件\XCTask</Filter>
-    </ClInclude>
-    <ClInclude Include="rendergroup\PlayerEntity.h">
-      <Filter>头文件\RenderGroup</Filter>
     </ClInclude>
     <ClInclude Include="XCTask\XCBulletTask.h">
       <Filter>头文件\XCTask</Filter>
@@ -283,6 +280,15 @@
     </ClInclude>
     <ClInclude Include="XCSpecialEffect\XCSpecialEffect.h">
       <Filter>头文件\XCSpecialEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="XCRenderGroup\BackGroundRenderGroup.h">
+      <Filter>头文件\XCRenderGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="XCRenderGroup\PlayerEntity.h">
+      <Filter>头文件\XCRenderGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="XCRenderGroup\ParticleGroup.h">
+      <Filter>头文件\XCRenderGroup</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

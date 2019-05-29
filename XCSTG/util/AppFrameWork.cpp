@@ -26,6 +26,9 @@ void xc_ogl::AppFrameWork::init()
 {
 	have_init = true;
 	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);//OpenGL 3.3 Core Mode
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);//ºËÐÄÄ£Ê½Å£ ±Æ
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);//No resizable.
 	//glfwWindowHint(GLFW_SCALE_TO_MONITOR, GL_TRUE);//Auto change size
 	screen = glfwCreateWindow(width, height, title, nullptr, nullptr);

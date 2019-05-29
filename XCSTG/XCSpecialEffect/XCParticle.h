@@ -5,26 +5,25 @@
 #include "XCSpecialEffect.h"
 #include <gl/glcorearb.h>
 namespace xc_se {
-	class XCParticle:XCSpecialEffect {
+	class XCParticle:public XCSpecialEffect {
 	protected:
-		/*	bool should_se_render = true,first_run=true;
-		float RenderX, RenderY, RenderZ, RenderTime;
+		/*	bool should_se_render = true, first_run = true,is_rendering=false;
+		float RenderX, RenderY, RenderZ,RenderTime,RenderSize;
 		GLuint vao, vbo, program;
 		XCGameTimer SETimer;*/
 		static bool have_tbo_init, have_program_init;
-		static GLuint tbo[3], program_static;
+		static GLuint tbo[2], program_static;
 		int particle_type;
 		float RenderSize = 0.015f, RenderRotate=0.0f;
 		virtual void ShaderInit() override;
 		virtual void TextureInit() override;
 		virtual void BufferInit() override;
 	public:
-		XCParticle();
-		~XCParticle();
-		enum {STAR_PARTICLE, CIRCLE_PARTICLE, MOVING_PARTICLE};
+		enum {CIRCLE_PARTICLE, MOVING_PARTICLE};
 		virtual bool SpecialEffectRender(float x, float y, float z) override;
 		virtual void SpecialEffectInit(int type) override;
 		virtual void SpecialEffectReset() override;
+		virtual void SpecialEffectRelease() override;
 	};
 }
 #endif

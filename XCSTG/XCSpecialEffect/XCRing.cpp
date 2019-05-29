@@ -62,6 +62,13 @@ void xc_se::XCRing::SpecialEffectReset()
 		RenderSize = 0.015; break;
 	}
 }
+
+void xc_se::XCRing::SpecialEffectRelease()
+{
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &vbo);
+}
+
 void xc_se::XCRing::SpecialEffectInit(int type)
 {
 	ring_type = type;

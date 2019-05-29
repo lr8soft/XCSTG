@@ -6,7 +6,7 @@
 namespace xc_se {
 	class XCSpecialEffect {
 	protected:
-		bool should_se_render = true, first_run = true;
+		bool should_se_render = true, first_run = true,is_rendering=false;
 		float RenderX, RenderY, RenderZ,RenderTime,RenderSize;
 		GLuint vao, vbo, program;
 		XCGameTimer SETimer;
@@ -14,18 +14,30 @@ namespace xc_se {
 		virtual void TextureInit()=0;
 		virtual void BufferInit()=0;
 	public:
+		bool IsRendering() {
+			return is_rendering;
+		}
+		bool ShouldRender() {
+			return should_se_render;
+		}
+		void SetRenderTime(float time) {
+			RenderTime = time;
+		}
 		virtual bool SpecialEffectRender(float x, float y, float z)=0;
 		virtual void SpecialEffectInit(int type) 
 		{
 			ShaderInit();
 			TextureInit();
 			BufferInit();
+			should_se_render = true;
 		}
 		virtual void SpecialEffectReset()
 		{
 			first_run = true;
 			SETimer.Clear();
 		}
+		virtual void SpecialEffectRelease() = 0;
+
 	};
 }
 #endif

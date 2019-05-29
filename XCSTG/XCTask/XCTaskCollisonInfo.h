@@ -1,7 +1,7 @@
 #pragma once
 #ifndef _XCTASK_COLLISION_INFO_
 #define _XCTASK_COLLISION_INFO_
-#include "../RenderGroup/PlayerEntity.h"
+#include "../XCRenderGroup/PlayerEntity.h"
 #include "../XCGame/Enemy/XCEnemyInfo.h"
 #include "../XCGame/Enemy/XCBoss.h"
 class XCTaskCollisionInfo {

@@ -7,7 +7,7 @@
 #include "XCParticle.h"
 #include <GL3/gl3w.h>
 using namespace xc_ogl;
-GLuint xc_se::XCParticle::tbo[3];
+GLuint xc_se::XCParticle::tbo[2];
 GLuint xc_se::XCParticle::program_static;
 bool xc_se::XCParticle::have_tbo_init = false;
 bool xc_se::XCParticle::have_program_init = false;
@@ -27,13 +27,20 @@ void xc_se::XCParticle::ShaderInit()
 void xc_se::XCParticle::TextureInit()
 {
 	if (!have_tbo_init) {
-		ImageLoader TexLoader, TexLoader1, TexLoader2;
-		TexLoader.LoadTextureData("Image/particle/uniform_particle.png");
-		TexLoader1.LoadTextureData("Image/particle/uniform_tex.png");
-		TexLoader2.LoadTextureData("Image/particle/test_se2.png");
-		tbo[0] = TexLoader.GetTBO();
-		tbo[1] = TexLoader1.GetTBO();
-		tbo[2] = TexLoader2.GetTBO();
+		for (int i = 0; i < sizeof(tbo)/sizeof(GLuint);i++) {
+			GLuint tbo_temp;
+			glGenTextures(1, &tbo_temp);
+			tbo[i] = tbo_temp;
+			ImageLoader TexLoader(GL_TEXTURE_2D, tbo_temp);
+			switch (i) 
+			{
+				case CIRCLE_PARTICLE:
+					TexLoader.LoadTextureData("Image/particle/uniform_particle.png"); break;
+				case MOVING_PARTICLE:
+				default:
+					TexLoader.LoadTextureData("Image/particle/uniform_particle.png"); break;
+			}
+		}
 		have_tbo_init = true;
 	}
 	glUniform1i(glGetUniformLocation(program, "tex"), 0);
@@ -45,63 +52,67 @@ void xc_se::XCParticle::BufferInit()
 	glGenBuffers(1, &vbo);
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER,4*sizeof(float),GetPointSpriteVertex(10.0f),GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER,4*sizeof(float),GetPointSpriteVertex(3.0f),GL_STATIC_DRAW);
 	auto coord_loc = glGetAttribLocation(program, "display_coord");
 	glVertexAttribPointer(coord_loc, 4, GL_FLOAT, GL_FALSE, 4*sizeof(float), nullptr);
 	glEnableVertexAttribArray(coord_loc);
 	RenderSize = 0.015f;
 }
 
-xc_se::XCParticle::XCParticle()
-{
-}
-
-xc_se::XCParticle::~XCParticle()
-{
-	glDeleteVertexArrays(1, &vao);
-	glDeleteBuffers(1, &vbo);
-}
 
 void xc_se::XCParticle::SpecialEffectInit(int type)
 {
 	XCSpecialEffect::SpecialEffectInit(type);
 	particle_type = type;
+	RenderTime = 5.0f;
 }
 
 bool xc_se::XCParticle::SpecialEffectRender(float x, float y, float z)
 {
-	SETimer.Tick();
-	//if (SETimer.getAccumlateTime() < RenderTime)
-	//{
-	glEnable(GL_BLEND);
-	//glBlendFunc(GL_ONE, GL_ONE);
-		glUseProgram(program);
-		glEnable(GL_PROGRAM_POINT_SIZE);
-		glBindVertexArray(vao);
-		glBindBuffer(GL_ARRAY_BUFFER,vbo);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, tbo[2]);
-		glm::mat4 transform_mat;
-		auto rand_loc		 = glGetUniformLocation(program, "rand");
-		auto convert_mat_loc = glGetUniformLocation(program, "transform_mat");
-		transform_mat = glm::translate(transform_mat, glm::vec3(x, y+sin(SETimer.getAccumlateTime()), z));
-		glUniformMatrix4fv(convert_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
-		glUniform1f(rand_loc, SETimer.getAccumlateTime());
+	if (should_se_render) {
+		SETimer.Tick();
+		is_rendering = true;
+		if (SETimer.getAccumlateTime() < RenderTime)
+		{
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_ONE, GL_ONE);
+			glUseProgram(program);
+			glEnable(GL_PROGRAM_POINT_SIZE);
+			glBindVertexArray(vao);
+			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, tbo[particle_type]);
+			glm::mat4 transform_mat;
+			auto rand_loc = glGetUniformLocation(program, "rand");
+			auto convert_mat_loc = glGetUniformLocation(program, "transform_mat");
+			transform_mat = glm::translate(transform_mat, glm::vec3(x, y, z));
+			glUniformMatrix4fv(convert_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
+			glUniform1f(rand_loc, SETimer.getAccumlateTime());
 
-		glDrawArrays(GL_POINTS, 0, 6);
-		glDisable(GL_PROGRAM_POINT_SIZE);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//	}
-	//else {
-	//	SpecialEffectReset();
-	//	return true;
-	//}
+			glDrawArrays(GL_POINTS, 0, 1);
+			glDisable(GL_PROGRAM_POINT_SIZE);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
+		else {
+			SpecialEffectReset();
+			should_se_render = false;
+			return true;
+		}
+	}
 	return false;
 }
 
 void xc_se::XCParticle::SpecialEffectReset()
 {
 	XCSpecialEffect::SpecialEffectReset();
+	RenderTime = 5.0f;
+	is_rendering = false;
+}
+
+void xc_se::XCParticle::SpecialEffectRelease()
+{
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &vbo);
 }
 
 

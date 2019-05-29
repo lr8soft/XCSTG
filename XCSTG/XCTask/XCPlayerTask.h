@@ -2,7 +2,7 @@
 #ifndef _XCPLAYERTASK_H_
 #define _XCPLAYERTASK_H_
 #include "XCTask.h"
-#include "../RenderGroup/PlayerEntity.h"
+#include "../XCRenderGroup/PlayerEntity.h"
 class XCPlayerTask :public XCTask {
 protected:
 	/*bool task_should_run = false,task_should_delete=false,,have_resource_init=false;

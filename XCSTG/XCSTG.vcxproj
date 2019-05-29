@@ -127,8 +127,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="rendergroup\BackGroundRenderGroup.cpp" />
-    <ClCompile Include="RenderGroup\PlayerEntity.cpp" />
     <ClCompile Include="util\ConfigManager.cpp" />
     <ClCompile Include="util\GameTimer.cpp" />
     <ClCompile Include="util\gl3w.c" />
@@ -140,6 +138,9 @@
     <ClCompile Include="XCGame\Enemy\XCEnemyInfo.cpp" />
     <ClCompile Include="XCGame\Enemy\XCNormalEnemy.cpp" />
     <ClCompile Include="XCGame\XCNormalAttack.cpp" />
+    <ClCompile Include="XCRenderGroup\BackGroundRenderGroup.cpp" />
+    <ClCompile Include="XCRenderGroup\ParticleGroup.cpp" />
+    <ClCompile Include="XCRenderGroup\PlayerEntity.cpp" />
     <ClCompile Include="XCShape\XCDefaultShape.cpp" />
     <ClCompile Include="XCShape\XCTextureFucntions.cpp" />
     <ClCompile Include="XCSpecialEffect\XCBossInfoSlot.cpp" />
@@ -157,8 +158,6 @@
     <ClCompile Include="util\ShaderReader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="rendergroup\BackGroundRenderGroup.h" />
-    <ClInclude Include="rendergroup\PlayerEntity.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="util\AppFrameWork.h" />
     <ClInclude Include="util\ConfigManager.h" />
@@ -175,6 +174,9 @@
     <ClInclude Include="XCGame\Enemy\XCEnemyInfo.h" />
     <ClInclude Include="XCGame\Enemy\XCNormalEnemy.h" />
     <ClInclude Include="XCGame\XCNormalAttack.h" />
+    <ClInclude Include="XCRenderGroup\BackGroundRenderGroup.h" />
+    <ClInclude Include="XCRenderGroup\ParticleGroup.h" />
+    <ClInclude Include="XCRenderGroup\PlayerEntity.h" />
     <ClInclude Include="XCShape\XCDefaultShape.h" />
     <ClInclude Include="XCShape\XCTextureFucntions.h" />
     <ClInclude Include="XCSpecialEffect\XCBossInfoSlot.h" />
