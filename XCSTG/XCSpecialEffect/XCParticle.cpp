@@ -82,12 +82,16 @@ bool xc_se::XCParticle::SpecialEffectRender(float x, float y, float z)
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, tbo[particle_type]);
-			glm::mat4 transform_mat;
-			auto convert_mat_loc = glGetUniformLocation(program, "transform_mat");
-			auto time_loc = glGetUniformLocation(program, "time");
-			transform_mat = glm::translate(transform_mat, glm::vec3(x, y, z));
-			glUniformMatrix4fv(convert_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
-			glUniform1f(time_loc, SETimer.getAccumlateTime());
+			
+			auto view_mat_loc = glGetUniformLocation(program, "view_mat");
+			auto size_loc = glGetUniformLocation(program, "point_size");
+			glm::mat4 view_mat;
+			view_mat = glm::translate(view_mat, glm::vec3(x, y, z));
+			glUniformMatrix4fv(view_mat_loc, 1, GL_FALSE, glm::value_ptr(view_mat));
+			if(z>0)
+				glUniform1f(size_loc,15.0f/z);
+			else
+				glUniform1f(size_loc, 15.0f);
 			glDrawArrays(GL_POINTS, 0, 1);
 			glDisable(GL_PROGRAM_POINT_SIZE);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
