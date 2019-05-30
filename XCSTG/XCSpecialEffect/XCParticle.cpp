@@ -84,7 +84,7 @@ bool xc_se::XCParticle::SpecialEffectRender(float x, float y, float z)
 			glBindTexture(GL_TEXTURE_2D, tbo[particle_type]);
 			glm::mat4 transform_mat;
 			auto convert_mat_loc = glGetUniformLocation(program, "transform_mat");
-			auto time_loc		 = glGetUniformLocation(program, "time");
+			auto time_loc = glGetUniformLocation(program, "time");
 			transform_mat = glm::translate(transform_mat, glm::vec3(x, y, z));
 			glUniformMatrix4fv(convert_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 			glUniform1f(time_loc, SETimer.getAccumlateTime());

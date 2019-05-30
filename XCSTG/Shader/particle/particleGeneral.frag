@@ -7,5 +7,5 @@ void main(){
     float dist = dot(calc_coord,calc_coord);
     if(dist>=0.25)
          discard;
-    gl_FragColor = texture2D(tex,tex_coord)+vec4(abs(sin(time)),abs(cos(time)),abs(sin(time)+cos(time)),0.0);
+    gl_FragColor = texture2D(tex,tex_coord)+vec4(abs(sin(time)),abs(sin(time/2)),0.1,0.0);
 }

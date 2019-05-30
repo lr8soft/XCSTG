@@ -32,8 +32,8 @@ bool ParticleGroup::GroupRender(float x, float y, float z)
 				break;
 			case DISPERSE_COORD:
 				float temp_x=0, temp_y=0, temp_z=0;
-				temp_x = x + sin(glfwGetTime()+i)/3;
-				temp_y = y + cos(glfwGetTime()+i)/3;
+				temp_x = x + sin(glfwGetTime()+i)/4;
+				temp_y = y + cos(glfwGetTime()+i)/4;
 				temp_z = z;
 				StorageParticleGroup[i].SpecialEffectRender(temp_x, temp_y, z);
 				is_render_finish = false; 

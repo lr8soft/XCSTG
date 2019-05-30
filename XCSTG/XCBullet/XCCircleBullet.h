@@ -12,7 +12,9 @@ namespace xc_bullet {
 		size_t bulletType = 0;
 											/*NORMAL,LARGEISH, HUGE,TINY*/
 		const float attack_radius_group[4] = {0.035f,0.04f,0.18f,0.025f};
+											/*For GL_TRIANGLES Mode*/
 		const float tex_scale_rate[4] =      {0.03f,0.035f,0.25f,0.02f};
+		const float tex_point_size[4] =		 {3.0f,3.5f,25.0f,2.0f};
 		float attack_radius = 0.035f;
 		static bool have_resource_init,have_program_init;
 		static GLuint temp_tbo[5],program_static;
