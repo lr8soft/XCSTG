@@ -14,16 +14,35 @@ namespace xc_se {
 		virtual void TextureInit()=0;
 		virtual void BufferInit()=0;
 	public:
-		bool IsRendering() {
+		inline bool IsRendering() {
 			return is_rendering;
 		}
-		bool ShouldRender() {
+		inline bool ShouldRender() {
 			return should_se_render;
 		}
-		void SetRenderTime(float time) {
+		inline void SetRenderTime(float time) {
 			RenderTime = time;
 		}
-		virtual bool SpecialEffectRender(float x, float y, float z)=0;
+		inline void SetRenderSize(float size) {
+			RenderSize = size;
+		}
+		inline void SetShouldRender(bool shouldrender) {
+			should_se_render = shouldrender;
+		}
+		inline void SetIsRendering(bool isrendering) {
+			is_rendering = isrendering;
+		}
+		float* GetRenderCoord() {
+			static float RenderCoord[3];
+			RenderCoord[0] = RenderX;
+			RenderCoord[1] = RenderY;
+			RenderCoord[2] = RenderZ;
+			return RenderCoord;
+		}
+		virtual bool SpecialEffectRender(float x, float y, float z) {
+			RenderX = x; RenderY = y; RenderZ = z;
+			return false;
+		}
 		virtual void SpecialEffectInit(int type) 
 		{
 			ShaderInit();

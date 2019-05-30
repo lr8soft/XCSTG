@@ -56,7 +56,7 @@ void xc_se::XCParticle::BufferInit()
 	auto coord_loc = glGetAttribLocation(program, "display_coord");
 	glVertexAttribPointer(coord_loc, 4, GL_FLOAT, GL_FALSE, 4*sizeof(float), nullptr);
 	glEnableVertexAttribArray(coord_loc);
-	RenderSize = 0.015f;
+	RenderSize = 15.0f;
 }
 
 
@@ -64,11 +64,11 @@ void xc_se::XCParticle::SpecialEffectInit(int type)
 {
 	XCSpecialEffect::SpecialEffectInit(type);
 	particle_type = type;
-	RenderTime = 5.0f;
 }
 
 bool xc_se::XCParticle::SpecialEffectRender(float x, float y, float z)
-{
+{	
+	XCSpecialEffect::SpecialEffectRender(x, y, z);
 	if (should_se_render) {
 		SETimer.Tick();
 		is_rendering = true;
@@ -85,13 +85,15 @@ bool xc_se::XCParticle::SpecialEffectRender(float x, float y, float z)
 			
 			auto view_mat_loc = glGetUniformLocation(program, "view_mat");
 			auto size_loc = glGetUniformLocation(program, "point_size");
+			auto offset_loc = glGetUniformLocation(program,"offset");
 			glm::mat4 view_mat;
 			view_mat = glm::translate(view_mat, glm::vec3(x, y, z));
 			glUniformMatrix4fv(view_mat_loc, 1, GL_FALSE, glm::value_ptr(view_mat));
+			glUniform1i(offset_loc,ParticleOffset);
 			if(z>0)
-				glUniform1f(size_loc,15.0f/z);
+				glUniform1f(size_loc,RenderSize/z);//glUniform1f(size_loc,15.0f/z);
 			else
-				glUniform1f(size_loc, 15.0f);
+				glUniform1f(size_loc, RenderSize);//glUniform1f(size_loc, 15.0f);
 			glDrawArrays(GL_POINTS, 0, 1);
 			glDisable(GL_PROGRAM_POINT_SIZE);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -99,6 +101,7 @@ bool xc_se::XCParticle::SpecialEffectRender(float x, float y, float z)
 		else {
 			SpecialEffectReset();
 			should_se_render = false;
+			is_rendering = false;
 			return true;
 		}
 	}
@@ -108,7 +111,6 @@ bool xc_se::XCParticle::SpecialEffectRender(float x, float y, float z)
 void xc_se::XCParticle::SpecialEffectReset()
 {
 	XCSpecialEffect::SpecialEffectReset();
-	RenderTime = 5.0f;
 	is_rendering = false;
 }
 

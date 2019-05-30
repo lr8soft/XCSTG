@@ -8,7 +8,9 @@ protected:
 	xc_se::XCParticle *StorageParticleGroup=nullptr;
 	int groupRenderType= DISPERSE_COORD,particle_count=0;
 public:
-	enum GroupType {ALL_ONE_COORD, ROTATE_COORD, DISPERSE_COORD};
+	/*!Particle group coord type.*/
+	enum GroupType {ALL_ONE_COORD, ROTATE_COORD, DISPERSE_COORD, FOLLOW_SHADOW_COORD};
+	/*!Single particle render type.*/
 	enum ParticleType { CIRCLE_PARTICLE, MOVING_PARTICLE};
 	void SetGroupRenderType(int groupType);
 	virtual void GroupInit(int type,int count,float rendertime);

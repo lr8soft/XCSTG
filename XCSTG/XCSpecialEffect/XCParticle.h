@@ -13,8 +13,8 @@ namespace xc_se {
 		XCGameTimer SETimer;*/
 		static bool have_tbo_init, have_program_init;
 		static GLuint tbo[2], program_static;
-		int particle_type;
-		float RenderSize = 0.015f, RenderRotate=0.0f;
+		int particle_type, ParticleOffset = 0;
+		float RenderRotate = 0.0f;
 		virtual void ShaderInit() override;
 		virtual void TextureInit() override;
 		virtual void BufferInit() override;
@@ -24,6 +24,10 @@ namespace xc_se {
 		virtual void SpecialEffectInit(int type) override;
 		virtual void SpecialEffectReset() override;
 		virtual void SpecialEffectRelease() override;
+		/*!Set different offset to make particle colorful.*/
+		inline void SetOffset(int ot) {
+			ParticleOffset = ot;
+		}
 	};
 }
 #endif
