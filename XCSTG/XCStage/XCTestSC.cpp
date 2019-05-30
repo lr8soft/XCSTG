@@ -2,12 +2,12 @@
 using namespace xc_bullet;
 void XCTestSC::SpellCardInit()
 {
-	int init_count = 20;
+	int init_count = 120;
 	ptrCBullet = new XCCircleBullet[init_count];
-	auto xfunc = [](float NowX, float NowY, float nowTime, float deltaTime, float v, float p)->float {
+	auto xfunc = [](float NowX, float NowY, XCGameTimer timer, float v, float p)->float {
 		return NowX;
 	};
-	auto yfunc = [](float NowX, float NowY, float nowTime, float deltaTime, float v, float p)->float {
+	auto yfunc = [](float NowX, float NowY, XCGameTimer timer, float v, float p)->float {
 		if (NowY > -1.0)
 			return NowY - v / 100;
 		else

@@ -83,8 +83,8 @@ void xc_game::XCNormalEnemy::EnemyRender(float nowFrame)
 					NowY = GetCoordY();
 					break;
 				case FUNCTION_PATH:
-					NowX = coordx_func(NowX, NowY, nowFrame, enemyTimer.getDeltaFrame(), velocity, 0);
-					NowY = coordy_func(NowX, NowY, nowFrame, enemyTimer.getDeltaFrame(), velocity, 0);
+					NowX = coordx_func(NowX, NowY,enemyTimer, velocity, 0);
+					NowY = coordy_func(NowX, NowY,enemyTimer, velocity, 0);
 					break;
 			}
 			switch (EnemyNowState) {

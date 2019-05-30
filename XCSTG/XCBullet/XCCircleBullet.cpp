@@ -65,7 +65,6 @@ void xc_bullet::XCCircleBullet::BufferInit()
 
 void xc_bullet::XCCircleBullet::DataInit()
 {
-	deltaTime = 0.0f;
 	if (have_start_pos == true && have_velocity == true && have_xyfunc == true) {
 		should_render = true;
 	}
@@ -85,9 +84,9 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 {
 	if (should_render)
 	{
+		BulletTimer.Tick(nowFrame);
 		SetBulletType(bulletType);
 		/////////////////OGL TIME!!!//////////////////
-		XCBullet::BulletRender(nowFrame);
 		glEnable(GL_BLEND);
 		glEnable(GL_PROGRAM_POINT_SIZE);
 		glUseProgram(program);
@@ -97,8 +96,8 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 		glBindTexture(GL_TEXTURE_2D, tbo);
 		/////////////////////////////////////////////
 		UpdateAimToPlayerCoord();//if set AimToPlayer
-		NowX = coordx_func(NowX, NowY, nowFrame, deltaTime, velocity, 0);
-		NowY = coordy_func(NowX, NowY, nowFrame, deltaTime, velocity, 0);
+		NowX = coordx_func(NowX, NowY, BulletTimer, velocity, 0);
+		NowY = coordy_func(NowX, NowY, BulletTimer, velocity, 0);
 
 		if (NowX>right||NowX<left||NowY>top||NowY<bottom) 
 		{

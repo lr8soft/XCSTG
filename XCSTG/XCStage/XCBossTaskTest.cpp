@@ -14,10 +14,10 @@ void TestBossTask::TaskInit()
 		pSC2->SpellCardInit();
 		AddSpellCardToTask(pSC2, 233);
 		AddSpellCardToTask(pSC, 666);
-		auto xfunc = [](float NowX, float NowY, float nowFrame, float deltaFrame, float v, float b) {
+		auto xfunc = [](float NowX, float NowY, XCGameTimer timer, float v, float b) {
 			return NowX;
 		};
-		auto yfunc = [](float NowX, float NowY, float nowFrame, float deltaFrame, float v, float b) {
+		auto yfunc = [](float NowX, float NowY, XCGameTimer timer, float v, float b) {
 			return NowY;
 		};
 		pTaskBoss = new TestBoss;

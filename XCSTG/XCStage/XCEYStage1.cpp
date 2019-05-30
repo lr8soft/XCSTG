@@ -4,12 +4,12 @@
 xc_game::XCNormalEnemy *pEnemy;
 void XCEYStage1::TaskInit()
 {
-	int pEnemyCount = 2;
-	auto xfunc = [](float NowX,float NowY,float nowFrame,float deltaFrame,float v,float b) {
-		return NowX;
+	int pEnemyCount = 4;
+	auto xfunc = [](float NowX,float NowY,XCGameTimer timer,float v,float b) {
+		return sin(timer.getAccumlateTime()+ NowX);
 	};
-	auto yfunc = [](float NowX, float NowY, float nowFrame, float deltaFrame, float v, float b) {
-		return NowY;
+	auto yfunc = [](float NowX, float NowY,XCGameTimer timer, float v, float b) {
+		return cos(timer.getAccumlateTime()+ NowY);
 	};
 	if (!have_resource_init) 
 	{
@@ -63,7 +63,7 @@ void XCEYStage1::TaskRender(XCTaskRenderInfo * pInfo)
 {
 	TaskInit();
 	XCEnemyTask::TaskRender(pInfo);
-	if(task_should_delete)
+	if (task_should_delete)
 		pInfo->workBossUUID = "TESTBOSS0";
 }
 

@@ -4,17 +4,16 @@
 #include <gl/glcorearb.h>
 #include <functional>
 #include "../XCRenderGroup/PlayerEntity.h"
-
+#include "../util/GameTimer.h"
 namespace xc_bullet {
-	/*参数:NowX, NowY, nowTime, deltaTime, velocity, parameter*/
-	using BulletFunctionType=std::function<float(float, float, float, float, float, float)>;
+	/*参数:NowX, NowY,XCGameTimer, velocity, parameter*/
+	using BulletFunctionType=std::function<float(float, float, XCGameTimer, float, float)>;
 	class XCBullet {
 	protected:
-		float deltaTime = 0.0f, lastFrame = 0.0f;
+		XCGameTimer BulletTimer;
 		float rotate_angle = 0.0f, velocity = 0.0f;
 		float NowX=0.0f, NowY=0.5f, NowZ=0.0f;
 		bool should_render = false,have_start_pos=false,have_xyfunc=false,have_velocity=false;
-
 		bool aim_to_player = false,have_atp_init=false,atp_positive=false;
 		float atp_k, atp_b,atp_theta;
 		float top = 1.1, bottom = -1.1, left = -1.1, right = 1.1;
@@ -74,9 +73,9 @@ namespace xc_bullet {
 		void UpdateAimToPlayerCoord() {
 			if (ShouldAimToPlayer()) {
 				if (atp_positive)
-					NowX += velocity * cosf(atp_theta)* deltaTime;
+					NowX += velocity * cosf(atp_theta)* BulletTimer.getDeltaFrame();
 				else
-					NowX -= velocity * cosf(atp_theta)* deltaTime;
+					NowX -= velocity * cosf(atp_theta)* BulletTimer.getDeltaFrame();
 				NowY = atp_k * NowX + atp_b;
 			}
 		}
@@ -91,11 +90,7 @@ namespace xc_bullet {
 		/*!Inherit example:
 			XCBullet::BulletRender(nowFrame);
 			.....(Put your code here)*/
-		virtual void BulletRender(float nowFrame) {
-			float currentFrame = nowFrame;
-			deltaTime = currentFrame - lastFrame;
-			lastFrame = currentFrame;
-		}
+		virtual void BulletRender(float nowFrame) = 0;
 		/*父类的方法是自机狙的*/
 		virtual void BulletCollisionWithPlayer(PlayerEntity* player) {
 			if (!aim_to_player) return;

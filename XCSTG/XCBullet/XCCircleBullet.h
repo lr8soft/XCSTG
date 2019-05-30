@@ -7,7 +7,7 @@ namespace xc_bullet {
 	protected:
 	  /*float deltaTime = 0.0f, lastFrame = 0.0f;
 		float rotate_angle = 0.0f, velocity = 0.0f;
-		std::function<float(float)> coordx_func, coordy_func;*/
+		*/
 		
 		size_t bulletType = 0;
 											/*NORMAL,LARGEISH, HUGE,TINY*/

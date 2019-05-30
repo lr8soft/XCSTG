@@ -8,13 +8,13 @@ void XCBTStage1::TaskInit()
 	if (!have_resource_init)
 	{
 		pBullet = new xc_bullet::XCCircleBullet[pBulletCount];
-		auto xfunc = [](float NowX, float NowY, float nowTime, float deltaTime, float v, float p)->float {
+		auto xfunc = [](float NowX, float NowY,XCGameTimer timer, float v, float p)->float {
 			float ret_x, sint = sin(glfwGetTime());
 			float positive = sint / abs(sint);
-			ret_x = NowX + positive * deltaTime*v / 3;
+			ret_x = NowX + positive * timer.getDeltaFrame()*v / 3;
 			return NowX;
 		};
-		auto yfunc = [](float NowX, float NowY, float nowTime, float deltaTime, float v, float p)->float {
+		auto yfunc = [](float NowX, float NowY, XCGameTimer timer, float v, float p)->float {
 			return NowY;// NowY- deltaTime /15.0f
 		};
 		for (int i = 0; i < pBulletCount; i++) {

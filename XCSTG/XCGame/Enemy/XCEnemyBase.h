@@ -3,10 +3,11 @@
 #define _XCEnemyBASE_H_
 #include <functional>
 #include <GL/glcorearb.h>
+#include "../../util/GameTimer.h"
 #define BOSS_ENEMY 0
 #define NORMAL_ENEMY 1
 namespace xc_game {
-	using EnemyFunctionType = std::function<float(float, float, float, float, float, float)>;
+	using EnemyFunctionType = std::function<float(float, float,XCGameTimer, float, float)>;
 	/*默认新建对象出来时should_render为false*/
 	class XCEnemyBase {
 	public:
