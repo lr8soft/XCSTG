@@ -74,7 +74,8 @@ void xc_game::XCBoss::EnemyRender(float nowFrame)
 		auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
 		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 		glDrawArrays(GL_TRIANGLES, 0, 6);
-		infoSlot.SpecialEffectRender();
+		infoSlot.BossHPRender();
+		infoSlot.SpellCardInfoRender(infoSlot.BONUS_FAILED);
 		if (is_dead) {
 			if (explode_se.SpecialEffectRender(NowX, NowY, NowZ))//返回true即渲染完成
 				is_dead = false;//should_render = false;boss不会主动停止渲染

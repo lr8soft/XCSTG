@@ -4,7 +4,7 @@
 xc_game::XCNormalEnemy *pEnemy;
 void XCEYStage1::TaskInit()
 {
-	int pEnemyCount = 10;
+	int pEnemyCount = 2;
 	auto xfunc = [](float NowX,float NowY,float nowFrame,float deltaFrame,float v,float b) {
 		return NowX;
 	};

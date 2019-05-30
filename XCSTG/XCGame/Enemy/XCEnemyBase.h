@@ -15,6 +15,7 @@ namespace xc_game {
 		virtual void EnemyRender(float nowFrame);
 		virtual void ReleaseResource();
 		virtual void EnemyInit(size_t CoordType);
+		void SetBoundingBox(float t, float b, float l, float r);
 		/*TYPE:SINGLE_COORD*/
 		void SetGenerateAndVelocity(float x, float y, float z, float dx, float dy, float dz, float v);
 		/*TYPE:SINGLE_COORD*/
@@ -36,6 +37,7 @@ namespace xc_game {
 		float NowLife, MaxLife;
 		float NowX, NowY, NowZ;
 		float destX, destY, destZ, velocity;
+		float top = 1.1, bottom = -1.1, left = -1.1, right = 1.1;
 		GLuint use_tbo, program;
 		/*有关敌人不同状态时候的贴图数据*/
 		int EnemyNowState= ENEMY_STANDBY, EnemyLastState= ENEMY_STANDBY, EachStateInterval = 0;

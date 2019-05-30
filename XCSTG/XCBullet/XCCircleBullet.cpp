@@ -100,7 +100,7 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 		NowX = coordx_func(NowX, NowY, nowFrame, deltaTime, velocity, 0);
 		NowY = coordy_func(NowX, NowY, nowFrame, deltaTime, velocity, 0);
 
-		if (NowX>1.15f||NowX<-1.15f||NowY>1.15f||NowY<-1.15f) 
+		if (NowX>right||NowX<left||NowY>top||NowY<bottom) 
 		{
 			should_render = false;
 		}

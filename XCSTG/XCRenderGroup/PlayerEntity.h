@@ -15,6 +15,7 @@ private:
 	int keyup = GLFW_KEY_UP, keydown=GLFW_KEY_DOWN, keyright=GLFW_KEY_RIGHT, keyleft=GLFW_KEY_LEFT;
 	int keyslowdown = GLFW_KEY_LEFT_SHIFT, keyshoot=GLFW_KEY_Z,keyspecialattack=GLFW_KEY_X,keyitem=GLFW_KEY_C;
 private:
+	float top=1.0, bottom=-1.0, left=-1.0, right=1.0;
 	xc_se::XCRing dead_se;
 	ParticleGroup playerParticle;
 	bool dead_time = false;
@@ -46,6 +47,7 @@ public:
 	PlayerEntity() = default;
 	~PlayerEntity() = default;
 	void GroupInit();
+	void SetBoundingBox(float t,float b,float l,float r);
 	void GroupRender(float nowFrame);
 	void PlayerCollisonEvent(xc_game::XCEnemyInfo *info);
 	void GroupKeyCheck(GLFWwindow* screen);

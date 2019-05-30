@@ -17,6 +17,7 @@ namespace xc_bullet {
 
 		bool aim_to_player = false,have_atp_init=false,atp_positive=false;
 		float atp_k, atp_b,atp_theta;
+		float top = 1.1, bottom = -1.1, left = -1.1, right = 1.1;
 		/*‰÷»æ∑∂Œß -1.1<NowX<1.1 -1.1<NowY<1.1*/
 		BulletFunctionType coordx_func,coordy_func;
 		GLuint vao, vbo, tbo,program;
@@ -41,6 +42,10 @@ namespace xc_bullet {
 			DataInit();
 		}
 		virtual void BulletRelease() = 0;
+		void SetBoundingBox(float t, float b, float l, float r)
+		{
+			top = t; bottom = b; left = l; right = r;
+		}
 		void SetVelocity(float v)
 		{ 
 			velocity = v; have_velocity = true;

@@ -9,7 +9,7 @@ protected:
 	int groupRenderType= DISPERSE_COORD,particle_count=0;
 public:
 	/*!Particle group coord type.*/
-	enum GroupType {ALL_ONE_COORD, ROTATE_COORD, DISPERSE_COORD, FOLLOW_SHADOW_COORD};
+	enum GroupType {ALL_ONE_COORD, ROTATE_COORD, DISPERSE_COORD};
 	/*!Single particle render type.*/
 	enum ParticleType { CIRCLE_PARTICLE, MOVING_PARTICLE};
 	void SetGroupRenderType(int groupType);

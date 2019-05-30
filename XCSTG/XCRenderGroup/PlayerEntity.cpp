@@ -88,8 +88,8 @@ void PlayerEntity::GroupInit()
 	}
 	//////////////////////////攻击初始化///////////////////////////////////////////////////
 	dead_se.SpecialEffectInit(dead_se.RingPlayerDead);
-	playerParticle.SetGroupRenderType(playerParticle.FOLLOW_SHADOW_COORD);
-	playerParticle.GroupInit(playerParticle.CIRCLE_PARTICLE,2,0.12);
+	playerParticle.SetGroupRenderType(playerParticle.ROTATE_COORD);
+	playerParticle.GroupInit(playerParticle.CIRCLE_PARTICLE,6,1.0f);
 	/////////////////////////读取玩家配置文件/////////////////////////////////////////////////
 	playercfg = new xc_std::ConfigManager("xcstg.cfg");
 	if (playercfg->IsFirstRun()) {
@@ -133,6 +133,11 @@ void PlayerEntity::GroupInit()
 		itemss >> keyitem;
 	}
 	/////////////////////////读取玩家配置文件/////////////////////////////////////////////////
+}
+
+void PlayerEntity::SetBoundingBox(float t, float b, float l, float r)
+{
+	top = t; bottom = b; left = l; right = r;
 }
 
 void PlayerEntity::GroupRender(float nowFrame)
@@ -188,8 +193,7 @@ void PlayerEntity::GroupRender(float nowFrame)
 		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
 
 	}
-
-
+	playerParticle.GroupRender(NowX, NowY, NowZ);
 	OGLSettingRenderEnd();
 	OGLSettingRenderStart();
 	auto attack_count = sizeof(base_attack) / sizeof(xc_game::XCAttack);
@@ -199,7 +203,6 @@ void PlayerEntity::GroupRender(float nowFrame)
 	if (dead_time) {
 		dead_time=!dead_se.SpecialEffectRender(NowX,NowY,NowZ);
 	}
-	playerParticle.GroupRender(NowX, NowY, NowZ);
 	OGLSettingRenderEnd();
 }
 
@@ -237,27 +240,27 @@ void PlayerEntity::GroupKeyCheck(GLFWwindow* screen)
 		RenderDecisionPoint = true;
 	}
 	if (glfwGetKey(screen, keyup) == GLFW_PRESS) {
-		if (NowY+moveSpeed<1.0f)//防止越界
+		if (NowY+moveSpeed< top)//防止越界
 			NowY += moveSpeed;
 		SetPlayerDirection(PLAYER_STANDBY);
 		have_player_change_state = true;
 	}
 
 	if (glfwGetKey(screen, keydown) == GLFW_PRESS) {
-		if (NowY - moveSpeed > -1.0f)
+		if (NowY - moveSpeed > bottom)
 			NowY -= moveSpeed;
 		SetPlayerDirection(PLAYER_STANDBY);
 		have_player_change_state = true;
 	}
 	if (glfwGetKey(screen, keyright) == GLFW_PRESS) {
-		if (NowX + moveSpeed <1.0f)
+		if (NowX + moveSpeed < right)
 			NowX += moveSpeed;
 		SetPlayerDirection(PLAYER_TURNRIGHT);
 		have_player_change_state = true;
 	}
 
 	if (glfwGetKey(screen, keyleft) == GLFW_PRESS) {
-		if (NowX - moveSpeed > -1.0f)
+		if (NowX - moveSpeed > left)
 			NowX -= moveSpeed;
 		SetPlayerDirection(PLAYER_TURNLEFT);
 		have_player_change_state = true;

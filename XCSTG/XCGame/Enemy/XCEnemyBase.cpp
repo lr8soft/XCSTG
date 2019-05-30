@@ -35,7 +35,7 @@ void xc_game::XCEnemyBase::CheckShouldEnd()
 	case FUNCTION_PATH:
 		break;
 	}
-	if (NowX > 1.1 || NowX<-1.1 || NowY>1.1 || NowY < -1.1) {
+	if (NowX > right || NowX<left || NowY>top || NowY < bottom) {
 		should_render = false;
 	}
 	if (is_dead) {
@@ -105,6 +105,11 @@ void xc_game::XCEnemyBase::EnemyInit(size_t type)
 		}
 		break;
 	}
+}
+
+void xc_game::XCEnemyBase::SetBoundingBox(float t, float b, float l, float r)
+{
+	top = t; bottom = b; left = l; right = r;
 }
 
 void xc_game::XCEnemyBase::SetGenerateAndVelocity(float x, float y, float z, float dx, float dy, float dz, float v)
