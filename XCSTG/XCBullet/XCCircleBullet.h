@@ -16,7 +16,7 @@ namespace xc_bullet {
 		const float tex_scale_rate[4] =      {0.03f,0.035f,0.25f,0.02f};
 		const float tex_point_size[4] =		 {3.0f,3.5f,25.0f,2.0f};
 		float attack_radius = 0.035f;
-		static bool have_resource_init,have_program_init;
+		static bool have_resource_init,have_program_init,use_point_sprite;
 		static GLuint temp_tbo[5],program_static;
 		void SetRenderTBO(GLuint tbo);
 		void ShaderInit() override;
@@ -26,6 +26,8 @@ namespace xc_bullet {
 	public:
 		enum CircleBulletType { NORMAL, LARGEISH, HUGE,TINY };
 		/*void BulletInit();*/
+		/*Only used before bullet render*/
+		void SetUsePointSprite(bool use);
 		void SetBulletType(size_t type);
 		void BulletRender(float nowFrame) override;
 		void BulletRelease() override;

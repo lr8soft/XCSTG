@@ -10,6 +10,8 @@ GLuint xc_bullet::XCCircleBullet::temp_tbo[5];
 GLuint xc_bullet::XCCircleBullet::program_static;
 bool xc_bullet::XCCircleBullet::have_resource_init = false;
 bool xc_bullet::XCCircleBullet::have_program_init = false;
+bool xc_bullet::XCCircleBullet::use_point_sprite = true;
+//#define _NO_POINT_SPRITE_
 void xc_bullet::XCCircleBullet::SetRenderTBO(GLuint in_tbo)
 {
 	tbo = in_tbo;
@@ -19,13 +21,14 @@ void xc_bullet::XCCircleBullet::ShaderInit()
 {
 	if (!have_program_init) {
 		ShaderReader BulletReader;
-#ifndef _NO_POINT_SPRITE_
-		BulletReader.load_from_file("shader/bullet/GeneralBullet.ps.vert", GL_VERTEX_SHADER);
-		BulletReader.load_from_file("shader/bullet/GeneralBullet.ps.frag", GL_FRAGMENT_SHADER);
-#else
-		BulletReader.load_from_file("shader/bullet/GeneralBullet.vert", GL_VERTEX_SHADER);
-		BulletReader.load_from_file("shader/bullet/GeneralBullet.frag", GL_FRAGMENT_SHADER);
-#endif
+		if (use_point_sprite) {
+			BulletReader.load_from_file("shader/bullet/GeneralBullet.ps.vert", GL_VERTEX_SHADER);
+			BulletReader.load_from_file("shader/bullet/GeneralBullet.ps.frag", GL_FRAGMENT_SHADER);
+		}
+		else {
+			BulletReader.load_from_file("shader/bullet/GeneralBullet.vert", GL_VERTEX_SHADER);
+			BulletReader.load_from_file("shader/bullet/GeneralBullet.frag", GL_FRAGMENT_SHADER);
+		}
 		BulletReader.link_all_shader();
 		program_static= BulletReader.get_program();
 		have_program_init = true;
@@ -57,10 +60,18 @@ void xc_bullet::XCCircleBullet::BufferInit()
 	glBindVertexArray(vao);
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER,vbo);
-	glBufferData(GL_ARRAY_BUFFER,4*sizeof(float), GetPointSpriteVertex(5.0f),GL_STATIC_DRAW);
-	auto vert_loc = glGetAttribLocation(program,"in_coord");
-	glVertexAttribPointer(vert_loc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
-	glEnableVertexAttribArray(vert_loc);
+	if (use_point_sprite) {
+		glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(float), GetPointSpriteVertex(5.0f), GL_STATIC_DRAW);
+		auto vert_loc = glGetAttribLocation(program, "in_coord");
+		glVertexAttribPointer(vert_loc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+		glEnableVertexAttribArray(vert_loc);
+	}
+	else {
+		glBufferData(GL_ARRAY_BUFFER, sizeof(covered_plane_vertex), covered_plane_vertex, GL_STATIC_DRAW);
+		auto vert_loc = glGetAttribLocation(program, "in_coord");
+		glVertexAttribPointer(vert_loc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+		glEnableVertexAttribArray(vert_loc);
+	}
 }
 
 void xc_bullet::XCCircleBullet::DataInit()
@@ -71,6 +82,12 @@ void xc_bullet::XCCircleBullet::DataInit()
 	else {
 		should_render = false;
 	}
+}
+
+void xc_bullet::XCCircleBullet::SetUsePointSprite(bool use)
+{
+	if(!have_resource_init&&!have_program_init)
+		use_point_sprite = use;
 }
 
 void xc_bullet::XCCircleBullet::SetBulletType(size_t type)
@@ -88,7 +105,10 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 		SetBulletType(bulletType);
 		/////////////////OGL TIME!!!//////////////////
 		glEnable(GL_BLEND);
-		glEnable(GL_PROGRAM_POINT_SIZE);
+		if (use_point_sprite) 
+		{
+			glEnable(GL_PROGRAM_POINT_SIZE);
+		}
 		glUseProgram(program);
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -107,17 +127,18 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 		auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
 		transform_mat = glm::translate(transform_mat, glm::vec3(NowX,NowY,NowZ));
 		transform_mat = glm::rotate(transform_mat, glm::radians(rotate_angle), glm::vec3(0, 0, 1));
-#ifdef _NO_POINT_SPRITE_
-		transform_mat = glm::scale(transform_mat,glm::vec3(tex_scale_rate[bulletType]));
-		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
-		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
-#else
-		auto bullet_size_loc = glGetUniformLocation(program, "point_size");
-		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
-		glUniform1f(bullet_size_loc, tex_point_size[bulletType] * 7);
-		glDrawArrays(GL_POINTS, 0, 1);
-		glDisable(GL_PROGRAM_POINT_SIZE);
-#endif
+		if (use_point_sprite) {
+			auto bullet_size_loc = glGetUniformLocation(program, "point_size");
+			glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
+			glUniform1f(bullet_size_loc, tex_point_size[bulletType] * 7);
+			glDrawArrays(GL_POINTS, 0, 1);
+			glDisable(GL_PROGRAM_POINT_SIZE);
+		}
+		else {
+			transform_mat = glm::scale(transform_mat, glm::vec3(tex_scale_rate[bulletType]));
+			glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+		}
 	}
 	else {
 		DataReset();
