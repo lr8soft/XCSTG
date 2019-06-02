@@ -15,7 +15,7 @@ namespace xc_bullet {
 											/*For GL_TRIANGLES Mode*/
 		const float tex_scale_rate[4] =      {0.03f,0.035f,0.25f,0.02f};
 		const float tex_point_size[4] =		 {3.0f,3.5f,25.0f,2.0f};
-		float attack_radius = 0.035f;
+		float attack_damage=1.0f;
 		static bool have_resource_init,have_program_init,use_point_sprite;
 		static GLuint temp_tbo[5],program_static;
 		void SetRenderTBO(GLuint tbo);

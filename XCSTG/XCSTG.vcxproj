@@ -80,7 +80,7 @@
       <OpenMPSupport>false</OpenMPSupport>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glfw3.lib;openal32.lib;alut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;openal32.lib;alut.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </Link>
   </ItemDefinitionGroup>
@@ -108,7 +108,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glfw3.lib;openal32.lib;alut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;openal32.lib;alut.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -131,18 +131,19 @@
     <ClCompile Include="util\gl3w.c" />
     <ClCompile Include="XCAudio\XCAudioEffect.cpp" />
     <ClCompile Include="XCBullet\XCCircleBullet.cpp" />
+    <ClCompile Include="XCGame\Attack\XCNormalAttack.cpp" />
     <ClCompile Include="XCGame\Enemy\Boss\XCTestBoss.cpp" />
     <ClCompile Include="XCGame\Enemy\XCBoss.cpp" />
     <ClCompile Include="XCGame\Enemy\XCEnemyBase.cpp" />
     <ClCompile Include="XCGame\Enemy\XCEnemyInfo.cpp" />
     <ClCompile Include="XCGame\Enemy\XCNormalEnemy.cpp" />
-    <ClCompile Include="XCGame\XCNormalAttack.cpp" />
     <ClCompile Include="XCRenderGroup\BackGroundRenderGroup.cpp" />
     <ClCompile Include="XCRenderGroup\ParticleGroup.cpp" />
     <ClCompile Include="XCRenderGroup\PlayerEntity.cpp" />
     <ClCompile Include="XCShape\XCDefaultShape.cpp" />
     <ClCompile Include="XCShape\XCTextureFucntions.cpp" />
-    <ClCompile Include="XCSpecialEffect\XCBossInfoSlot.cpp" />
+    <ClCompile Include="XCSpecialEffect\XCDialog.cpp" />
+    <ClCompile Include="XCSpecialEffect\XCGameInfoSlot.cpp" />
     <ClCompile Include="XCSpecialEffect\XCParticle.cpp" />
     <ClCompile Include="XCSpecialEffect\XCRing.cpp" />
     <ClCompile Include="XCStage\XCBossTaskTest.cpp" />
@@ -167,18 +168,20 @@
     <ClInclude Include="XCAudio\XCAudioEffect.h" />
     <ClInclude Include="XCBullet\XCBullet.h" />
     <ClInclude Include="XCBullet\XCCircleBullet.h" />
+    <ClInclude Include="XCGame\Attack\XCNormalAttack.h" />
     <ClInclude Include="XCGame\Enemy\Boss\XCTestBoss.h" />
     <ClInclude Include="XCGame\Enemy\XCBoss.h" />
     <ClInclude Include="XCGame\Enemy\XCEnemyBase.h" />
     <ClInclude Include="XCGame\Enemy\XCEnemyInfo.h" />
     <ClInclude Include="XCGame\Enemy\XCNormalEnemy.h" />
-    <ClInclude Include="XCGame\XCNormalAttack.h" />
+    <ClInclude Include="XCGame\XCEntity.h" />
     <ClInclude Include="XCRenderGroup\BackGroundRenderGroup.h" />
     <ClInclude Include="XCRenderGroup\ParticleGroup.h" />
     <ClInclude Include="XCRenderGroup\PlayerEntity.h" />
     <ClInclude Include="XCShape\XCDefaultShape.h" />
     <ClInclude Include="XCShape\XCTextureFucntions.h" />
-    <ClInclude Include="XCSpecialEffect\XCBossInfoSlot.h" />
+    <ClInclude Include="XCSpecialEffect\XCDialog.h" />
+    <ClInclude Include="XCSpecialEffect\XCGameInfoSlot.h" />
     <ClInclude Include="XCSpecialEffect\XCParticle.h" />
     <ClInclude Include="XCSpecialEffect\XCRing.h" />
     <ClInclude Include="XCSpecialEffect\XCSpecialEffect.h" />

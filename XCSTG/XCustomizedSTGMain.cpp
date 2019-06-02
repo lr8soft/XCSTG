@@ -19,17 +19,14 @@ int GetExitType() {
 	return code;
 }
 void RenderThead() {
-	xc_ogl::AppFrameWork app(720, 730, "XCSTG v0.64");
+	xc_ogl::AppFrameWork app(720, 730, "XCDSTG v0.64");
 	app.init();
 	app.message_loop();
 	SetExitType();
 }
 int main() {
-	//std::thread oglThread(RenderThead);
-	//oglThread.detach();
-	//while (!GetExitType());
-	xc_ogl::AppFrameWork app(720, 730, "XCSTG v0.64");
-	app.init();
-	app.message_loop();
+	std::thread oglThread(RenderThead);
+	oglThread.detach();
+	while (!GetExitType());
 	return 0;
 }

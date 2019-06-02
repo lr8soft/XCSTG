@@ -15,10 +15,10 @@ void xc_game::XCNormalEnemy::ShaderInit()
 {
 	if (!have_program_init) {
 		ShaderReader EYLoader;
-		EYLoader.load_from_file("shader/enemy/enemyGeneral.vert", GL_VERTEX_SHADER);
-		EYLoader.load_from_file("shader/enemy/enemyGeneral.frag", GL_FRAGMENT_SHADER);
-		EYLoader.link_all_shader();
-		program_static = EYLoader.get_program();
+		EYLoader.loadFromFile("shader/enemy/enemyGeneral.vert", GL_VERTEX_SHADER);
+		EYLoader.loadFromFile("shader/enemy/enemyGeneral.frag", GL_FRAGMENT_SHADER);
+		EYLoader.linkAllShader();
+		program_static = EYLoader.getProgramHandle();
 		have_program_init = true;
 	}
 	program = program_static;
@@ -35,10 +35,10 @@ void xc_game::XCNormalEnemy::TextureInit()
 {
 	if (!have_resource_init) {
 		ImageLoader FairyLoader, HairBallLoader;
-		FairyLoader.LoadTextureData("image/enemy/fairy_tex.png");
-		HairBallLoader.LoadTextureData("image/enemy/hairball.png");
-		tbo[FAIRY] = FairyLoader.GetTBO();
-		tbo[HAIRBALL] = HairBallLoader.GetTBO();
+		FairyLoader.loadTextureFromFile("image/enemy/fairy_tex.png");
+		HairBallLoader.loadTextureFromFile("image/enemy/hairball.png");
+		tbo[FAIRY] = FairyLoader.getTextureBufferObjectHandle();
+		tbo[HAIRBALL] = HairBallLoader.getTextureBufferObjectHandle();
 		have_resource_init = true;
 	}
 	glUniform1i(glGetUniformLocation(program,"tex"),0);
@@ -65,7 +65,7 @@ void xc_game::XCNormalEnemy::EnemyRender(float nowFrame)
 	XCEnemyBase::EnemyRender(nowFrame);
 	if (should_render) {
 		OGLSettingRenderStart();
-		if (is_dead) {
+		if (IsDead()) {
 			if (dead_se.SpecialEffectRender(NowX, NowY, NowZ))//ÕÍ≥…±¨’®‰÷»æ
 				should_render = false;
 		}

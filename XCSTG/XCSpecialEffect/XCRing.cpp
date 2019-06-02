@@ -14,10 +14,10 @@ void xc_se::XCRing::ShaderInit()
 {
 	if (!have_program_init) {
 		ShaderReader SELoader;
-		SELoader.load_from_file("shader/se/GeneralSE.vert", GL_VERTEX_SHADER);
-		SELoader.load_from_file("shader/se/GeneralSE.frag", GL_FRAGMENT_SHADER);
-		SELoader.link_all_shader();
-		program_static = SELoader.get_program();
+		SELoader.loadFromFile("shader/se/GeneralSE.vert", GL_VERTEX_SHADER);
+		SELoader.loadFromFile("shader/se/GeneralSE.frag", GL_FRAGMENT_SHADER);
+		SELoader.linkAllShader();
+		program_static = SELoader.getProgramHandle();
 		have_program_init = true;
 	}
 	program = program_static;
@@ -26,14 +26,14 @@ void xc_se::XCRing::TextureInit()
 {
 	if (!have_tbo_init) {
 		ImageLoader SELoader,SBLoader,PlayerSELoader,BossSELoader;
-		SELoader.LoadTextureData("image/se/ring.png");
-		SBLoader.LoadTextureData("image/se/ring_2.png");
-		PlayerSELoader.LoadTextureData("image/se/pexplode.png");
-		BossSELoader.LoadTextureData("image/se/explode.png");
-		tbo[RingLightColor] = SELoader.GetTBO();
-		tbo[RingDeepColor] = SBLoader.GetTBO();
-		tbo[RingPlayerDead] = PlayerSELoader.GetTBO();
-		tbo[RingBossDead] = BossSELoader.GetTBO();
+		SELoader.loadTextureFromFile("image/se/ring.png");
+		SBLoader.loadTextureFromFile("image/se/ring_2.png");
+		PlayerSELoader.loadTextureFromFile("image/se/pexplode.png");
+		BossSELoader.loadTextureFromFile("image/se/explode.png");
+		tbo[RingLightColor] = SELoader.getTextureBufferObjectHandle();
+		tbo[RingDeepColor] = SBLoader.getTextureBufferObjectHandle();
+		tbo[RingPlayerDead] = PlayerSELoader.getTextureBufferObjectHandle();
+		tbo[RingBossDead] = BossSELoader.getTextureBufferObjectHandle();
 		have_tbo_init = true;
 	}
 	glUniform1i(glGetUniformLocation(program,"tex"),0);

@@ -22,15 +22,15 @@ void xc_bullet::XCCircleBullet::ShaderInit()
 	if (!have_program_init) {
 		ShaderReader BulletReader;
 		if (use_point_sprite) {
-			BulletReader.load_from_file("shader/bullet/GeneralBullet.ps.vert", GL_VERTEX_SHADER);
-			BulletReader.load_from_file("shader/bullet/GeneralBullet.ps.frag", GL_FRAGMENT_SHADER);
+			BulletReader.loadFromFile("shader/bullet/GeneralBullet.ps.vert", GL_VERTEX_SHADER);
+			BulletReader.loadFromFile("shader/bullet/GeneralBullet.ps.frag", GL_FRAGMENT_SHADER);
 		}
 		else {
-			BulletReader.load_from_file("shader/bullet/GeneralBullet.vert", GL_VERTEX_SHADER);
-			BulletReader.load_from_file("shader/bullet/GeneralBullet.frag", GL_FRAGMENT_SHADER);
+			BulletReader.loadFromFile("shader/bullet/GeneralBullet.vert", GL_VERTEX_SHADER);
+			BulletReader.loadFromFile("shader/bullet/GeneralBullet.frag", GL_FRAGMENT_SHADER);
 		}
-		BulletReader.link_all_shader();
-		program_static= BulletReader.get_program();
+		BulletReader.linkAllShader();
+		program_static= BulletReader.getProgramHandle();
 		have_program_init = true;
 	}
 	program = program_static;
@@ -40,14 +40,14 @@ void xc_bullet::XCCircleBullet::TextureInit()
 {
 	if (!have_resource_init) {
 		ImageLoader TexLoader0,TexLoader1,TexLoader2,TexLoader3;
-		TexLoader0.LoadTextureData("image/bullet/normal_circle_bullet_0.png");
-		TexLoader1.LoadTextureData("image/bullet/largeish_circle_bullet_0.png");
-		TexLoader2.LoadTextureData("image/bullet/huge_circle_bullet_0.png");
-		TexLoader3.LoadTextureData("image/bullet/tiny_circle_bullet_0.png");
-		temp_tbo[NORMAL] = TexLoader0.GetTBO();
-		temp_tbo[LARGEISH] = TexLoader1.GetTBO();
-		temp_tbo[HUGE]= TexLoader2.GetTBO();
-		temp_tbo[TINY] = TexLoader3.GetTBO();
+		TexLoader0.loadTextureFromFile("image/bullet/normal_circle_bullet_0.png");
+		TexLoader1.loadTextureFromFile("image/bullet/largeish_circle_bullet_0.png");
+		TexLoader2.loadTextureFromFile("image/bullet/huge_circle_bullet_0.png");
+		TexLoader3.loadTextureFromFile("image/bullet/tiny_circle_bullet_0.png");
+		temp_tbo[NORMAL] = TexLoader0.getTextureBufferObjectHandle();
+		temp_tbo[LARGEISH] = TexLoader1.getTextureBufferObjectHandle();
+		temp_tbo[HUGE]= TexLoader2.getTextureBufferObjectHandle();
+		temp_tbo[TINY] = TexLoader3.getTextureBufferObjectHandle();
 		have_resource_init = true;
 	}
 
@@ -94,7 +94,7 @@ void xc_bullet::XCCircleBullet::SetBulletType(size_t type)
 {
 	SetRenderTBO(temp_tbo[type]);
 	bulletType = type;
-	attack_radius = attack_radius_group[type];
+	collsion_radius = attack_radius_group[type];
 }
 
 void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
@@ -153,11 +153,9 @@ void xc_bullet::XCCircleBullet::BulletCollisionWithPlayer(PlayerEntity * player)
 	if (player == nullptr) return;
 	if (should_render)
 	{
-		auto player_coord = player->GetPlayerCoord();
-		float x = **player_coord,y=**(player_coord+1), z = **(player_coord + 2);
-		float dist = sqrt(pow(x-NowX,2)+pow(y-NowY,2));
-		if (dist< attack_radius) {
-			player->SetDead();
+		bool have_collide_with_player = EntityCollideWithEntity(player);
+		if (have_collide_with_player) {
+			player->SetDamage(attack_damage);
 			should_render = false;
 		}
 	}

@@ -9,15 +9,14 @@ namespace xc_ogl {
 	private:
 		GLuint tbo=-1; GLenum texture_type;
 		int width, height, channel;
-		void* texture_ptr;
 		bool have_release;
 	public:
 		ImageLoader();
 		ImageLoader(GLenum type,GLuint tbo);
 		~ImageLoader();
 		void Release();
-		void* LoadTextureData(const char* path);
-		GLuint GetTBO();
+		void loadTextureFromFile(const char* path);
+		GLuint getTextureBufferObjectHandle();
 	};
 }
 

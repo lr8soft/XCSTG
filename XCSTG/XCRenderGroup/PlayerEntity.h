@@ -6,10 +6,11 @@
 #include "../util/GameTimer.h"
 #include "../util/ConfigManager.h"
 #include "../XCGame/Enemy/XCEnemyInfo.h"
-#include "../XCGame/XCNormalAttack.h"
+#include "../XCGame/Attack/XCNormalAttack.h"
+#include "../XCGame/XCEntity.h"
 #include "../XCSpecialEffect/XCRing.h"
 #include "ParticleGroup.h"
-class PlayerEntity {
+class PlayerEntity:public XCEntity {
 private:
 	xc_std::ConfigManager *playercfg;
 	int keyup = GLFW_KEY_UP, keydown=GLFW_KEY_DOWN, keyright=GLFW_KEY_RIGHT, keyleft=GLFW_KEY_LEFT;
@@ -24,7 +25,7 @@ private:
 	xc_game::XCAttack base_attack[1];
 	const float base_speed = 1.45f, trace_interval = 0.05f;;
 	float player_fire_power = 10.0f;//attack speed
-	float NowX = 0, NowY = -0.1, NowZ = 0;
+//	float NowX = 0, NowY = -0.1, NowZ = 0;
 	bool RenderDecisionPoint = false;
 	/*≈–∂®µ„vao°¢vbo”Îtbo*/
 	GLuint vao_deci, vbo_deci,tbo_deci;
@@ -52,6 +53,6 @@ public:
 	void PlayerCollisonEvent(xc_game::XCEnemyInfo *info);
 	void GroupKeyCheck(GLFWwindow* screen);
 	void SetDead();
-	const float** GetPlayerCoord();
+	virtual void SetDamage(bool damage) override;
 };
 #endif

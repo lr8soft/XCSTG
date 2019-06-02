@@ -4,21 +4,22 @@
 #include <gl/glcorearb.h>
 #include <functional>
 #include "../XCRenderGroup/PlayerEntity.h"
+#include "../XCGame/XCEntity.h"
 #include "../util/GameTimer.h"
 namespace xc_bullet {
 	/*≤Œ ˝:NowX, NowY,XCGameTimer, velocity, parameter*/
 	using BulletFunctionType=std::function<float(float, float, XCGameTimer, float, float)>;
-	class XCBullet {
+	class XCBullet:public XCEntity {
 	protected:
 		XCGameTimer BulletTimer;
 		float rotate_angle = 0.0f, velocity = 0.0f;
-		float NowX=0.0f, NowY=0.5f, NowZ=0.0f;
+		//float NowX=0.0f, NowY=0.5f, NowZ=0.0f;
 		bool should_render = false,have_start_pos=false,have_xyfunc=false,have_velocity=false;
 		bool aim_to_player = false,have_atp_init=false,atp_positive=false;
 		float atp_k, atp_b,atp_theta;
 		float top = 1.1, bottom = -1.1, left = -1.1, right = 1.1;
 		/*‰÷»æ∑∂Œß -1.1<NowX<1.1 -1.1<NowY<1.1*/
-		BulletFunctionType coordx_func,coordy_func;
+		BulletFunctionType coordx_func,coordy_func,coordz_func;
 		GLuint vao, vbo, tbo,program;
 		virtual void ShaderInit()=0;
 		virtual void TextureInit()=0;
@@ -84,7 +85,7 @@ namespace xc_bullet {
 			}
 		}
 		void SetStartingPoint(float x,float y,float z) {
-			NowX = x; NowY = y; NowZ = z;
+			SetCoord(x, y, z);
 			have_start_pos = true;
 		}
 		void StopBulletWork()
@@ -102,8 +103,8 @@ namespace xc_bullet {
 			if (should_render) 
 			{
 				if (!have_atp_init) {
-					auto player_coord = player->GetPlayerCoord();
-					float x = **player_coord, y = **(player_coord + 1), z = **(player_coord + 2);
+					auto player_coord = player->GetNowCoord();
+					float x = *player_coord, y = *(player_coord + 1), z = *(player_coord + 2);
 					atp_k = (y - NowY) / (x - NowX);
 					atp_b = NowY - atp_k * NowX;
 					if (x != NowX)

@@ -14,11 +14,11 @@ namespace xc_ogl {
 	public:
 		ShaderReader();
 		ShaderReader(GLuint program);
-		GLboolean load_from_file(const char* path,GLenum type);
-		GLboolean load_from_info(const char* info, GLenum type);
-		GLboolean add_new_shader(GLuint shader, GLenum type);
-		GLboolean link_all_shader();
-		GLuint get_program();
+		GLboolean loadFromFile(const char* path,GLenum type);
+		GLboolean loadFromInfo(const char* info, GLenum type);
+		GLboolean addNewShader(GLuint shader, GLenum type);
+		GLboolean linkAllShader();
+		GLuint getProgramHandle();
 	};
 }
 #endif

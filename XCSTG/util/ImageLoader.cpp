@@ -6,7 +6,6 @@
 xc_ogl::ImageLoader::ImageLoader()
 {
 	texture_type = GL_TEXTURE_2D;
-	texture_ptr = nullptr;
 	have_release = true;
 
 	glGenTextures(1, &tbo);
@@ -16,7 +15,6 @@ xc_ogl::ImageLoader::ImageLoader()
 xc_ogl::ImageLoader::ImageLoader(GLenum type,GLuint itbo)
 {
 	texture_type = type;
-	texture_ptr = nullptr;
 	have_release = true;
 	tbo = itbo;
 	glBindTexture(texture_type, tbo);
@@ -32,15 +30,15 @@ xc_ogl::ImageLoader::~ImageLoader()
 void xc_ogl::ImageLoader::Release()
 {
 	if (!have_release) {
-		stbi_image_free(texture_ptr);
+		//stbi_image_free(texture_ptr);
 		have_release = true;
 	}		
 }
 
-void * xc_ogl::ImageLoader::LoadTextureData(const char * path)
+void xc_ogl::ImageLoader::loadTextureFromFile(const char * path)
 {
 	stbi_set_flip_vertically_on_load(true);
-	texture_ptr = stbi_load(path, &width, &height, &channel, STBI_rgb_alpha);
+	void* texture_ptr = stbi_load(path, &width, &height, &channel, STBI_rgb_alpha);
 	glBindTexture(texture_type, tbo);
 	if (texture_ptr) {
 		if (channel == 3){//三通道rgb 适用于jpg图像
@@ -61,10 +59,10 @@ void * xc_ogl::ImageLoader::LoadTextureData(const char * path)
 		delete[] str;
 	}
 	glBindTexture(texture_type, 0);//Bind nothing.
-	return texture_ptr;
+	stbi_image_free(texture_ptr);
 }
 
-GLuint xc_ogl::ImageLoader::GetTBO()
+GLuint xc_ogl::ImageLoader::getTextureBufferObjectHandle()
 {
 	return tbo;
 }

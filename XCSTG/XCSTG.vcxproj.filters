@@ -85,6 +85,12 @@
     <Filter Include="头文件\XCRenderGroup">
       <UniqueIdentifier>{ceec9f41-8aed-47a1-8dea-2ef83d4c9ba8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\XCGame\Attack">
+      <UniqueIdentifier>{8c1fad5a-b382-4779-9803-a52af54f4f64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\XCGame\Attack">
+      <UniqueIdentifier>{a8eecf9c-d979-4380-ba12-57f06ff1eee7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="util\AppFrameWork.cpp">
@@ -101,9 +107,6 @@
     </ClCompile>
     <ClCompile Include="XCSpecialEffect\XCRing.cpp">
       <Filter>源文件\XCSpecialEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="XCGame\XCNormalAttack.cpp">
-      <Filter>源文件\XCGame</Filter>
     </ClCompile>
     <ClCompile Include="XCGame\Enemy\XCNormalEnemy.cpp">
       <Filter>源文件\XCGame\Enemy</Filter>
@@ -134,9 +137,6 @@
     </ClCompile>
     <ClCompile Include="XCGame\Enemy\Boss\XCTestBoss.cpp">
       <Filter>源文件\XCGame\Enemy\XCBoss</Filter>
-    </ClCompile>
-    <ClCompile Include="XCSpecialEffect\XCBossInfoSlot.cpp">
-      <Filter>源文件\XCSpecialEffect</Filter>
     </ClCompile>
     <ClCompile Include="XCStage\XCTestSC.cpp">
       <Filter>源文件\XCStage</Filter>
@@ -174,6 +174,15 @@
     <ClCompile Include="XCRenderGroup\ParticleGroup.cpp">
       <Filter>源文件\XCRenderGroup</Filter>
     </ClCompile>
+    <ClCompile Include="XCGame\Attack\XCNormalAttack.cpp">
+      <Filter>源文件\XCGame\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="XCSpecialEffect\XCGameInfoSlot.cpp">
+      <Filter>源文件\XCSpecialEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="XCSpecialEffect\XCDialog.cpp">
+      <Filter>源文件\XCSpecialEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util\AppFrameWork.h">
@@ -190,9 +199,6 @@
     </ClInclude>
     <ClInclude Include="XCShape\XCDefaultShape.h">
       <Filter>头文件\XCShape</Filter>
-    </ClInclude>
-    <ClInclude Include="XCGame\XCNormalAttack.h">
-      <Filter>头文件\XCGame</Filter>
     </ClInclude>
     <ClInclude Include="XCGame\Enemy\XCNormalEnemy.h">
       <Filter>头文件\XCGame\Enemy</Filter>
@@ -245,9 +251,6 @@
     <ClInclude Include="XCGame\Enemy\Boss\XCTestBoss.h">
       <Filter>头文件\XCGame\Enemy\XCBoss</Filter>
     </ClInclude>
-    <ClInclude Include="XCSpecialEffect\XCBossInfoSlot.h">
-      <Filter>头文件\XCSpecialEffect</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -289,6 +292,18 @@
     </ClInclude>
     <ClInclude Include="XCRenderGroup\ParticleGroup.h">
       <Filter>头文件\XCRenderGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="XCGame\Attack\XCNormalAttack.h">
+      <Filter>头文件\XCGame\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="XCGame\XCEntity.h">
+      <Filter>头文件\XCGame</Filter>
+    </ClInclude>
+    <ClInclude Include="XCSpecialEffect\XCGameInfoSlot.h">
+      <Filter>头文件\XCSpecialEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="XCSpecialEffect\XCDialog.h">
+      <Filter>头文件\XCSpecialEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,8 +4,8 @@ using namespace xc_ogl;
 void TestBoss::TextureInit()
 {
 	ImageLoader BossLoader;
-	BossLoader.LoadTextureData("Image/Boss/boss_test.png");
-	use_tbo = BossLoader.GetTBO();
+	BossLoader.loadTextureFromFile("Image/Boss/boss_test.png");
+	use_tbo = BossLoader.getTextureBufferObjectHandle();
 }
 
 void TestBoss::EnemyRender(float nowFrame)

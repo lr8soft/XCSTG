@@ -1,10 +1,10 @@
 #include "XCNormalAttack.h"
-#include "../XCShape/XCDefaultShape.h"
+#include "../../XCShape/XCDefaultShape.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "../util/ImageLoader.h"
-#include "../util/ShaderReader.h"
+#include "../../util/ImageLoader.h"
+#include "../../util/ShaderReader.h"
 using namespace xc_ogl;
 bool xc_game::XCAttack::have_program_init = false;
 bool xc_game::XCAttack::have_resource_init = false;
@@ -14,10 +14,10 @@ void xc_game::XCAttack::ShaderInit()
 {
 	if (!have_program_init) {
 		ShaderReader SELoader;
-		SELoader.load_from_file("shader/general/generalShader.vert", GL_VERTEX_SHADER);
-		SELoader.load_from_file("shader/general/generalShader.frag", GL_FRAGMENT_SHADER);
-		SELoader.link_all_shader();
-		program_static = SELoader.get_program();
+		SELoader.loadFromFile("shader/general/generalShader.vert", GL_VERTEX_SHADER);
+		SELoader.loadFromFile("shader/general/generalShader.frag", GL_FRAGMENT_SHADER);
+		SELoader.linkAllShader();
+		program_static = SELoader.getProgramHandle();
 		have_program_init = true;
 	}
 	program = program_static;
@@ -27,8 +27,8 @@ void xc_game::XCAttack::TextureInit()
 {
 	if (!have_resource_init) {
 		ImageLoader SELoader;
-		SELoader.LoadTextureData("image/se/attack_se.png");
-		tbo = SELoader.GetTBO();
+		SELoader.loadTextureFromFile("image/se/attack_se.png");
+		tbo = SELoader.getTextureBufferObjectHandle();
 		have_resource_init = true;
 	}
 	glUniform1i(glGetUniformLocation(program,"tex"),0);
@@ -89,6 +89,8 @@ void xc_game::XCAttack::AttackRender(float nowFrame)
 			transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
 			transform_mat = glm::scale(transform_mat, glm::vec3(0.05f));
 			auto transform_mat_loc = glGetUniformLocation(program, "convert_mat");
+			auto gradient_number_loc = glGetUniformLocation(program, "gradient_number");
+			glUniform1f(gradient_number_loc, 0.0f);
 			glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 			glDrawArrays(GL_TRIANGLES, 0, 6);
 			attackAudioEffect.MusicPlay();
@@ -121,8 +123,7 @@ void xc_game::XCAttack::CheckCollisionWithEnemy(xc_game::XCEnemyBase * enemy)
 	if (!should_render_attack) return;//已经碰撞过了，防止发射加速得继续计算但不能碰撞
 	auto *enemy_coord = enemy->GetNowCoord();
 	float deltaTime = attackTimer.getDeltaFrame();
-	float *tx = *(enemy_coord), *ty = *(enemy_coord + 1), *tz = *(enemy_coord + 2);
-	float x = *(tx), y = *(ty), z = *(tz);
+	float x = *(enemy_coord), y = *(enemy_coord + 1), z = *(enemy_coord + 2);
 	if (x<NowX + attack_width && x>NowX - attack_width) {
 		if (y>= NowY - attack_height- velocity * deltaTime && y<= NowY + velocity * deltaTime + attack_height) {
 			if (!enemy->IsDead()) {

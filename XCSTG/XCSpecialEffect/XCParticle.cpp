@@ -15,10 +15,10 @@ void xc_se::XCParticle::ShaderInit()
 {
 	if (!have_program_init) {
 		ShaderReader SELoader;
-		SELoader.load_from_file("shader/particle/particleGeneral.vert", GL_VERTEX_SHADER);
-		SELoader.load_from_file("shader/particle/particleGeneral.frag", GL_FRAGMENT_SHADER);
-		SELoader.link_all_shader();
-		program_static = SELoader.get_program();
+		SELoader.loadFromFile("shader/particle/particleGeneral.vert", GL_VERTEX_SHADER);
+		SELoader.loadFromFile("shader/particle/particleGeneral.frag", GL_FRAGMENT_SHADER);
+		SELoader.linkAllShader();
+		program_static = SELoader.getProgramHandle();
 		have_program_init = true;
 	}
 	program = program_static;
@@ -35,10 +35,10 @@ void xc_se::XCParticle::TextureInit()
 			switch (i) 
 			{
 				case CIRCLE_PARTICLE:
-					TexLoader.LoadTextureData("Image/particle/uniform_particle.png"); break;
+					TexLoader.loadTextureFromFile("Image/particle/uniform_particle.png"); break;
 				case MOVING_PARTICLE:
 				default:
-					TexLoader.LoadTextureData("Image/particle/uniform_particle.png"); break;
+					TexLoader.loadTextureFromFile("Image/particle/uniform_particle.png"); break;
 			}
 		}
 		have_tbo_init = true;

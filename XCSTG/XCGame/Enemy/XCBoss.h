@@ -2,7 +2,7 @@
 #ifndef _BASE_BOSS_H_
 #define _BASE_BOSS_H_
 #include "XCEnemyBase.h"
-#include "../../XCSpecialEffect/XCBossInfoSlot.h"
+#include "../../XCSpecialEffect/XCGameInfoSlot.h"
 #include "../../XCSpecialEffect/XCRing.h"
 #include <map>
 namespace xc_game {

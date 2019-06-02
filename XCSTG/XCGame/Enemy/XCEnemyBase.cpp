@@ -158,31 +158,6 @@ void xc_game::XCEnemyBase::SetVelocity(float v)
 	have_velocity = true;
 }
 
-void xc_game::XCEnemyBase::SetDead()
-{
-	is_dead = true;
-}
-
-void xc_game::XCEnemyBase::SetDamage(float damage)
-{
-	NowLife -= damage;
-	if (NowLife <= 0) {
-		is_dead = true;
-	}
-	else {
-		be_attack = true;
-	}
-}
-
-float ** xc_game::XCEnemyBase::GetNowCoord()
-{
-	static float *coord_temp[3];
-	*(coord_temp) = &NowX;
-	*(coord_temp + 1) = &NowY;
-	*(coord_temp + 2) = &NowZ;
-	return coord_temp;
-}
-
 bool xc_game::XCEnemyBase::IsShouldRender()
 {
 	return should_render;
@@ -193,10 +168,6 @@ bool xc_game::XCEnemyBase::IsRenderNow()
 	return is_render;
 }
 
-bool xc_game::XCEnemyBase::IsDead()
-{
-	return is_dead;
-}
 
 size_t xc_game::XCEnemyBase::GetEnemyType()
 {

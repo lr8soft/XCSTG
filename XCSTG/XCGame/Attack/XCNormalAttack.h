@@ -2,9 +2,9 @@
 #ifndef _NormalAttack_
 #define _NormalAttack_
 #include <gl/glcorearb.h>
-#include "../util/GameTimer.h"
-#include "Enemy/XCEnemyBase.h"
-#include "../XCAudio/XCAudioEffect.h"
+#include "../../util/GameTimer.h"
+#include "../Enemy/XCEnemyBase.h"
+#include "../../XCAudio/XCAudioEffect.h"
 namespace xc_game {
 	class XCAttack {
 	protected:

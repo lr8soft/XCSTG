@@ -1,4 +1,4 @@
-#include "XCBossInfoSlot.h"
+#include "XCGameInfoSlot.h"
 #include "../util/ImageLoader.h"
 #include "../util/ShaderReader.h"
 #include "../XCShape/XCDefaultShape.h"
@@ -19,15 +19,15 @@ void xc_se::XCGameInfoSlot::ShaderInit()
 {
 	if (!have_program_init) {
 		ShaderReader BossHP, SpellCardSlot;
-		BossHP.load_from_file("Shader/se/BossSE.vert", GL_VERTEX_SHADER);
-		BossHP.load_from_file("Shader/se/BossSE.frag", GL_FRAGMENT_SHADER);
-		BossHP.link_all_shader();
-		program[HP_SLOT] = BossHP.get_program();
+		BossHP.loadFromFile("Shader/se/BossSE.vert", GL_VERTEX_SHADER);
+		BossHP.loadFromFile("Shader/se/BossSE.frag", GL_FRAGMENT_SHADER);
+		BossHP.linkAllShader();
+		program[HP_SLOT] = BossHP.getProgramHandle();
 
-		SpellCardSlot.load_from_file("Shader/general/generalShader.vert", GL_VERTEX_SHADER);
-		SpellCardSlot.load_from_file("Shader/general/generalShader.frag", GL_FRAGMENT_SHADER);
-		SpellCardSlot.link_all_shader();
-		program[SPELLCARD_SLOT] = SpellCardSlot.get_program();
+		SpellCardSlot.loadFromFile("Shader/general/generalShader.vert", GL_VERTEX_SHADER);
+		SpellCardSlot.loadFromFile("Shader/general/generalShader.frag", GL_FRAGMENT_SHADER);
+		SpellCardSlot.linkAllShader();
+		program[SPELLCARD_SLOT] = SpellCardSlot.getProgramHandle();
 		have_program_init = true;
 	}
 
@@ -37,8 +37,8 @@ void xc_se::XCGameInfoSlot::TextureInit()
 {
 	if (!have_resource_init) {
 		ImageLoader spellCardSlot;
-		spellCardSlot.LoadTextureData("Image/font/spellcard_word.png");
-		tbo[SPELLCARD_SLOT] = spellCardSlot.GetTBO();
+		spellCardSlot.loadTextureFromFile("Image/font/spellcard_word.png");
+		tbo[SPELLCARD_SLOT] = spellCardSlot.getTextureBufferObjectHandle();
 		have_resource_init = true;
 	}
 }
@@ -98,7 +98,8 @@ void xc_se::XCGameInfoSlot::SpecialEffectInit()
 bool xc_se::XCGameInfoSlot::SpellCardInfoRender(int type)
 {
 	spellCardSlotTimer.Tick();
-	if (spellCardSlotTimer.getAccumlateTime()<3.0f) {
+	float accumlateTime = spellCardSlotTimer.getAccumlateTime();
+	if (accumlateTime <3.0f) {
 		glUseProgram(program[SPELLCARD_SLOT]);
 		glBindVertexArray(vao[SPELLCARD_SLOT + type]);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo[SPELLCARD_SLOT + type]);
@@ -107,6 +108,17 @@ bool xc_se::XCGameInfoSlot::SpellCardInfoRender(int type)
 		transform_mat = glm::translate(transform_mat, glm::vec3(0.0f, 0.6f, 0.0f));
 		transform_mat = glm::scale(transform_mat, glm::vec3(0.8f, 0.08f, 0.0f));
 		auto convert_mat_loc = glGetUniformLocation(program[SPELLCARD_SLOT], "convert_mat");
+		auto gradient_number_loc = glGetUniformLocation(program[SPELLCARD_SLOT], "gradient_number");
+		if (accumlateTime < 1.0f) {
+			glUniform1f(gradient_number_loc, 1.0f-accumlateTime);
+		}
+		else if (accumlateTime>=1.0f&&accumlateTime<2.5f) {
+			glUniform1f(gradient_number_loc, 0.0f);
+		}
+		else {
+			glUniform1f(gradient_number_loc, accumlateTime/3.0f);
+		}
+		
 		glUniformMatrix4fv(convert_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		return false;

@@ -30,24 +30,24 @@ void PlayerEntity::OGLSettingRenderEnd()
 void PlayerEntity::ShaderLoader()
 {
 	ShaderReader glpr,gltx;
-	gltx.load_from_file("shader/player/vertex_tx.glsl", GL_VERTEX_SHADER);
-	gltx.load_from_file("shader/player/fragment_tx.glsl", GL_FRAGMENT_SHADER);
-	gltx.link_all_shader();
-	program[PLAYERTEX] = gltx.get_program();//player texture
+	gltx.loadFromFile("shader/player/vertex_tx.glsl", GL_VERTEX_SHADER);
+	gltx.loadFromFile("shader/player/fragment_tx.glsl", GL_FRAGMENT_SHADER);
+	gltx.linkAllShader();
+	program[PLAYERTEX] = gltx.getProgramHandle();//player texture
 
-	glpr.load_from_file("shader/player/vertex_player.glsl", GL_VERTEX_SHADER);
-	glpr.load_from_file("shader/player/fragment_player.glsl", GL_FRAGMENT_SHADER);
-	glpr.link_all_shader();
-	program[DECISIONTEX] = glpr.get_program();//decision texture
+	glpr.loadFromFile("shader/player/vertex_player.glsl", GL_VERTEX_SHADER);
+	glpr.loadFromFile("shader/player/fragment_player.glsl", GL_FRAGMENT_SHADER);
+	glpr.linkAllShader();
+	program[DECISIONTEX] = glpr.getProgramHandle();//decision texture
 
 }
 void PlayerEntity::TextureLoader()
 {
 	ImageLoader TXLoader,PlayerTex;
-	TXLoader.LoadTextureData("image/se/decision.png");
-	PlayerTex.LoadTextureData("image/rin/rin.png");
-	tbo_deci = TXLoader.GetTBO();
-	tbo_player = PlayerTex.GetTBO();
+	TXLoader.loadTextureFromFile("image/se/decision.png");
+	PlayerTex.loadTextureFromFile("image/rin/rin.png");
+	tbo_deci = TXLoader.getTextureBufferObjectHandle();
+	tbo_player = PlayerTex.getTextureBufferObjectHandle();
 	glUniform1i(glGetUniformLocation(program[DECISIONTEX],"tex"),0);
 	glUniform1i(glGetUniformLocation(program[PLAYERTEX], "tex"), 0);
 }
@@ -133,6 +133,7 @@ void PlayerEntity::GroupInit()
 		itemss >> keyitem;
 	}
 	/////////////////////////读取玩家配置文件/////////////////////////////////////////////////
+	SetCoord(0.0, -0.1, 0.0);
 }
 
 void PlayerEntity::SetBoundingBox(float t, float b, float l, float r)
@@ -287,15 +288,12 @@ void PlayerEntity::GroupKeyCheck(GLFWwindow* screen)
 
 void PlayerEntity::SetDead()
 {
+	//XCEntity::SetDead(true);
+	//目   力   不   死   人
 	std::cout << "AWSL" << std::endl;
 	dead_time = true;
 }
-
-const float ** PlayerEntity::GetPlayerCoord()
+void PlayerEntity::SetDamage(bool damage)
 {
-	const static float *playerCoord[3];
-	playerCoord[0] = &NowX;
-	playerCoord[1] = &NowY;
-	playerCoord[2] = &NowZ;
-	return playerCoord;
+	SetDead();//立刻去世
 }

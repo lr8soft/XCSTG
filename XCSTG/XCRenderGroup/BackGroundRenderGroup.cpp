@@ -19,8 +19,8 @@ void BackGroundRenderGroup::BufferLoader()
 void BackGroundRenderGroup::TextureLoader()
 {
 	ImageLoader BGLoader;
-	BGLoader.LoadTextureData("image/bg/eff05.png");
-	tbo[0] = BGLoader.GetTBO();
+	BGLoader.loadTextureFromFile("image/bg/eff05.png");
+	tbo[0] = BGLoader.getTextureBufferObjectHandle();
 	BackGroundTexSet(tbo[0]);
 	glUniform1i(glGetUniformLocation(program,"tex"),0);
 }
@@ -28,10 +28,10 @@ void BackGroundRenderGroup::TextureLoader()
 void BackGroundRenderGroup::ShaderLoader()
 {
 	ShaderReader glbg;
-	glbg.load_from_file("shader/vertex.glsl", GL_VERTEX_SHADER);
-	glbg.load_from_file("shader/fragment.glsl", GL_FRAGMENT_SHADER);
-	glbg.link_all_shader();
-	program = glbg.get_program();
+	glbg.loadFromFile("shader/vertex.glsl", GL_VERTEX_SHADER);
+	glbg.loadFromFile("shader/fragment.glsl", GL_FRAGMENT_SHADER);
+	glbg.linkAllShader();
+	program = glbg.getProgramHandle();
 }
 
 void BackGroundRenderGroup::BackGroundTexSet(GLuint tbo)
