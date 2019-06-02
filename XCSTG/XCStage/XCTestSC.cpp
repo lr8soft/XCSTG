@@ -2,7 +2,7 @@
 using namespace xc_bullet;
 void XCTestSC::SpellCardInit()
 {
-	int init_count = 1000;
+	int init_count = 4000;
 	ptrCBullet = new XCCircleBullet[init_count];
 	auto xfunc = [](float NowX, float NowY, XCGameTimer timer, float v, float p)->float {
 		return NowX;

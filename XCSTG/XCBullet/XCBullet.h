@@ -70,13 +70,17 @@ namespace xc_bullet {
 		bool IsBulletRender() {
 			return should_render;
 		}
-		void UpdateAimToPlayerCoord() {
+		void UpdateBulletCoord() {
 			if (ShouldAimToPlayer()) {
 				if (atp_positive)
 					NowX += velocity * cosf(atp_theta)* BulletTimer.getDeltaFrame();
 				else
 					NowX -= velocity * cosf(atp_theta)* BulletTimer.getDeltaFrame();
 				NowY = atp_k * NowX + atp_b;
+			}
+			else {
+				NowX = coordx_func(NowX, NowY, BulletTimer, velocity, 0);
+				NowY = coordy_func(NowX, NowY, BulletTimer, velocity, 0);
 			}
 		}
 		void SetStartingPoint(float x,float y,float z) {

@@ -115,10 +115,7 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, tbo);
 		/////////////////////////////////////////////
-		UpdateAimToPlayerCoord();//if set AimToPlayer
-		NowX = coordx_func(NowX, NowY, BulletTimer, velocity, 0);
-		NowY = coordy_func(NowX, NowY, BulletTimer, velocity, 0);
-
+		UpdateBulletCoord();
 		if (NowX>right||NowX<left||NowY>top||NowY<bottom) 
 		{
 			should_render = false;
