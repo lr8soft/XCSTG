@@ -91,6 +91,18 @@
     <Filter Include="源文件\XCGame\Attack">
       <UniqueIdentifier>{a8eecf9c-d979-4380-ba12-57f06ff1eee7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\XCBackground">
+      <UniqueIdentifier>{3c69c1d0-69d0-4527-9d71-c479aee8b418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\XCBackground">
+      <UniqueIdentifier>{44498ec6-3440-4441-a60b-60a33423fdf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\XCReplay">
+      <UniqueIdentifier>{397d03e1-c697-4939-a4ad-c397df8b2996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\XCReplay">
+      <UniqueIdentifier>{539d4898-5d4b-482d-bd8a-a322c466a9c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="util\AppFrameWork.cpp">
@@ -182,6 +194,12 @@
     </ClCompile>
     <ClCompile Include="XCSpecialEffect\XCDialog.cpp">
       <Filter>源文件\XCSpecialEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="XCBackground\XCBackground3d.cpp">
+      <Filter>源文件\XCBackground</Filter>
+    </ClCompile>
+    <ClCompile Include="XCReplay\XCReplay.cpp">
+      <Filter>源文件\XCReplay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -304,6 +322,18 @@
     </ClInclude>
     <ClInclude Include="XCSpecialEffect\XCDialog.h">
       <Filter>头文件\XCSpecialEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="XCBackground\XCBackground.h">
+      <Filter>头文件\XCBackground</Filter>
+    </ClInclude>
+    <ClInclude Include="XCBackground\XCBackground3d.h">
+      <Filter>头文件\XCBackground</Filter>
+    </ClInclude>
+    <ClInclude Include="XCBackground\XCBackgroundStatic.h">
+      <Filter>头文件\XCBackground</Filter>
+    </ClInclude>
+    <ClInclude Include="XCReplay\XCReplay.h">
+      <Filter>头文件\XCReplay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

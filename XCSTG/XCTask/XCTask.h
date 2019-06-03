@@ -6,7 +6,7 @@
 #include <GLFW/glfw3.h>
 class XCTask {
 protected:
-	bool task_should_run = false,task_should_delete=false,have_resource_init=false;
+	bool task_should_run = false,task_should_delete=false,have_resource_init=false,is_replay_mode=false;
 	int taskType;
 public:
 	enum TaskType { DefaultType,BulletType, PlayerType, EnemyType, AttackType,BossType };
@@ -34,6 +34,9 @@ public:
 	int GetTaskType() 
 	{
 		return taskType;
+	}
+	void SetIsReplay(bool is) {
+		is_replay_mode = is;
 	}
 };
 #endif

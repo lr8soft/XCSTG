@@ -5,6 +5,10 @@
 #include "XCBulletTask.h"
 #include "XCBossTask.h"
 using namespace std;
+void XCTaskLoop::SetIsReplay(bool isreplay)
+{
+	IsReplayMode = isreplay;
+}
 void XCTaskLoop::SetScreen(GLFWwindow * screen)
 {
 	RenderInfo.pScreen = static_cast<void*>(screen);
@@ -105,6 +109,7 @@ XCTaskLoop::DoTaskCommmand(int command,std::map<std::string, XCTask*>::iterator 
 		case STAGE_INIT:
 			if (!ptask->IsTaskInit()) {
 				ptask->TaskInit();
+				ptask->SetIsReplay(IsReplayMode);
 				switch (ptask->GetTaskType()) {
 				case ptask->EnemyType:
 					((XCEnemyTask*)ptask)->AddEnemyToTaskLoop(&CollisionInfo); break;
