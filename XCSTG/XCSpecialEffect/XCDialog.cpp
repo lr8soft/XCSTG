@@ -40,15 +40,18 @@ void xc_se::XCDialog::AddTextToPreRenderMap(std::wstring text)
 	FT_Set_Pixel_Sizes(fontFace, 0, 48);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	XCUniformChar *tempChar=new XCUniformChar;
-	for (auto iter = text.begin(); iter != text.end();iter++) {
-		std::wstringstream ss;
-		ss.imbue(std::locale("chs"));
-		ss << *iter;
-		wchar_t load_char = *iter;
-		if (FT_Load_Char(fontFace, load_char, FT_LOAD_RENDER))
+	for (int i = 0; i < text.length();i++) {
+		if (FT_Load_Glyph(fontFace, FT_Get_Char_Index(fontFace, text[i]), FT_LOAD_DEFAULT))//FT_Load_Char(fontFace, load_char, FT_LOAD_RENDER)
 		{
 			char* log = new char[128];
-			sprintf_s(log, 64, "无法加载字体 %c!", *iter);
+			sprintf_s(log, 64, "无法加载字体%wc!", text[i]);
+			MessageBox(0, log, "ERROR", MB_ICONERROR);
+			delete[] log;
+			continue;
+		}
+		if (FT_Render_Glyph(fontFace->glyph, FT_RENDER_MODE_NORMAL)) {
+			char* log = new char[128];
+			sprintf_s(log, 64, "无法加载字体!");
 			MessageBox(0, log, "ERROR", MB_ICONERROR);
 			delete[] log;
 			continue;
@@ -72,8 +75,8 @@ void xc_se::XCDialog::AddTextToPreRenderMap(std::wstring text)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		tempChar->tboGroup.push_back(texture);
-		tempChar->offsetGroup.push_back(glm::ivec2(fontFace->glyph->bitmap.width, fontFace->glyph->bitmap.rows));
-		tempChar->sizeGroup.push_back(glm::ivec2(fontFace->glyph->bitmap_left, fontFace->glyph->bitmap_top));
+		tempChar->sizeGroup.push_back(glm::ivec2(fontFace->glyph->bitmap.width, fontFace->glyph->bitmap.rows));
+		tempChar->offsetGroup.push_back(glm::ivec2(fontFace->glyph->bitmap_left, fontFace->glyph->bitmap_top));
 		tempChar->advanceGroup.push_back(fontFace->glyph->advance.x);
 	}
 	XCRenderStringGroup.insert(std::pair<std::wstring, XCUniformChar*>(text, tempChar));
@@ -156,7 +159,7 @@ void xc_se::XCDialog::DialogInit()
 	ShaderInit();
 	TextureInit();
 	BufferInit();
-	AddTextToPreRenderMap(L"XCSTG 测试");
+	AddTextToPreRenderMap(L"XCSTG FreeType测试");
 }
 void xc_se::XCDialog::TextRender(std::string text, float x, float y, float scale, glm::vec4 color)
 {
@@ -239,7 +242,7 @@ void xc_se::XCDialog::DialogRender()
 {
 
 	//TextRender("XCSTG FreeType测试", 25.0f, 25.0f, 1.0f, glm::vec4(0.5, 0.8f, 0.2f,1.0f));
-	TextUnicodeRender(L"XCSTG 测试", 25.0f, 25.0f, 0.8f, glm::vec4(0.5, 0.8f, 0.2f, 1.0f));
+	TextUnicodeRender(L"XCSTG FreeType测试", 25.0f, 25.0f, 0.8f, glm::vec4(0.5, 0.8f, 0.2f, 1.0f));
 }
 
 void xc_se::XCDialog::DialogRelease()
