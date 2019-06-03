@@ -25,8 +25,9 @@ void RenderThead() {
 	SetExitType();
 }
 int main() {
-	std::thread oglThread(RenderThead);
-	oglThread.detach();
-	while (!GetExitType());
+	//std::thread oglThread(RenderThead);
+	//oglThread.detach();
+	//while (!GetExitType());
+	RenderThead();
 	return 0;
 }

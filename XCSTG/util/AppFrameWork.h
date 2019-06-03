@@ -8,6 +8,7 @@
 #include "../XCStage/XCEYStage1.h"
 #include "../XCRenderGroup/BackGroundRenderGroup.h"
 #include "../XCStage/XCBossTaskTest.h"
+#include "../XCSpecialEffect/XCDialog.h"
 #include "GameTimer.h"
 namespace xc_ogl {
 	class AppFrameWork
@@ -20,6 +21,7 @@ namespace xc_ogl {
 		TestBossTask bossTask;
 		BackGroundRenderGroup bggroup;
 
+		xc_se::XCDialog textbox;
 		XCGameTimer gameTimer;
 		static AppFrameWork* app_ptr;
 		const char* title;

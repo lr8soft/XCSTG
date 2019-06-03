@@ -71,6 +71,8 @@ void xc_ogl::AppFrameWork::shader_init()
 	taskLoop.AddTask(&bossTask, "3");
 	taskLoop.TaskProcessCommand(taskLoop.STAGE_INIT);
 	taskLoop.TaskProcessCommand(taskLoop.STAGE_RENDER);
+
+	textbox.DialogInit();
 }
 void xc_ogl::AppFrameWork::render()
 {
@@ -78,7 +80,8 @@ void xc_ogl::AppFrameWork::render()
 	gameTimer.Tick();
 	bggroup.GroupRender();
 	taskLoop.TaskProcess(gameTimer.getNowFrame());
-	
+
+	textbox.DialogRender();
 }
 
 
