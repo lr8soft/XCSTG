@@ -19,7 +19,7 @@ int GetExitType() {
 	return code;
 }
 void RenderThead() {
-	xc_ogl::AppFrameWork app(720, 730, "XCDSTG v0.64");
+	xc_ogl::AppFrameWork app(720, 730, "XCDSTG v0.65");
 	app.init();
 	app.message_loop();
 	SetExitType();

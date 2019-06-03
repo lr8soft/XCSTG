@@ -89,7 +89,7 @@ void PlayerEntity::GroupInit()
 	//////////////////////////攻击初始化///////////////////////////////////////////////////
 	dead_se.SpecialEffectInit(dead_se.RingPlayerDead);
 	playerParticle.SetGroupRenderType(playerParticle.ROTATE_COORD);
-	playerParticle.GroupInit(playerParticle.CIRCLE_PARTICLE,6,1.0f);
+	playerParticle.GroupInit(playerParticle.CIRCLE_PARTICLE,6,3.0f);
 	/////////////////////////读取玩家配置文件/////////////////////////////////////////////////
 	playercfg = new xc_std::ConfigManager("xcstg.cfg");
 	if (playercfg->IsFirstRun()) {

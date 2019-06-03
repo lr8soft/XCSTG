@@ -72,10 +72,11 @@ bool xc_se::XCParticle::SpecialEffectRender(float x, float y, float z)
 	if (should_se_render) {
 		SETimer.Tick();
 		is_rendering = true;
-		if (SETimer.getAccumlateTime() < RenderTime)
+		float accumlateTime = SETimer.getAccumlateTime();
+		if (accumlateTime < RenderTime)
 		{
 			glEnable(GL_BLEND);
-			glBlendFunc(GL_ONE, GL_ONE);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 			glUseProgram(program);
 			glEnable(GL_PROGRAM_POINT_SIZE);
 			glBindVertexArray(vao);
@@ -86,6 +87,7 @@ bool xc_se::XCParticle::SpecialEffectRender(float x, float y, float z)
 			auto view_mat_loc = glGetUniformLocation(program, "view_mat");
 			auto size_loc = glGetUniformLocation(program, "point_size");
 			auto offset_loc = glGetUniformLocation(program,"offset");
+			auto gradient_number_loc = glGetUniformLocation(program, "gradient_number");
 			glm::mat4 view_mat;
 			view_mat = glm::translate(view_mat, glm::vec3(x, y, z));
 			glUniformMatrix4fv(view_mat_loc, 1, GL_FALSE, glm::value_ptr(view_mat));
@@ -94,6 +96,16 @@ bool xc_se::XCParticle::SpecialEffectRender(float x, float y, float z)
 				glUniform1f(size_loc,RenderSize/z);//glUniform1f(size_loc,15.0f/z);
 			else
 				glUniform1f(size_loc, RenderSize);//glUniform1f(size_loc, 15.0f);
+
+			if (accumlateTime < RenderTime / 3.0f) {
+				glUniform1f(gradient_number_loc, 1.0f - accumlateTime);
+			}
+			else if (accumlateTime >= RenderTime / 3.0f && accumlateTime< (RenderTime * 2.0f) / 3.0f) {
+				glUniform1f(gradient_number_loc, 0.0f);
+			}
+			else {
+				glUniform1f(gradient_number_loc, accumlateTime/3.0f);
+			}
 			glDrawArrays(GL_POINTS, 0, 1);
 			glDisable(GL_PROGRAM_POINT_SIZE);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
