@@ -143,7 +143,7 @@ void XCFont::FontASCIIRender(std::string text, float x, float y, float scale, gl
 		glBindTexture(GL_TEXTURE_2D, CharacterTemp.tbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(draw_vertex), draw_vertex);
-		glm::mat4 projection = glm::ortho(0.0f, 730.0f, 0.0f, 720.0f);
+		glm::mat4 projection = glm::ortho(0.0f, render_width, 0.0f, render_height);
 		auto convert_mat_loc = glGetUniformLocation(program, "convert_mat");
 		auto font_color_loc = glGetUniformLocation(program, "font_color");
 		glUniform4fv(font_color_loc, 1, glm::value_ptr(color));
@@ -249,7 +249,7 @@ void XCFont::FontUnicodeRender(std::wstring text, float x, float y, float scale,
 		glBindTexture(GL_TEXTURE_2D, CharacterTemp->tboGroup[i]);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(draw_vertex), draw_vertex);
-		glm::mat4 projection = glm::ortho(0.0f, 730.0f, 0.0f, 720.0f);
+		glm::mat4 projection = glm::ortho(0.0f, render_width, 0.0f, render_height);
 		auto convert_mat_loc = glGetUniformLocation(program, "convert_mat");
 		auto font_color_loc = glGetUniformLocation(program, "font_color");
 		glUniform4fv(font_color_loc, 1, glm::value_ptr(color));
