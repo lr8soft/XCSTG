@@ -7,6 +7,7 @@
 #include <sstream>
 #include <al/alut.h>
 xc_ogl::AppFrameWork* xc_ogl::AppFrameWork::app_ptr = nullptr;
+std::wstring xc_ogl::AppFrameWork::xcstg_version =L"XCSTG≤‚ ‘ v0.65pre11";
 void xc_ogl::AppFrameWork::finalizer()
 {
 	glfwDestroyWindow(screen);
@@ -72,7 +73,7 @@ void xc_ogl::AppFrameWork::shader_init()
 	taskLoop.TaskProcessCommand(taskLoop.STAGE_INIT);
 	taskLoop.TaskProcessCommand(taskLoop.STAGE_RENDER);
 
-	textbox.DialogInit();
+	testFont.FontASCIIInit();
 }
 void xc_ogl::AppFrameWork::render()
 {
@@ -81,7 +82,22 @@ void xc_ogl::AppFrameWork::render()
 	bggroup.GroupRender();
 	taskLoop.TaskProcess(gameTimer.getNowFrame());
 
-	textbox.DialogRender();
+	static char fpsShow[64];
+	_itoa_s(gameTimer.getFPS(), fpsShow, 10);
+	testFont.FontASCIIRender(
+		fpsShow,
+		25.0f,
+		700.0f, 
+		0.5f, 
+		glm::vec4(0.3, 0.7f, 0.9f, 1.0f)
+	);
+	testFont.FontUnicodeDirectRender(
+		xcstg_version,
+		580.0f, 
+		0.0f,
+		0.3f,
+		glm::vec4(0.1, 0.2f, 0.2f,1.0f)
+	);
 }
 
 

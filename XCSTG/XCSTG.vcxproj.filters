@@ -103,6 +103,12 @@
     <Filter Include="头文件\XCReplay">
       <UniqueIdentifier>{539d4898-5d4b-482d-bd8a-a322c466a9c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\XCFont">
+      <UniqueIdentifier>{e36859e0-4f68-41e0-8827-55b58a99c845}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\XCFont">
+      <UniqueIdentifier>{11db1d51-2733-425f-9eb1-cd0726143aff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="util\AppFrameWork.cpp">
@@ -200,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="XCReplay\XCReplay.cpp">
       <Filter>源文件\XCReplay</Filter>
+    </ClCompile>
+    <ClCompile Include="XCFont\XCFont.cpp">
+      <Filter>源文件\XCFont</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -334,6 +343,9 @@
     </ClInclude>
     <ClInclude Include="XCReplay\XCReplay.h">
       <Filter>头文件\XCReplay</Filter>
+    </ClInclude>
+    <ClInclude Include="XCFont\XCFont.h">
+      <Filter>头文件\XCFont</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

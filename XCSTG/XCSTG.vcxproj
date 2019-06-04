@@ -132,6 +132,7 @@
     <ClCompile Include="XCAudio\XCAudioEffect.cpp" />
     <ClCompile Include="XCBackground\XCBackground3d.cpp" />
     <ClCompile Include="XCBullet\XCCircleBullet.cpp" />
+    <ClCompile Include="XCFont\XCFont.cpp" />
     <ClCompile Include="XCGame\Attack\XCNormalAttack.cpp" />
     <ClCompile Include="XCGame\Enemy\Boss\XCTestBoss.cpp" />
     <ClCompile Include="XCGame\Enemy\XCBoss.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="XCBackground\XCBackgroundStatic.h" />
     <ClInclude Include="XCBullet\XCBullet.h" />
     <ClInclude Include="XCBullet\XCCircleBullet.h" />
+    <ClInclude Include="XCFont\XCFont.h" />
     <ClInclude Include="XCGame\Attack\XCNormalAttack.h" />
     <ClInclude Include="XCGame\Enemy\Boss\XCTestBoss.h" />
     <ClInclude Include="XCGame\Enemy\XCBoss.h" />

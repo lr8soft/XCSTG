@@ -8,7 +8,7 @@
 #include "../XCStage/XCEYStage1.h"
 #include "../XCRenderGroup/BackGroundRenderGroup.h"
 #include "../XCStage/XCBossTaskTest.h"
-#include "../XCSpecialEffect/XCDialog.h"
+#include "../XCFont/XCFont.h"
 #include "GameTimer.h"
 namespace xc_ogl {
 	class AppFrameWork
@@ -21,9 +21,10 @@ namespace xc_ogl {
 		TestBossTask bossTask;
 		BackGroundRenderGroup bggroup;
 
-		xc_se::XCDialog textbox;
+		XCFont testFont;
 		XCGameTimer gameTimer;
 		static AppFrameWork* app_ptr;
+		static std::wstring xcstg_version;
 		const char* title;
 		int width, height;
 		bool have_init = false;
