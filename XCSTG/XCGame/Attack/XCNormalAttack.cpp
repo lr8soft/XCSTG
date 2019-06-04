@@ -62,20 +62,20 @@ void xc_game::XCAttack::AttackInit()
 
 void xc_game::XCAttack::AttackRender(float nowFrame)
 {
-	attackTimer.Tick(nowFrame);
 	if (should_render) {
+		attackTimer.Tick(nowFrame);
 		NowY += velocity * attackTimer.getDeltaFrame();//首先他在动（碰撞后仍然在计算）
 		if (should_render_attack) {//还没碰撞的
 			glUseProgram(program);
-			if (attackTimer.getAccumlateTime() < 0.2) {
+			if (attackTimer.getAccumlateTime() < 0.1) {
 				glBindVertexArray(vao[1]);
 				glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
 			}
-			else if (attackTimer.getAccumlateTime() < 0.25) {
+			else if (attackTimer.getAccumlateTime() < 0.15) {
 				glBindVertexArray(vao[2]);
 				glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
 			}
-			else if (attackTimer.getAccumlateTime() < 0.30) {
+			else if (attackTimer.getAccumlateTime() < 0.20) {
 				glBindVertexArray(vao[3]);
 				glBindBuffer(GL_ARRAY_BUFFER, vbo[3]);
 			}

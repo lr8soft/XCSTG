@@ -21,6 +21,7 @@ struct XCUniformChar {
 };
 class XCFont {
 private:
+	static float render_width, render_height;
 	static bool have_resource_init, have_program_init, have_buffer_init;
 	static GLuint vao, vbo, program;
 	static std::map<GLchar,XCCharacter> XCCharacterGroup;
@@ -29,6 +30,7 @@ private:
 	void ResourceInit(int end);
 	void BufferInit();
 public:
+	void FontSetWidthAndHeight(float h,float w);
 	void FontASCIIInit(int endchar=128);
 	void FontASCIIRender(std::string text, float x, float y, float scale, glm::vec4 color);
 	void FontUnicodeInit(std::wstring text);

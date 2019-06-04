@@ -18,16 +18,15 @@ int GetExitType() {
 	mutex.unlock();
 	return code;
 }
-void RenderThead() {
-	xc_ogl::AppFrameWork app(720, 730, "XCDSTG v0.65");
+void GameThead() {
+	xc_ogl::AppFrameWork app(720, 730, "XCDSTG v0.66");
 	app.init();
 	app.message_loop();
 	SetExitType();
 }
 int main() {
-	//std::thread oglThread(RenderThead);
-	//oglThread.detach();
-	//while (!GetExitType());
-	RenderThead();
+	std::thread oglThread(GameThead);
+	oglThread.detach();
+	while (!GetExitType());
 	return 0;
 }

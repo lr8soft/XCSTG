@@ -4,6 +4,16 @@
 #define FLAT_COVERED_PLANE 0xffa
 #define DEFAULT_CUBE_WITH_COLOR 0xffb
 /***!!!It should be render as "GL_TRIANGLES" mode.!!!***/
+static float covered_plane_vertex_with_texture[] = {
+	1.0f, 1.0f, 1.0f, 1.0f,
+	1.0f,-1.0f, 1.0f, 0.0f,
+	-1.0,-1.0f, 0.0f, 0.0f,
+
+	-1.0,-1.0f, 0.0f, 0.0f,
+	-1.0, 1.0f, 0.0f, 1.0f,
+	1.0f, 1.0f, 1.0f, 1.0f
+};
+/***!!!It should be render as "GL_TRIANGLES" mode.!!!***/
 static float covered_plane_vertex[] = {
 	1.0f, 1.0f,
 	1.0f,-1.0f,

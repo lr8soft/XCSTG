@@ -270,7 +270,7 @@ void PlayerEntity::GroupKeyCheck(GLFWwindow* screen)
 	if (glfwGetKey(screen, keyshoot) == GLFW_PRESS) {
 		auto attack_count = sizeof(base_attack) / sizeof(xc_game::XCAttack);
 		for (int i = 0; i < attack_count; i++) {//deltaX, deltaY + 0.12+0.3*i, deltaZ,12.0f
-			base_attack[i].SetPositionAndVelocity(NowX, NowY + (1+i)*0.3, NowZ, player_fire_power);
+			base_attack[i].SetPositionAndVelocity(NowX, NowY, NowZ, player_fire_power);
 			base_attack[i].SetAttack();
 		}
 	}

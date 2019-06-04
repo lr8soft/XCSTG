@@ -7,7 +7,7 @@
 #include <sstream>
 #include <al/alut.h>
 xc_ogl::AppFrameWork* xc_ogl::AppFrameWork::app_ptr = nullptr;
-std::wstring xc_ogl::AppFrameWork::xcstg_version =L"XCSTG≤‚ ‘ v0.65pre11";
+std::wstring xc_ogl::AppFrameWork::xcstg_version =L"XCSTG≤‚ ‘ v0.66";
 void xc_ogl::AppFrameWork::finalizer()
 {
 	glfwDestroyWindow(screen);
@@ -64,36 +64,36 @@ void xc_ogl::AppFrameWork::key_check()
 }
 void xc_ogl::AppFrameWork::shader_init()
 {
-	bggroup.GroupInit();
+	taskLoop.SetWidthHeight(width, height);
 	taskLoop.SetScreen(screen);
+	taskLoop.AddTask(&bgtask, "0");
 	taskLoop.AddTask(&enemyTask,"0");
-	taskLoop.AddTask(&playerTask,"1");
-	taskLoop.AddTask(&bulletTask,"2");
-	taskLoop.AddTask(&bossTask, "3");
+	taskLoop.AddTask(&playerTask,"0");
+	taskLoop.AddTask(&bulletTask, "0");
+	taskLoop.AddTask(&bossTask, "0");
 	taskLoop.TaskProcessCommand(taskLoop.STAGE_INIT);
 	taskLoop.TaskProcessCommand(taskLoop.STAGE_RENDER);
-
+	testFont.FontSetWidthAndHeight(height, width);
 	testFont.FontASCIIInit();
 }
 void xc_ogl::AppFrameWork::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	gameTimer.Tick();
-	bggroup.GroupRender();
 	taskLoop.TaskProcess(gameTimer.getNowFrame());
 
 	static char fpsShow[64];
 	_itoa_s(gameTimer.getFPS(), fpsShow, 10);
 	testFont.FontASCIIRender(
 		fpsShow,
-		25.0f,
-		700.0f, 
+		0.0f,
+		0.95f, 
 		0.5f, 
 		glm::vec4(0.3, 0.7f, 0.9f, 1.0f)
 	);
 	testFont.FontUnicodeDirectRender(
 		xcstg_version,
-		580.0f, 
+		0.8f, 
 		0.0f,
 		0.3f,
 		glm::vec4(0.1, 0.2f, 0.2f,1.0f)

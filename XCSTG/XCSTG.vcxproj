@@ -131,6 +131,7 @@
     <ClCompile Include="util\gl3w.c" />
     <ClCompile Include="XCAudio\XCAudioEffect.cpp" />
     <ClCompile Include="XCBackground\XCBackground3d.cpp" />
+    <ClCompile Include="XCBackground\XCBackgroundStatic.cpp" />
     <ClCompile Include="XCBullet\XCCircleBullet.cpp" />
     <ClCompile Include="XCFont\XCFont.cpp" />
     <ClCompile Include="XCGame\Attack\XCNormalAttack.cpp" />
@@ -139,7 +140,6 @@
     <ClCompile Include="XCGame\Enemy\XCEnemyBase.cpp" />
     <ClCompile Include="XCGame\Enemy\XCEnemyInfo.cpp" />
     <ClCompile Include="XCGame\Enemy\XCNormalEnemy.cpp" />
-    <ClCompile Include="XCRenderGroup\BackGroundRenderGroup.cpp" />
     <ClCompile Include="XCRenderGroup\ParticleGroup.cpp" />
     <ClCompile Include="XCRenderGroup\PlayerEntity.cpp" />
     <ClCompile Include="XCReplay\XCReplay.cpp" />
@@ -182,7 +182,6 @@
     <ClInclude Include="XCGame\Enemy\XCEnemyInfo.h" />
     <ClInclude Include="XCGame\Enemy\XCNormalEnemy.h" />
     <ClInclude Include="XCGame\XCEntity.h" />
-    <ClInclude Include="XCRenderGroup\BackGroundRenderGroup.h" />
     <ClInclude Include="XCRenderGroup\ParticleGroup.h" />
     <ClInclude Include="XCRenderGroup\PlayerEntity.h" />
     <ClInclude Include="XCReplay\XCReplay.h" />
@@ -197,7 +196,9 @@
     <ClInclude Include="XCStage\XCBossTaskTest.h" />
     <ClInclude Include="XCStage\XCBTStage1.h" />
     <ClInclude Include="XCStage\XCEYStage1.h" />
+    <ClInclude Include="XCStage\XCTestBG.h" />
     <ClInclude Include="XCStage\XCTestSC.h" />
+    <ClInclude Include="XCTask\XCBackgroundTask.h" />
     <ClInclude Include="XCTask\XCBossTask.h" />
     <ClInclude Include="XCTask\XCBulletTask.h" />
     <ClInclude Include="XCTask\XCEnemyTask.h" />

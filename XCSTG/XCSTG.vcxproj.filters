@@ -55,12 +55,6 @@
     <Filter Include="源文件\XCTask">
       <UniqueIdentifier>{d1e65255-99bb-43ac-8698-fba5c9b3281d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\XCStage">
-      <UniqueIdentifier>{3476c0b9-9fb7-42b4-a580-a03c103cd307}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\XCStage">
-      <UniqueIdentifier>{74ac1ac1-c89a-427f-aff3-db8e9dbe6767}</UniqueIdentifier>
-    </Filter>
     <Filter Include="头文件\XCSpellCard">
       <UniqueIdentifier>{fc7bb195-0a77-457c-a324-de0ced1bce58}</UniqueIdentifier>
     </Filter>
@@ -103,11 +97,17 @@
     <Filter Include="头文件\XCReplay">
       <UniqueIdentifier>{539d4898-5d4b-482d-bd8a-a322c466a9c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\XCFont">
+      <UniqueIdentifier>{11db1d51-2733-425f-9eb1-cd0726143aff}</UniqueIdentifier>
+    </Filter>
     <Filter Include="头文件\XCFont">
       <UniqueIdentifier>{e36859e0-4f68-41e0-8827-55b58a99c845}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\XCFont">
-      <UniqueIdentifier>{11db1d51-2733-425f-9eb1-cd0726143aff}</UniqueIdentifier>
+    <Filter Include="源文件\XCStage0">
+      <UniqueIdentifier>{74ac1ac1-c89a-427f-aff3-db8e9dbe6767}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\XCStage0">
+      <UniqueIdentifier>{3476c0b9-9fb7-42b4-a580-a03c103cd307}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -142,10 +142,10 @@
       <Filter>源文件\XCTask</Filter>
     </ClCompile>
     <ClCompile Include="XCStage\XCBTStage1.cpp">
-      <Filter>源文件\XCStage</Filter>
+      <Filter>源文件\XCStage0</Filter>
     </ClCompile>
     <ClCompile Include="XCStage\XCEYStage1.cpp">
-      <Filter>源文件\XCStage</Filter>
+      <Filter>源文件\XCStage0</Filter>
     </ClCompile>
     <ClCompile Include="XCGame\Enemy\XCBoss.cpp">
       <Filter>源文件\XCGame\Enemy</Filter>
@@ -157,10 +157,10 @@
       <Filter>源文件\XCGame\Enemy\XCBoss</Filter>
     </ClCompile>
     <ClCompile Include="XCStage\XCTestSC.cpp">
-      <Filter>源文件\XCStage</Filter>
+      <Filter>源文件\XCStage0</Filter>
     </ClCompile>
     <ClCompile Include="XCStage\XCBossTaskTest.cpp">
-      <Filter>源文件\XCStage</Filter>
+      <Filter>源文件\XCStage0</Filter>
     </ClCompile>
     <ClCompile Include="util\GameTimer.cpp">
       <Filter>源文件\util</Filter>
@@ -182,9 +182,6 @@
     </ClCompile>
     <ClCompile Include="XCSpecialEffect\XCParticle.cpp">
       <Filter>源文件\XCSpecialEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="XCRenderGroup\BackGroundRenderGroup.cpp">
-      <Filter>源文件\XCRenderGroup</Filter>
     </ClCompile>
     <ClCompile Include="XCRenderGroup\PlayerEntity.cpp">
       <Filter>源文件\XCRenderGroup</Filter>
@@ -209,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="XCFont\XCFont.cpp">
       <Filter>源文件\XCFont</Filter>
+    </ClCompile>
+    <ClCompile Include="XCBackground\XCBackgroundStatic.cpp">
+      <Filter>源文件\XCBackground</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -261,10 +261,10 @@
       <Filter>头文件\XCTask</Filter>
     </ClInclude>
     <ClInclude Include="XCStage\XCBTStage1.h">
-      <Filter>头文件\XCStage</Filter>
+      <Filter>头文件\XCStage0</Filter>
     </ClInclude>
     <ClInclude Include="XCStage\XCEYStage1.h">
-      <Filter>头文件\XCStage</Filter>
+      <Filter>头文件\XCStage0</Filter>
     </ClInclude>
     <ClInclude Include="XCGame\Enemy\XCBoss.h">
       <Filter>头文件\XCGame\Enemy</Filter>
@@ -285,10 +285,10 @@
       <Filter>头文件\XCTask</Filter>
     </ClInclude>
     <ClInclude Include="XCStage\XCBossTaskTest.h">
-      <Filter>头文件\XCStage</Filter>
+      <Filter>头文件\XCStage0</Filter>
     </ClInclude>
     <ClInclude Include="XCStage\XCTestSC.h">
-      <Filter>头文件\XCStage</Filter>
+      <Filter>头文件\XCStage0</Filter>
     </ClInclude>
     <ClInclude Include="util\GameTimer.h">
       <Filter>头文件\util</Filter>
@@ -310,9 +310,6 @@
     </ClInclude>
     <ClInclude Include="XCSpecialEffect\XCSpecialEffect.h">
       <Filter>头文件\XCSpecialEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="XCRenderGroup\BackGroundRenderGroup.h">
-      <Filter>头文件\XCRenderGroup</Filter>
     </ClInclude>
     <ClInclude Include="XCRenderGroup\PlayerEntity.h">
       <Filter>头文件\XCRenderGroup</Filter>
@@ -346,6 +343,12 @@
     </ClInclude>
     <ClInclude Include="XCFont\XCFont.h">
       <Filter>头文件\XCFont</Filter>
+    </ClInclude>
+    <ClInclude Include="XCTask\XCBackgroundTask.h">
+      <Filter>头文件\XCTask</Filter>
+    </ClInclude>
+    <ClInclude Include="XCStage\XCTestBG.h">
+      <Filter>头文件\XCStage0</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

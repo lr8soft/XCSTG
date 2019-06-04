@@ -8,7 +8,7 @@
 class XCTaskLoop {
 protected:	/*UUID   Task*/
 	bool IsReplayMode = false;
-	std::map<std::string, XCTask*> tasklist;
+	std::multimap<std::string, XCTask*> tasklist;
 	std::vector<int> taskCommandList;
 	XCTaskCollisionInfo CollisionInfo;
 	XCTaskRenderInfo RenderInfo;
@@ -16,12 +16,14 @@ protected:	/*UUID   Task*/
 	void SetPlayer(XCTask* ptask);
 	void SetEnemy(XCTask* ptask);
 	void SetBullet(XCTask* ptask);
+	void SetBackground(XCTask* ptask);
 	std::map<std::string, XCTask*>::iterator DoTaskCommmand(int command,std::map<std::string, XCTask*>::iterator &iter);
 public:
 	enum TaskCommand {COMMAND_NONE,CLEAN_ENEMY,CLEAN_BULLET,STAGE_INIT,STAGE_RENDER,STAGE_END};
 	void SetIsReplay(bool isreplay);
 	void SetScreen(GLFWwindow* screen);
-	void AddTask(XCTask* task,std::string uuid);
+	void SetWidthHeight(float w,float h);
+	void AddTask(XCTask* task,std::string priority);
 	void DeleteTask(std::string uuid);
 	void ActiveTask(std::string uuid);
 	void TaskProcess(float nowFrame);

@@ -14,6 +14,12 @@ void XCTaskLoop::SetScreen(GLFWwindow * screen)
 	RenderInfo.pScreen = static_cast<void*>(screen);
 }
 
+void XCTaskLoop::SetWidthHeight(float w, float h)
+{
+	RenderInfo.render_width = w;
+	RenderInfo.render_height = h;
+}
+
 void XCTaskLoop::SetPlayer(XCTask* ptask)
 {
 	pPlayerTask = ptask;
@@ -32,20 +38,22 @@ void XCTaskLoop::SetBullet(XCTask * ptask)
 	pBulletTask = ptask;
 }
 
+void XCTaskLoop::SetBackground(XCTask * ptask)
+{
+	ptask->TaskInit();
+}
 void XCTaskLoop::TaskProcessCommand(int command)
 {
 	taskCommandList.push_back(command);
 }
 
-void XCTaskLoop::AddTask(XCTask * task, std::string uuid)
+void XCTaskLoop::AddTask(XCTask * task, std::string priority)
 {
-	tasklist.insert(std::make_pair(uuid,task));//Add task to tasklist
+	tasklist.insert(std::make_pair(priority,task));//Add task to tasklist
 	switch (task->GetTaskType())
 	{
 	case task->PlayerType:
 		SetPlayer(task);
-		break;
-	case task->AttackType:
 		break;
 	case task->BulletType:
 		SetBullet(task);
@@ -54,6 +62,9 @@ void XCTaskLoop::AddTask(XCTask * task, std::string uuid)
 		SetEnemy(task);
 		break;
 	case task->BossType:
+		break;
+	case task->BackgroundType:
+		SetBackground(task);
 		break;
 	}
 }

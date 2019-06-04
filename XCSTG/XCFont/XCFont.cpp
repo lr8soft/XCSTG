@@ -4,6 +4,8 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H  
 std::map<GLchar, XCCharacter> XCFont::XCCharacterGroup;
+float XCFont::render_height = 730.0f;
+float XCFont::render_width = 720.0f;
 bool XCFont::have_resource_init = false;
 bool XCFont::have_buffer_init = false;
 bool XCFont::have_program_init = false;
@@ -101,6 +103,11 @@ void XCFont::BufferInit()
 	}
 
 }
+void XCFont::FontSetWidthAndHeight(float h, float w)
+{
+	render_width = w;
+	render_height = h;
+}
 void XCFont::FontASCIIInit(int endchar)
 {
 	ShaderInit();
@@ -110,6 +117,8 @@ void XCFont::FontASCIIInit(int endchar)
 
 void XCFont::FontASCIIRender(std::string text, float x, float y, float scale, glm::vec4 color)
 {
+	x *= render_width;
+	y *= render_height;
 	glUseProgram(program);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -213,6 +222,8 @@ void XCFont::FontUnicodeInit(std::wstring text)
 
 void XCFont::FontUnicodeRender(std::wstring text, float x, float y, float scale, glm::vec4 color)
 {
+	x *= render_width;
+	y *= render_height;
 	glUseProgram(program);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);

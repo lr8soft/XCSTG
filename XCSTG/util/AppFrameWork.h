@@ -6,20 +6,20 @@
 #include "../XCTask/XCPlayerTask.h"
 #include "../XCStage/XCBTStage1.h"
 #include "../XCStage/XCEYStage1.h"
-#include "../XCRenderGroup/BackGroundRenderGroup.h"
 #include "../XCStage/XCBossTaskTest.h"
 #include "../XCFont/XCFont.h"
+#include "../XCStage/XCTestBG.h"
 #include "GameTimer.h"
 namespace xc_ogl {
 	class AppFrameWork
 	{
 	private:
 		XCEYStage1 enemyTask;
+		XCTestBG bgtask;
 		XCPlayerTask playerTask;
 		XCBTStage1 bulletTask;
 		XCTaskLoop taskLoop;
 		TestBossTask bossTask;
-		BackGroundRenderGroup bggroup;
 
 		XCFont testFont;
 		XCGameTimer gameTimer;
