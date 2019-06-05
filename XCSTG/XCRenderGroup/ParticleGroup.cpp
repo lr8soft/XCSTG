@@ -19,11 +19,12 @@ void ParticleGroup::GroupInit(int type, int count, float rendertime)
 	}
 }
 
-bool ParticleGroup::GroupRender(float x, float y, float z)
+bool ParticleGroup::GroupRender(float x, float y, float z, float nowFrame)
 {
+	particleGroupTimer.Tick(nowFrame);
 	bool is_render_finish = true;
 	int i=0;
-	default_random_engine e(glfwGetTime());
+	default_random_engine e(particleGroupTimer.getAccumlateTime());
 	uniform_real_distribution<float> rand_engine(-0.5f, 0.5f),rand_engine_small(-0.08,0.08f);
 	for (int i = 0; i < particle_count; i++) {
 		if (!StorageParticleGroup[i].ShouldRender()) {
@@ -42,8 +43,8 @@ bool ParticleGroup::GroupRender(float x, float y, float z)
 				is_render_finish = false; 
 				break;
 			case ROTATE_COORD:
-				temp_x = x + sin(glfwGetTime()+  (2 * 3.141 / particle_count)*i)/4;
-				temp_y = y + cos(glfwGetTime() + (2 * 3.141 / particle_count)*i)/4;
+				temp_x = x + sin(particleGroupTimer.getAccumlateTime()+  (2 * 3.141 / particle_count)*i)/4;
+				temp_y = y + cos(particleGroupTimer.getAccumlateTime() + (2 * 3.141 / particle_count)*i)/4;
 				temp_z = z;
 				StorageParticleGroup[i].SetRenderSize(30.0f);
 				StorageParticleGroup[i].SpecialEffectRender(temp_x, temp_y, temp_z);

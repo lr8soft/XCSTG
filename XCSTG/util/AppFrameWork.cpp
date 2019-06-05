@@ -7,7 +7,7 @@
 #include <sstream>
 #include <al/alut.h>
 xc_ogl::AppFrameWork* xc_ogl::AppFrameWork::app_ptr = nullptr;
-std::wstring xc_ogl::AppFrameWork::xcstg_version =L"XCSTG≤‚ ‘ v0.66";
+std::wstring xc_ogl::AppFrameWork::xcstg_version =L"XCSTG≤‚ ‘ v0.67pre1";
 void xc_ogl::AppFrameWork::finalizer()
 {
 	glfwDestroyWindow(screen);
@@ -61,43 +61,54 @@ void xc_ogl::AppFrameWork::key_check()
 	if (glfwGetKey(screen, GLFW_KEY_L) == GLFW_PRESS) {
 		taskLoop.TaskProcessCommand(taskLoop.CLEAN_ENEMY);
 	}
+	if (glfwGetKey(screen, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		taskLoop.TaskProcessCommand(taskLoop.PROCESS_PAUSE);
+	}	
+	if (glfwGetKey(screen, GLFW_KEY_Q) == GLFW_PRESS) {
+		taskLoop.TaskProcessCommand(taskLoop.PROCESS_RESUME);
+	}
 }
 void xc_ogl::AppFrameWork::shader_init()
 {
+	taskLoop.SetAbsWidthHeight(1.0f, 1.0f);
 	taskLoop.SetWidthHeight(width, height);
 	taskLoop.SetScreen(screen);
+
 	taskLoop.AddTask(&bgtask, "0");
 	taskLoop.AddTask(&enemyTask,"0");
 	taskLoop.AddTask(&playerTask,"0");
 	taskLoop.AddTask(&bulletTask, "0");
 	taskLoop.AddTask(&bossTask, "0");
+
 	taskLoop.TaskProcessCommand(taskLoop.STAGE_INIT);
 	taskLoop.TaskProcessCommand(taskLoop.STAGE_RENDER);
+
 	testFont.FontSetWidthAndHeight(height, width);
 	testFont.FontASCIIInit();
 }
 void xc_ogl::AppFrameWork::render()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
 	gameTimer.Tick();
-	taskLoop.TaskProcess(gameTimer.getNowFrame());
-
-	static char fpsShow[64];
-	_itoa_s(gameTimer.getFPS(), fpsShow, 10);
-	testFont.FontASCIIRender(
-		fpsShow,
-		0.0f,
-		0.95f, 
-		0.5f, 
-		glm::vec4(0.3, 0.7f, 0.9f, 1.0f)
-	);
-	testFont.FontUnicodeDirectRender(
-		xcstg_version,
-		0.8f, 
-		0.0f,
-		0.3f,
-		glm::vec4(0.1, 0.2f, 0.2f,1.0f)
-	);
+	taskLoop.TaskProcess(glfwGetTime());
+	if (taskLoop.IsProcessing())
+	{
+		static char fpsShow[64];
+		_itoa_s(gameTimer.getFPS(), fpsShow, 10);
+		testFont.FontASCIIRender(
+			fpsShow,
+			0.0f,
+			0.96f,
+			0.5f,
+			glm::vec4(0.3, 0.7f, 0.9f, 1.0f)
+		);
+		testFont.FontUnicodeDirectRender(
+			xcstg_version,
+			0.8f,
+			0.0f,
+			0.3f,
+			glm::vec4(0.1, 0.2f, 0.2f, 1.0f)
+		);
+	}
 }
 
 

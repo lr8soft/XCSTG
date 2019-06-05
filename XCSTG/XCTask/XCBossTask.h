@@ -68,7 +68,7 @@ public:
 		pRenderInfo = pInfo;
 		if (pRenderInfo->workBossUUID == bossTaskUUID)
 		{
-			WorkSpellCardRender(pInfo->nowFrame);
+			WorkSpellCardRender(pInfo->RenderTimer.getNowFrame());
 		}
 	}
 	virtual void TaskRelease()

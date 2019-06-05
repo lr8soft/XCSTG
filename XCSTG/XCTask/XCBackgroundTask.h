@@ -7,10 +7,27 @@
 class XCBackgroundTask :public XCTask {
 protected:
 	/*bool task_should_run = false,task_should_delete=false,have_resource_init=false; int taskType;*/
+	/*default is STATIC_TYPE*/
+	int backgroundType = STATIC_TYPE;
 	std::vector<XCBackground*> backGroundGroup;
 public:
+	enum BGType {DYNAMIC_TYPE , STATIC_TYPE};
 	XCBackgroundTask() {
 		taskType = BackgroundType;
+	}
+	void SetRenderNext() 
+	{
+		switch (backgroundType) {
+		case STATIC_TYPE:
+			if (!backGroundGroup.empty()) 
+			{
+				auto iter = backGroundGroup.begin();
+				(*iter)->SetBackGroundRender(false);
+			}
+			break;
+		case DYNAMIC_TYPE:
+			break;
+		}
 	}
 	virtual void TaskInit() 
 	{

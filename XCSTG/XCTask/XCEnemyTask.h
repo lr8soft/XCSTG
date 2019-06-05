@@ -46,7 +46,7 @@ public:
 	virtual void TaskInit() = 0;
 	/*缺省渲染方法*/
 	virtual void TaskRender(XCTaskRenderInfo * pInfo) override {
-		task_should_delete = TaskPriorityRender(pInfo->nowFrame);//任务完成，自动删除
+		task_should_delete = TaskPriorityRender(pInfo->RenderTimer.getNowFrame());//任务完成，自动删除
 	}
 	/*默认添加到EnamyGroup方法*/
 	virtual void AddEnemyToTaskLoop(XCTaskCollisionInfo* pInfo) {

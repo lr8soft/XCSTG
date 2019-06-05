@@ -17,12 +17,7 @@ public:
 		backGroundGroup.push_back(pBG1);
 	}
 	virtual void TaskKeyCheck(GLFWwindow* win) override {
-		if (glfwGetKey(win, GLFW_KEY_B) == GLFW_PRESS) {
-			auto iter = backGroundGroup.begin();
-			if (std::next(iter) != backGroundGroup.end()) {
-				(*iter)->SetBackGroundRender(false);
-			}
-		}
+		;
 	}
 	virtual void TaskRelease() override {
 		XCBackgroundTask::TaskRelease();

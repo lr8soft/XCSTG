@@ -7,22 +7,27 @@
 #include "XCTask.h"
 class XCTaskLoop {
 protected:	/*UUID   Task*/
-	bool IsReplayMode = false;
+	bool IsReplayMode = false,ShouldProcessRun=true;
 	std::multimap<std::string, XCTask*> tasklist;
 	std::vector<int> taskCommandList;
 	XCTaskCollisionInfo CollisionInfo;
 	XCTaskRenderInfo RenderInfo;
-	XCTask* pPlayerTask=nullptr,*pEnemyTask=nullptr,*pBulletTask=nullptr;
+	XCTask* pPlayerTask=nullptr,*pEnemyTask=nullptr,*pBulletTask=nullptr,*pBackgroundTask=nullptr;
+	void BeforeProcess();
 	void SetPlayer(XCTask* ptask);
 	void SetEnemy(XCTask* ptask);
 	void SetBullet(XCTask* ptask);
 	void SetBackground(XCTask* ptask);
-	std::map<std::string, XCTask*>::iterator DoTaskCommmand(int command,std::map<std::string, XCTask*>::iterator &iter);
+	std::map<std::string, XCTask*>::iterator DoTaskCommand(int command,std::map<std::string, XCTask*>::iterator &iter);
+	void DoExtraCommand(int command, std::map<std::string, XCTask*>::iterator &iter);
 public:
-	enum TaskCommand {COMMAND_NONE,CLEAN_ENEMY,CLEAN_BULLET,STAGE_INIT,STAGE_RENDER,STAGE_END};
+	enum TaskCommand {COMMAND_NONE,CLEAN_ENEMY,CLEAN_BULLET,STAGE_INIT,STAGE_RENDER,STAGE_END, 
+		PROCESS_PAUSE, PROCESS_RESUME, PROCESS_CLEAN};
+	bool IsProcessing();
 	void SetIsReplay(bool isreplay);
 	void SetScreen(GLFWwindow* screen);
 	void SetWidthHeight(float w,float h);
+	void SetAbsWidthHeight(float absW,float absH);
 	void AddTask(XCTask* task,std::string priority);
 	void DeleteTask(std::string uuid);
 	void ActiveTask(std::string uuid);

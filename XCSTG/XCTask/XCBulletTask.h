@@ -38,7 +38,7 @@ public:
 	}
 	/*缺省渲染方法*/
 	virtual void TaskRender(XCTaskRenderInfo * pInfo) override {
-		task_should_delete = TaskPriorityRender(pInfo->nowFrame);//任务完成，自动删除
+		task_should_delete = TaskPriorityRender(pInfo->RenderTimer.getNowFrame());//任务完成，自动删除
 	}
 	virtual void TaskRelease() {
 		auto end_iter = pBulletMap.end();

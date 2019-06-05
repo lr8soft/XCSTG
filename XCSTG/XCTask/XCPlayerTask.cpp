@@ -15,15 +15,17 @@ void XCPlayerTask::TaskInit()
 {
 	if (!have_resource_init)
 	{
+		std::cout << render_abs_height << render_abs_height;
+		
 		pPlayer->GroupInit();
 		have_resource_init = true;
 	}
+
 }
 
 void XCPlayerTask::TaskRender(XCTaskRenderInfo * pInfo)
 {
-	TaskInit();
-	pPlayer->GroupRender(pInfo->nowFrame);
+	pPlayer->GroupRender(pInfo->RenderTimer.getNowFrame());
 	
 }
 
@@ -34,6 +36,12 @@ void XCPlayerTask::TaskCollisionCheck(XCTaskCollisionInfo * pInfo)
 
 void XCPlayerTask::TaskKeyCheck(GLFWwindow * win)
 {
+	pPlayer->SetBoundingBox(
+		render_abs_height,
+		-1.0f*render_abs_height,
+		-1.0f*render_abs_width,
+		render_abs_width
+	);
 	pPlayer->GroupKeyCheck(win);
 }
 

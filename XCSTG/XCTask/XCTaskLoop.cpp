@@ -4,7 +4,13 @@
 #include "XCEnemyTask.h"
 #include "XCBulletTask.h"
 #include "XCBossTask.h"
+#include "XCBackgroundTask.h"
+#include <gl3/gl3w.h>
 using namespace std;
+bool XCTaskLoop::IsProcessing()
+{
+	return ShouldProcessRun;
+}
 void XCTaskLoop::SetIsReplay(bool isreplay)
 {
 	IsReplayMode = isreplay;
@@ -20,10 +26,21 @@ void XCTaskLoop::SetWidthHeight(float w, float h)
 	RenderInfo.render_height = h;
 }
 
+void XCTaskLoop::SetAbsWidthHeight(float absW, float absH)
+{
+	RenderInfo.render_abs_width = absW;
+	RenderInfo.render_abs_height = absH;
+}
+
+void XCTaskLoop::BeforeProcess()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
 void XCTaskLoop::SetPlayer(XCTask* ptask)
 {
 	pPlayerTask = ptask;
-	((XCPlayerTask*)ptask)->TaskInit();
+	//((XCPlayerTask*)ptask)->TaskInit();
 	CollisionInfo.pPlayer = ((XCPlayerTask*)ptask)->GetPlayerPointer();
 }
 
@@ -85,7 +102,7 @@ void XCTaskLoop::ActiveTask(std::string uuid)
 
 }
 std::map<std::string, XCTask*>::iterator
-XCTaskLoop::DoTaskCommmand(int command,std::map<std::string, XCTask*>::iterator &iter)
+XCTaskLoop::DoTaskCommand(int command,std::map<std::string, XCTask*>::iterator &iter)
 {
 	if (COMMAND_NONE == command) return iter;//default的滚
 	auto ptask = iter->second;
@@ -121,6 +138,7 @@ XCTaskLoop::DoTaskCommmand(int command,std::map<std::string, XCTask*>::iterator 
 			if (!ptask->IsTaskInit()) {
 				ptask->TaskInit();
 				ptask->SetIsReplay(IsReplayMode);
+				ptask->SetAbsWidthAndHeight(RenderInfo.render_abs_height, RenderInfo.render_abs_width);
 				switch (ptask->GetTaskType()) {
 				case ptask->EnemyType:
 					((XCEnemyTask*)ptask)->AddEnemyToTaskLoop(&CollisionInfo); break;
@@ -139,45 +157,81 @@ XCTaskLoop::DoTaskCommmand(int command,std::map<std::string, XCTask*>::iterator 
 	}
 	return iter;
 }
+void XCTaskLoop::DoExtraCommand(int command, std::map<std::string, XCTask*>::iterator &iter)
+{
+	if (command == (*iter).second->COMMAND_NONE) return;
+	auto ptask = (*iter).second;
+	switch (ptask->GetCommandExtra()) 
+	{
+	case ptask->NEXT_BACKGROUND:
+		if (pBackgroundTask != nullptr) 
+		{
+			((XCBackgroundTask*)pBackgroundTask)->SetRenderNext();
+		}
+		break;
+	}
+	return;
+}
 void XCTaskLoop::TaskProcess(float nowFrame)
 {
-	RenderInfo.nowFrame = nowFrame;
-	RenderInfo.deltaTime = RenderInfo.nowFrame - RenderInfo.lastFrame;
-	RenderInfo.lastFrame = RenderInfo.nowFrame;
+	RenderInfo.RenderTimer.Tick(nowFrame);
 	int temp_command = COMMAND_NONE;
 	//////////////Time manager finish////////////////////////////
 	if (!taskCommandList.empty())
 	{
 		auto command_iter = taskCommandList.begin();
 		temp_command = (*command_iter);
-		taskCommandList.erase(command_iter);
+		taskCommandList.erase(command_iter);//delete old command
+		//////Process core command/////
+		switch (temp_command) {
+		case PROCESS_PAUSE:
+			RenderInfo.RenderTimer.Pause();
+			ShouldProcessRun = false;
+			temp_command = COMMAND_NONE;
+			break;
+		case PROCESS_RESUME:
+			RenderInfo.RenderTimer.Resume(nowFrame);
+			ShouldProcessRun = true;
+			temp_command = COMMAND_NONE;
+			break;
+		case PROCESS_CLEAN:
+			tasklist.clear();
+			temp_command = COMMAND_NONE;
+			break;
+		}
+		//////Process core finish/////
 	}
 	/////////////Command Manager finish///////////
-	for (auto iter = tasklist.begin(); iter != tasklist.end();) {
-		auto ret_iter=DoTaskCommmand(temp_command,iter);
-		auto uuid = ret_iter->first;auto ptask = ret_iter->second;
-		if (ptask->TaskRunnable()) 
-		{
-			if (ptask->IsTaskInit()) {
-				ptask->TaskCollisionCheck(&CollisionInfo);
-				ptask->TaskKeyCheck(static_cast<GLFWwindow*>(RenderInfo.pScreen));
-				ptask->TaskRender(&RenderInfo);
-				if (ptask->TaskDeletable())
-				{
-					iter->second->TaskRelease();//当场释放
-					if (next(iter) == tasklist.end())
+	if (ShouldProcessRun)
+	{
+		BeforeProcess();
+		for (auto iter = tasklist.begin(); iter != tasklist.end();) {
+			auto ret_iter = DoTaskCommand(temp_command, iter);
+			auto uuid = ret_iter->first; auto ptask = ret_iter->second;
+			if (ptask->TaskRunnable())
+			{
+				if (ptask->IsTaskInit()) {
+					ptask->TaskCollisionCheck(&CollisionInfo);
+					ptask->TaskKeyCheck(static_cast<GLFWwindow*>(RenderInfo.pScreen));
+					ptask->TaskRender(&RenderInfo);
+					DoExtraCommand(ptask->GetCommandExtra(), iter);
+					if (ptask->TaskDeletable())
 					{
-						tasklist.erase(iter);
-						iter = tasklist.begin();
+						iter->second->TaskRelease();//当场释放
+						if (next(iter) == tasklist.end())
+						{
+							tasklist.erase(iter);
+							iter = tasklist.begin();
+						}
+						else {
+							tasklist.erase(iter++);
+						}
+						continue;
 					}
-					else {
-						tasklist.erase(iter++);
-					}
-					continue;
 				}
 			}
+			iter++;
 		}
-		iter++;
 	}
 	//////////////Sub running task finish////////////
 }

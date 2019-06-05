@@ -6,12 +6,14 @@ private:
 	float nowFrame = 0.0f, deltaFrame = 0.0f, lastTime = 0.0f, increaseRate=1.0f,fpsNow=0.0f;
 	float lastFpsUpdate = 0.0f,frameCounter = 0.0f;
 	long double accumulateTime = 0.0;
-	bool FirstRun = true;
+	bool FirstRun = true,IsPause=false;
 public:
 	void Tick();
 	void Tick(float nowFrame);
 	void SetIncreaseRate(float rate);
 	void Clear();
+	void Pause();
+	void Resume(float nowFrame);
 	float getNowFrame();
 	float getDeltaFrame();
 	float getLastFrame();

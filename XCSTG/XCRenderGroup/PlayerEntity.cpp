@@ -145,7 +145,7 @@ void PlayerEntity::GroupRender(float nowFrame)
 {
 	OGLSettingRenderStart();
 	glm::mat4 change_matrix, tx_matrix, change_matrix_anti;
-	
+	playerTimer.Tick();
 /////////////////////////////////////œ»‰÷»æÕÊº“Ã˘Õº///////////////////////////////
 	glUseProgram(program[PLAYERTEX]);
 	
@@ -194,7 +194,7 @@ void PlayerEntity::GroupRender(float nowFrame)
 		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
 
 	}
-	playerParticle.GroupRender(NowX, NowY, NowZ);
+	playerParticle.GroupRender(NowX, NowY, NowZ, nowFrame);
 	OGLSettingRenderEnd();
 	OGLSettingRenderStart();
 	auto attack_count = sizeof(base_attack) / sizeof(xc_game::XCAttack);
@@ -230,7 +230,6 @@ void PlayerEntity::PlayerCollisonEvent(xc_game::XCEnemyInfo *enemy_info)
 void PlayerEntity::GroupKeyCheck(GLFWwindow* screen)
 {
 	EveryRenderInit();
-	playerTimer.Tick();
 	bool have_player_change_state = false;
 	if (glfwGetKey(screen, GLFW_KEY_ESCAPE)) {
 		glfwSetWindowShouldClose(screen, true);
