@@ -1,10 +1,20 @@
 #include "GameTimer.h"
 #include <glfw/glfw3.h>
 #include <iostream>
+bool XCGameTimer::IsPause = false;
+bool XCGameTimer::afterPause = false;
 void XCGameTimer::Tick()
 {
 	if (!IsPause) 
 	{
+		if (afterPause)
+		{
+			nowFrame = glfwGetTime();
+			lastTime = nowFrame;
+			deltaFrame = 0.0f;
+			afterPause = false;
+			return;
+		}
 		if (!FirstRun) {//Not first run
 			nowFrame = glfwGetTime();
 			deltaFrame = (nowFrame - lastTime)*increaseRate;
@@ -31,6 +41,13 @@ void XCGameTimer::Tick(float update_nowFrame)
 {
 	if (!IsPause) 
 	{
+		if (afterPause)
+		{
+			nowFrame = update_nowFrame;
+			lastTime = update_nowFrame;
+			deltaFrame = 0.0f;
+			return;
+		}
 		if (!FirstRun) {//Not first run
 			nowFrame = update_nowFrame;
 			deltaFrame = (nowFrame - lastTime)*increaseRate;
@@ -69,7 +86,6 @@ void XCGameTimer::Clear()
 	accumulateTime = 0.0;
 	increaseRate = 1.0f;
 	FirstRun = true;
-	IsPause = false;
 }
 
 void XCGameTimer::Pause()
@@ -77,12 +93,15 @@ void XCGameTimer::Pause()
 	IsPause = true;
 }
 
-void XCGameTimer::Resume(float new_nowFrame)
+void XCGameTimer::Resume()
 {
 	IsPause = false;
-	nowFrame = new_nowFrame;
-	lastTime = new_nowFrame;
-	deltaFrame = 0.0f;
+	afterPause = true;
+}
+
+void XCGameTimer::AfterResume()
+{
+	afterPause = false;
 }
 
 float XCGameTimer::getNowFrame()

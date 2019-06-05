@@ -3,7 +3,6 @@
 #include "../util/ShaderReader.h"
 #include "../XCShape/XCDefaultShape.h"
 #include <GLFW/glfw3.h>
-#include "../XCShape/XCTextureFucntions.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -77,9 +76,17 @@ void PlayerEntity::GroupInit()
 	glVertexAttribPointer(player_loc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glEnableVertexAttribArray(player_loc);
 	//////////////////////////玩家贴图初始化///////////////////////////////////////////////////
-	glGenVertexArrays(24, vao_player);
-	glGenBuffers(24, vbo_player);
-	PlayerTexture8x3Init(program[PLAYERTEX], vao_player, vbo_player);
+	glGenVertexArrays(1, &vao_player);
+	glGenBuffers(1, &vbo_player);
+	glBindVertexArray(vao_player);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_player);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 24, nullptr, GL_DYNAMIC_DRAW);
+	auto display_coord_pos = glGetAttribLocation(program[PLAYERTEX], "display_coord");
+	auto in_tex_coord_pos = glGetAttribLocation(program[PLAYERTEX], "input_tex_pos");
+	glVertexAttribPointer(display_coord_pos, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(0));
+	glVertexAttribPointer(in_tex_coord_pos, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+	glEnableVertexAttribArray(display_coord_pos);
+	glEnableVertexAttribArray(in_tex_coord_pos);
 	//////////////////////////玩家贴图初始化///////////////////////////////////////////////////
 		//////////////////////////攻击初始化///////////////////////////////////////////////////
 	auto attack_count = sizeof(base_attack) / sizeof(xc_game::XCAttack);
@@ -148,19 +155,17 @@ void PlayerEntity::GroupRender(float nowFrame)
 	playerTimer.Tick();
 /////////////////////////////////////先渲染玩家贴图///////////////////////////////
 	glUseProgram(program[PLAYERTEX]);
-	
+	glBindVertexArray(vao_player);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_player);
 	switch (PlayerNowState) {
 	case PLAYER_STANDBY:
-		glBindVertexArray(*(vao_player + (size_t)PlayerSameStateTime));
-		glBindBuffer(GL_ARRAY_BUFFER, *(vbo_player + (size_t)PlayerSameStateTime));
+		glBufferSubData(GL_ARRAY_BUFFER, 0, 24 * sizeof(float), GetSpecificTexture(8, 3, 1+(size_t)PlayerSameStateTime,3));
 		break;
 	case PLAYER_TURNRIGHT:
-		glBindVertexArray(*(vao_player + (size_t)PlayerSameStateTime+16));
-		glBindBuffer(GL_ARRAY_BUFFER, *(vbo_player + (size_t)PlayerSameStateTime + 16));
+		glBufferSubData(GL_ARRAY_BUFFER, 0, 24 * sizeof(float), GetSpecificTexture(8, 3, 1+(size_t)PlayerSameStateTime, 1));
 		break;
 	case PLAYER_TURNLEFT:
-		glBindVertexArray(*(vao_player + (size_t)PlayerSameStateTime + 8));
-		glBindBuffer(GL_ARRAY_BUFFER, *(vbo_player + (size_t)PlayerSameStateTime + 8));
+		glBufferSubData(GL_ARRAY_BUFFER, 0, 24 * sizeof(float), GetSpecificTexture(8, 3, 1+(size_t)PlayerSameStateTime, 2));
 		break;
 	}
 	glActiveTexture(GL_TEXTURE0);

@@ -2,7 +2,6 @@
 #include "../../util/ShaderReader.h"
 #include "../../util/ImageLoader.h"
 #include "../../XCShape/XCDefaultShape.h"
-#include "../../XCShape/XCTextureFucntions.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -26,9 +25,17 @@ void xc_game::XCBoss::ShaderInit()
 void xc_game::XCBoss::BufferInit()
 {
 	glUseProgram(program);
-	glGenVertexArrays(12, vao_tex);
-	glGenBuffers(12, vbo_tex);
-	BossTexture4x3Init(program,vao_tex,vbo_tex);	
+	glGenVertexArrays(1, &vao_tex);
+	glGenBuffers(1, &vbo_tex);
+	glBindVertexArray(vao_tex);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_tex);
+	glBufferData(GL_ARRAY_BUFFER, 24 * sizeof(float), nullptr, GL_DYNAMIC_DRAW);
+	auto vert_pos = glGetAttribLocation(program, "display_coord");
+	auto tex_pos = glGetAttribLocation(program, "input_tex_coord");
+	glVertexAttribPointer(vert_pos, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(0));
+	glVertexAttribPointer(tex_pos, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+	glEnableVertexAttribArray(vert_pos);
+	glEnableVertexAttribArray(tex_pos);
 }
 xc_game::XCBoss::XCBoss()
 {
@@ -53,19 +60,18 @@ void xc_game::XCBoss::EnemyRender(float nowFrame)
 	if (should_render) {
 		OGLSettingRenderStart();
 		glUseProgram(program);
+		glBindVertexArray(vao_tex);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo_tex);
 		switch (EnemyNowState) {
-			case ENEMY_STANDBY:
-				glBindVertexArray(*(vao_tex + (size_t)EnemySameStateTime));
-				glBindBuffer(GL_ARRAY_BUFFER, *(vbo_tex + (size_t)EnemySameStateTime));
-				break;
-			case ENEMY_MOVING:
-				glBindVertexArray(*(vao_tex + (size_t)EnemySameStateTime +4));
-				glBindBuffer(GL_ARRAY_BUFFER, *(vbo_tex + (size_t)EnemySameStateTime +4));
-				break;
-			case ENEMY_ATTACK:
-				glBindVertexArray(*(vao_tex + (size_t)EnemySameStateTime + 8));
-				glBindBuffer(GL_ARRAY_BUFFER, *(vbo_tex + (size_t)EnemySameStateTime + 8));
-				break;
+		case ENEMY_STANDBY:
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 24, GetSpecificTexture(4, 3, 1+(size_t)EnemySameStateTime, 3));
+			break;
+		case ENEMY_MOVING:
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 24, GetSpecificTexture(4, 3, 1+(size_t)EnemySameStateTime, 2));
+			break;
+		case ENEMY_ATTACK:
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 24, GetSpecificTexture(4, 3, 1+(size_t)EnemySameStateTime, 1));
+			break;
 		}
 		glBindTexture(GL_TEXTURE_2D, use_tbo);
 		glm::mat4 transform_mat;
@@ -86,8 +92,8 @@ void xc_game::XCBoss::EnemyRender(float nowFrame)
 
 void xc_game::XCBoss::ReleaseResource()
 {
-	glDeleteVertexArrays(12, vao_tex);
-	glDeleteBuffers(12, vbo_tex);
+	glDeleteVertexArrays(1, &vao_tex);
+	glDeleteBuffers(1, &vbo_tex);
 }
 
 

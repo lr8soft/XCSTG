@@ -1,7 +1,6 @@
 #include "../../util/ImageLoader.h"
 #include "../../util/ShaderReader.h"
 #include "../../XCShape/XCDefaultShape.h"
-#include "../../XCShape/XCTextureFucntions.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -26,9 +25,17 @@ void xc_game::XCNormalEnemy::ShaderInit()
 
 void xc_game::XCNormalEnemy::BufferInit()
 {
-	glGenVertexArrays(8, vao);
-	glGenBuffers(8,vbo);
-	EnemyTexture8x1Init(program,vao,vbo);
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1,&vbo);
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 24, nullptr, GL_DYNAMIC_DRAW);
+	auto display_coord_pos = glGetAttribLocation(program, "display_coord");
+	auto in_tex_coord_pos = glGetAttribLocation(program, "input_tex_pos");
+	glVertexAttribPointer(display_coord_pos, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(0));
+	glVertexAttribPointer(in_tex_coord_pos, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+	glEnableVertexAttribArray(display_coord_pos);
+	glEnableVertexAttribArray(in_tex_coord_pos);
 }
 
 void xc_game::XCNormalEnemy::TextureInit()
@@ -45,7 +52,7 @@ void xc_game::XCNormalEnemy::TextureInit()
 	SetUseTBO(tbo[FAIRY]);//Default fairy
 
 	EachStateInterval = 3.8;/*Texture data init*/
-	AttackInterval = 0.080f;
+	AttackInterval = 0.060f;
 	StandByInterval = 0.040f;
 	MovingInterval = 0.080f;
 }
@@ -87,15 +94,15 @@ void xc_game::XCNormalEnemy::EnemyRender(float nowFrame)
 					NowY = coordy_func(NowX, NowY,enemyTimer, velocity, 0);
 					break;
 			}
+			glBindVertexArray(vao);
+			glBindBuffer(GL_ARRAY_BUFFER,vbo);
 			switch (EnemyNowState) {
 			case ENEMY_MOVING:
-				glBindVertexArray(*(vao + (size_t)EnemySameStateTime + 4));
-				glBindBuffer(GL_ARRAY_BUFFER, *(vbo + (size_t)EnemySameStateTime + 4));
+				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 24, GetSpecificTexture(8, 1, 5+(size_t)EnemySameStateTime, 1));
 				break;
 			case ENEMY_STANDBY:
 			case ENEMY_ATTACK:
-				glBindVertexArray(*(vao + (size_t)EnemySameStateTime));
-				glBindBuffer(GL_ARRAY_BUFFER, *(vbo + (size_t)EnemySameStateTime));
+				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 24, GetSpecificTexture(8, 1, 1 + (size_t)EnemySameStateTime, 1));
 				break;
 			}
 			transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));

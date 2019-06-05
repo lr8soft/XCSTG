@@ -40,7 +40,6 @@ void XCTaskLoop::BeforeProcess()
 void XCTaskLoop::SetPlayer(XCTask* ptask)
 {
 	pPlayerTask = ptask;
-	//((XCPlayerTask*)ptask)->TaskInit();
 	CollisionInfo.pPlayer = ((XCPlayerTask*)ptask)->GetPlayerPointer();
 }
 
@@ -175,7 +174,7 @@ void XCTaskLoop::DoExtraCommand(int command, std::map<std::string, XCTask*>::ite
 void XCTaskLoop::TaskProcess(float nowFrame)
 {
 	RenderInfo.RenderTimer.Tick(nowFrame);
-	int temp_command = COMMAND_NONE;
+	int temp_command = COMMAND_NONE,last_core_command= COMMAND_NONE;
 	//////////////Time manager finish////////////////////////////
 	if (!taskCommandList.empty())
 	{
@@ -183,6 +182,7 @@ void XCTaskLoop::TaskProcess(float nowFrame)
 		temp_command = (*command_iter);
 		taskCommandList.erase(command_iter);//delete old command
 		//////Process core command/////
+		last_core_command = temp_command;
 		switch (temp_command) {
 		case PROCESS_PAUSE:
 			RenderInfo.RenderTimer.Pause();
@@ -190,8 +190,9 @@ void XCTaskLoop::TaskProcess(float nowFrame)
 			temp_command = COMMAND_NONE;
 			break;
 		case PROCESS_RESUME:
-			RenderInfo.RenderTimer.Resume(nowFrame);
+			RenderInfo.RenderTimer.Resume();
 			ShouldProcessRun = true;
+			have_font_show = false;
 			temp_command = COMMAND_NONE;
 			break;
 		case PROCESS_CLEAN:
@@ -215,6 +216,10 @@ void XCTaskLoop::TaskProcess(float nowFrame)
 					ptask->TaskKeyCheck(static_cast<GLFWwindow*>(RenderInfo.pScreen));
 					ptask->TaskRender(&RenderInfo);
 					DoExtraCommand(ptask->GetCommandExtra(), iter);
+					if (ptask->GetTaskType() == ptask->BackgroundType) 
+					{
+						pBackgroundTask = ptask;
+					}
 					if (ptask->TaskDeletable())
 					{
 						iter->second->TaskRelease();//µ±≥° Õ∑≈
@@ -232,6 +237,23 @@ void XCTaskLoop::TaskProcess(float nowFrame)
 			}
 			iter++;
 		}
+		if (last_core_command == PROCESS_RESUME) 
+		{
+			RenderInfo.RenderTimer.AfterResume();
+		}
+		
+	}
+	else {
+		if (!have_font_show) {
+			taskFont.FontUnicodeDirectRender(L"‘›Õ£",
+				0.45f,
+				0.5f,
+				0.7f,
+				glm::vec4(0.5f, 0.5f, 1.0f, 1.0f)
+			);
+			have_font_show = true;
+		}
+
 	}
 	//////////////Sub running task finish////////////
 }

@@ -37,6 +37,7 @@ void TestBossTask::TaskKeyCheck(GLFWwindow * win)
 
 void TestBossTask::TaskRender(XCTaskRenderInfo * pInfo)
 {
-	if(have_resource_init)
+	if (have_resource_init) {
 		XCBossTask::TaskRender(pInfo);
+	}
 }

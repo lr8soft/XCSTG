@@ -21,8 +21,10 @@ public:
 		case STATIC_TYPE:
 			if (!backGroundGroup.empty()) 
 			{
-				auto iter = backGroundGroup.begin();
-				(*iter)->SetBackGroundRender(false);
+				if (backGroundGroup.size() > 1) {
+					auto iter = backGroundGroup.begin();
+					(*iter)->SetBackGroundRender(false);
+				}
 			}
 			break;
 		case DYNAMIC_TYPE:

@@ -30,7 +30,7 @@ private:
 	/*判定点vao、vbo与tbo*/
 	GLuint vao_deci, vbo_deci,tbo_deci;
 	/*玩家贴图vao、vbo、tbo*/
-	GLuint vao_player[24], vbo_player[24], tbo_player;
+	GLuint vao_player,vbo_player, tbo_player;
 	GLint program[2];
 	/*DECISION:判定点程序 TX:玩家贴图程序*/
 	enum { DECISIONTEX, PLAYERTEX };

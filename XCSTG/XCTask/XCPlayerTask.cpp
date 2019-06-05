@@ -14,9 +14,7 @@ XCPlayerTask::~XCPlayerTask()
 void XCPlayerTask::TaskInit()
 {
 	if (!have_resource_init)
-	{
-		std::cout << render_abs_height << render_abs_height;
-		
+	{	
 		pPlayer->GroupInit();
 		have_resource_init = true;
 	}

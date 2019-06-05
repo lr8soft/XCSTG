@@ -168,9 +168,6 @@
     <ClCompile Include="XCShape\XCDefaultShape.cpp">
       <Filter>源文件\XCShape</Filter>
     </ClCompile>
-    <ClCompile Include="XCShape\XCTextureFucntions.cpp">
-      <Filter>源文件\XCShape</Filter>
-    </ClCompile>
     <ClCompile Include="util\ConfigManager.cpp">
       <Filter>源文件\util</Filter>
     </ClCompile>
@@ -292,9 +289,6 @@
     </ClInclude>
     <ClInclude Include="util\GameTimer.h">
       <Filter>头文件\util</Filter>
-    </ClInclude>
-    <ClInclude Include="XCShape\XCTextureFucntions.h">
-      <Filter>头文件\XCShape</Filter>
     </ClInclude>
     <ClInclude Include="util\ConfigManager.h">
       <Filter>头文件\util</Filter>

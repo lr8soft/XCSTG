@@ -6,10 +6,10 @@ void XCEYStage1::TaskInit()
 {
 	int pEnemyCount = 4;
 	auto xfunc = [](float NowX,float NowY,XCGameTimer timer,float v,float b) {
-		return sin(timer.getAccumlateTime());
+		return sin(NowX+ timer.getAccumlateTime());
 	};
 	auto yfunc = [](float NowX, float NowY,XCGameTimer timer, float v, float b) {
-		return cos(timer.getAccumlateTime());
+		return cos(NowY + timer.getAccumlateTime());
 	};
 	if (!have_resource_init) 
 	{

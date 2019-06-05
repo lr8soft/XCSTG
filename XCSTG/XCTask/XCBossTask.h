@@ -68,6 +68,7 @@ public:
 		pRenderInfo = pInfo;
 		if (pRenderInfo->workBossUUID == bossTaskUUID)
 		{
+			this->command_extra = NEXT_BACKGROUND;
 			WorkSpellCardRender(pInfo->RenderTimer.getNowFrame());
 		}
 	}

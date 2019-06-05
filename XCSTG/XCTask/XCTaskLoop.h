@@ -5,14 +5,16 @@
 #include<vector>
 #include<iostream>
 #include "XCTask.h"
+#include "../XCFont/XCFont.h"
 class XCTaskLoop {
 protected:	/*UUID   Task*/
-	bool IsReplayMode = false,ShouldProcessRun=true;
+	bool IsReplayMode = false,ShouldProcessRun=true,have_font_show=false;
 	std::multimap<std::string, XCTask*> tasklist;
 	std::vector<int> taskCommandList;
 	XCTaskCollisionInfo CollisionInfo;
 	XCTaskRenderInfo RenderInfo;
 	XCTask* pPlayerTask=nullptr,*pEnemyTask=nullptr,*pBulletTask=nullptr,*pBackgroundTask=nullptr;
+	XCFont taskFont;
 	void BeforeProcess();
 	void SetPlayer(XCTask* ptask);
 	void SetEnemy(XCTask* ptask);

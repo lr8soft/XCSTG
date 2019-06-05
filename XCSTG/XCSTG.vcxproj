@@ -144,7 +144,6 @@
     <ClCompile Include="XCRenderGroup\PlayerEntity.cpp" />
     <ClCompile Include="XCReplay\XCReplay.cpp" />
     <ClCompile Include="XCShape\XCDefaultShape.cpp" />
-    <ClCompile Include="XCShape\XCTextureFucntions.cpp" />
     <ClCompile Include="XCSpecialEffect\XCDialog.cpp" />
     <ClCompile Include="XCSpecialEffect\XCGameInfoSlot.cpp" />
     <ClCompile Include="XCSpecialEffect\XCParticle.cpp" />
@@ -186,7 +185,6 @@
     <ClInclude Include="XCRenderGroup\PlayerEntity.h" />
     <ClInclude Include="XCReplay\XCReplay.h" />
     <ClInclude Include="XCShape\XCDefaultShape.h" />
-    <ClInclude Include="XCShape\XCTextureFucntions.h" />
     <ClInclude Include="XCSpecialEffect\XCDialog.h" />
     <ClInclude Include="XCSpecialEffect\XCGameInfoSlot.h" />
     <ClInclude Include="XCSpecialEffect\XCParticle.h" />

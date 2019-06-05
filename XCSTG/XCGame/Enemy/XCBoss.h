@@ -24,7 +24,7 @@ namespace xc_game {
 		static GLuint tbo_static;
 		GLuint program_static;
 		/*!!!boss不使用XCBaseEnemy类中的vao和vbo!!!*/
-		GLuint vao_tex[12],vbo_tex[12],tbo;
+		GLuint vao_tex,vbo_tex,tbo;
 
 		xc_se::XCGameInfoSlot infoSlot;
 		xc_se::XCRing explode_se;
