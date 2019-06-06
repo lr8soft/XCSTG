@@ -49,7 +49,8 @@ void xc_game::XCBoss::EnemyInit(size_t type)
 {
 	XCEnemyBase::EnemyInit(type);
 	enemy_type=BOSS_ENEMY;
-	infoSlot.SpecialEffectInit();
+	infoSlot.SpellCardInfoInit();
+	infoSlot.BossHPInit();
 	infoSlot.SetInfo(&NowLife, &MaxLife, 0, 0);
 	explode_se.SpecialEffectInit(explode_se.RingBossDead);
 }

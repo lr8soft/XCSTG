@@ -9,8 +9,8 @@ namespace xc_se {
 	private:
 		float render_abs_width = 1.0f, render_abs_height = 1.0f;
 		enum InfoType {HP_SLOT,SPELLCARD_SLOT,RENDER_PLANE};
-		static bool have_resource_init, have_program_init;
-		static GLuint vao[3], vbo[3], tbo[3], program[2];
+		static bool have_resource_init, have_program_init,have_buffer_init;
+		static GLuint vao[3], vbo[3], tbo[3], program[3];
 		XCGameTimer spellCardSlotTimer;
 		std::string BossName;
 		float *BossHP, *BossMaxHP;
@@ -18,15 +18,18 @@ namespace xc_se {
 		void ShaderInit();
 		void TextureInit();
 		void BufferInit();
+		void SpecialEffectInit();
 	public:
 		XCGameInfoSlot() = default;
 		~XCGameInfoSlot() = default;
 		void SetInfo(float *hp, float *mhp, int rtime, int sccount);
 		void SetAbsWidthAndHeight(float absW, float absH);
-		void SpecialEffectInit();
+		void BossHPInit();
 		bool BossHPRender();
+		void SpellCardInfoInit();
 		enum SpellCardState { NEXT_STAGE, BONUS_FAILED,GET_SPELL_CARD};
 		bool SpellCardInfoRender(int type);
+		void CoveredPlaneInit();
 		void CoveredPlaneRender(float absW,float absH);
 		void SpecialEffectRelease();
 	};

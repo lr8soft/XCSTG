@@ -7,10 +7,11 @@ out vec4 frag_color;
 void main(){
     float render_width=render_rate.x;
     float render_height=render_rate.y;
+     frag_color  =   texture(tex,Tex_coord);
     if(-render_width<=check_coord.x && render_width>=check_coord.x){
         if(-render_height<=check_coord.y && render_height>check_coord.y){
             discard;
         }
     }
-    frag_color  =   texture(tex,Tex_coord);
+   
 }

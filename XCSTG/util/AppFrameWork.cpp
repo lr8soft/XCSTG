@@ -7,7 +7,7 @@
 #include <sstream>
 #include <al/alut.h>
 xc_ogl::AppFrameWork* xc_ogl::AppFrameWork::app_ptr = nullptr;
-std::wstring xc_ogl::AppFrameWork::xcstg_version =L"xcstg≤‚ ‘ v0.69";
+std::wstring xc_ogl::AppFrameWork::xcstg_version =L"xcstg≤‚ ‘ v0.69_f1";
 void xc_ogl::AppFrameWork::finalizer()
 {
 	glfwDestroyWindow(screen);

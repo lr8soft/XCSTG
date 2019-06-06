@@ -130,6 +130,7 @@ XCTaskLoop::DoTaskCommand(int command,std::map<std::string, XCTask*>::iterator &
 			}
 			break;
 		case STAGE_INIT:
+			renderGroup.CoveredPlaneInit();
 			if (!ptask->IsTaskInit()) {
 				ptask->SetIsReplay(IsReplayMode);
 				ptask->SetAbsWidthAndHeight(RenderInfo.render_abs_height, RenderInfo.render_abs_width);
@@ -232,12 +233,14 @@ void XCTaskLoop::TaskProcess(float nowFrame)
 				}
 			}
 			iter++;
+			
 		}
+		renderGroup.CoveredPlaneRender(RenderInfo.render_abs_width, RenderInfo.render_abs_height);
 		if (last_core_command == PROCESS_RESUME) 
 		{
 			RenderInfo.RenderTimer.AfterResume();
 		}
-		renderGroup.CoveredPlaneRender(RenderInfo.render_abs_width, RenderInfo.render_abs_height);
+		
 	}
 	else {
 		if (!have_font_show) {
