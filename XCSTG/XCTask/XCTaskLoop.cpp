@@ -24,12 +24,9 @@ void XCTaskLoop::SetWidthHeight(float w, float h)
 {
 	RenderInfo.render_width = w;
 	RenderInfo.render_height = h;
-}
 
-void XCTaskLoop::SetAbsWidthHeight(float absW, float absH)
-{
-	RenderInfo.render_abs_width = absW;
-	RenderInfo.render_abs_height = absH;
+	RenderInfo.render_abs_width = game_width/w;
+	RenderInfo.render_abs_height = game_height/h;
 }
 
 void XCTaskLoop::BeforeProcess()
@@ -50,7 +47,6 @@ void XCTaskLoop::SetEnemy(XCTask * ptask)
 
 void XCTaskLoop::SetBullet(XCTask * ptask)
 {
-	ptask->TaskInit();
 	pBulletTask = ptask;
 }
 
@@ -135,9 +131,9 @@ XCTaskLoop::DoTaskCommand(int command,std::map<std::string, XCTask*>::iterator &
 			break;
 		case STAGE_INIT:
 			if (!ptask->IsTaskInit()) {
-				ptask->TaskInit();
 				ptask->SetIsReplay(IsReplayMode);
 				ptask->SetAbsWidthAndHeight(RenderInfo.render_abs_height, RenderInfo.render_abs_width);
+				ptask->TaskInit();
 				switch (ptask->GetTaskType()) {
 				case ptask->EnemyType:
 					((XCEnemyTask*)ptask)->AddEnemyToTaskLoop(&CollisionInfo); break;

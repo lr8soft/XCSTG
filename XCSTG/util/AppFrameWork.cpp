@@ -7,7 +7,7 @@
 #include <sstream>
 #include <al/alut.h>
 xc_ogl::AppFrameWork* xc_ogl::AppFrameWork::app_ptr = nullptr;
-std::wstring xc_ogl::AppFrameWork::xcstg_version =L"XCSTG≤‚ ‘ v0.67";
+std::wstring xc_ogl::AppFrameWork::xcstg_version =L"XCSTG≤‚ ‘ v0.68pre2";
 void xc_ogl::AppFrameWork::finalizer()
 {
 	glfwDestroyWindow(screen);
@@ -70,7 +70,6 @@ void xc_ogl::AppFrameWork::key_check()
 }
 void xc_ogl::AppFrameWork::shader_init()
 {
-	taskLoop.SetAbsWidthHeight(1.0f, 1.0f);
 	taskLoop.SetWidthHeight(width, height);
 	taskLoop.SetScreen(screen);
 

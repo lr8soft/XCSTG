@@ -15,6 +15,7 @@ protected:	/*UUID   Task*/
 	XCTaskRenderInfo RenderInfo;
 	XCTask* pPlayerTask=nullptr,*pEnemyTask=nullptr,*pBulletTask=nullptr,*pBackgroundTask=nullptr;
 	XCFont taskFont;
+	const float game_width = 720.0f, game_height = 730.f;
 	void BeforeProcess();
 	void SetPlayer(XCTask* ptask);
 	void SetEnemy(XCTask* ptask);
@@ -29,7 +30,6 @@ public:
 	void SetIsReplay(bool isreplay);
 	void SetScreen(GLFWwindow* screen);
 	void SetWidthHeight(float w,float h);
-	void SetAbsWidthHeight(float absW,float absH);
 	void AddTask(XCTask* task,std::string priority);
 	void DeleteTask(std::string uuid);
 	void ActiveTask(std::string uuid);

@@ -6,7 +6,7 @@
 #include <GLFW/glfw3.h>
 class XCTask {
 protected:
-	bool task_should_run = false,task_should_delete=false,have_resource_init=false,is_replay_mode=false;
+	bool task_should_run = false,task_should_delete=false,have_resource_init=false,is_replay_mode=false,have_abs_bored_set=false;
 	float render_abs_height, render_abs_width;
 	int taskType,command_extra= COMMAND_NONE;
 public:
@@ -31,7 +31,7 @@ public:
 	}
 	bool IsTaskInit() 
 	{
-		return have_resource_init;
+		return have_resource_init&& have_abs_bored_set;
 	}
 	int GetTaskType() 
 	{
@@ -47,6 +47,7 @@ public:
 	void SetAbsWidthAndHeight(float absH,float absW) {
 		render_abs_height = absH;
 		render_abs_width = absW;
+		have_abs_bored_set = true;
 	}
 };
 

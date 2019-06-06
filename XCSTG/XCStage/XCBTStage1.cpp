@@ -8,16 +8,14 @@ void XCBTStage1::TaskInit()
 	if (!have_resource_init)
 	{
 		pBullet = new xc_bullet::XCCircleBullet[pBulletCount];
-		auto xfunc = [](float NowX, float NowY,XCGameTimer timer, float v, float p)->float {
-			float ret_x, sint = sin(glfwGetTime());
-			float positive = sint / abs(sint);
-			ret_x = NowX + positive * timer.getDeltaFrame()*v / 3;
+		auto xfunc = [](float NowX, float NowY,XCGameTimer timer, float v, float w,float h)->float {
 			return NowX;
 		};
-		auto yfunc = [](float NowX, float NowY, XCGameTimer timer, float v, float p)->float {
+		auto yfunc = [](float NowX, float NowY, XCGameTimer timer, float v, float w, float h)->float {
 			return NowY;// NowY- deltaTime /15.0f
 		};
 		for (int i = 0; i < pBulletCount; i++) {
+			((XCCircleBullet*)pBullet)[i].SetBoundingBox(render_abs_height, -render_abs_height, -render_abs_width, render_abs_width);
 			((XCCircleBullet*)pBullet)[i].SetRotateAngle(30.0f);
 			((XCCircleBullet*)pBullet)[i].SetVelocity(0.5f);
 			((XCCircleBullet*)pBullet)[i].SetMoveFunc(xfunc, yfunc);

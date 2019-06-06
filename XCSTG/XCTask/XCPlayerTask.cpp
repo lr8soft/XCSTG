@@ -13,8 +13,9 @@ XCPlayerTask::~XCPlayerTask()
 
 void XCPlayerTask::TaskInit()
 {
-	if (!have_resource_init)
+	if (!have_resource_init&&have_abs_bored_set)
 	{	
+		pPlayer->SetBoundingBox(render_abs_height,-render_abs_height,-render_abs_width, render_abs_width);
 		pPlayer->GroupInit();
 		have_resource_init = true;
 	}
@@ -34,12 +35,7 @@ void XCPlayerTask::TaskCollisionCheck(XCTaskCollisionInfo * pInfo)
 
 void XCPlayerTask::TaskKeyCheck(GLFWwindow * win)
 {
-	pPlayer->SetBoundingBox(
-		render_abs_height,
-		-1.0f*render_abs_height,
-		-1.0f*render_abs_width,
-		render_abs_width
-	);
+
 	pPlayer->GroupKeyCheck(win);
 }
 

@@ -120,7 +120,7 @@ bool xc_se::XCRing::SpecialEffectRender(float x,float y,float z)
 			break;
 		}
 		transform_mat = glm::translate(transform_mat, glm::vec3(x, y, z));
-		transform_mat = glm::scale(transform_mat, glm::vec3(RenderSize /3));
+		transform_mat = glm::scale(transform_mat, glm::vec3(RenderSize*render_abs_width /3, RenderSize*render_abs_height / 3, RenderSize/ 3));
 		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / 2*sizeof(float));
 		seaudio.MusicPlay();

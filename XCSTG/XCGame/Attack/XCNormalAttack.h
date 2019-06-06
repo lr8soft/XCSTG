@@ -16,6 +16,7 @@ namespace xc_game {
 		const float finish_dist = 2.0f;
 		const float attack_width = 0.1f,attack_height=0.1f;
 		float NowX=0, NowY=0, NowZ=0,velocity=0,destY;
+		float top = 1.0f, bottom = -1.0f, left = -1.0f, right = 1.0f;
 		GLuint vao[4], vbo[4],program;
 		//enum ATTACK_STATE{START,MIDDLE,END,FINISH};
 		void ShaderInit();
@@ -27,6 +28,7 @@ namespace xc_game {
 		void AttackInit();
 		void AttackRender(float nowFrame);
 		void SetPositionAndVelocity(float x, float y, float z,float v);
+		void SetBorder(float t,float b,float l,float r);
 		void CheckCollisionWithEnemy(XCEnemyBase *enemy);
 		void SetAttack();
 		void Reset();

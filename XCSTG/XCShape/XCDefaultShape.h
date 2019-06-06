@@ -13,6 +13,8 @@ static float covered_plane_vertex_with_texture[] = {
 	-1.0, 1.0f, 0.0f, 1.0f,
 	1.0f, 1.0f, 1.0f, 1.0f
 };
+/*GL_TRIANGLES sizeof(float)*24*/
+float* GetCoveredPlaneWithTexVertex(float width_rate, float height_rate);
 /***!!!It should be render as "GL_TRIANGLES" mode.!!!***/
 static float covered_plane_vertex[] = {
 	1.0f, 1.0f,
@@ -22,6 +24,8 @@ static float covered_plane_vertex[] = {
 	-1.0, 1.0f,
 	1.0f, 1.0f,
 };
+/*GL_TRIANGLES sizeof(float)*12 */
+float* GetCoveredPlaneVertex(float width_rate,float height_rate);
 /***!!!It should be render as "GL_TRIANGLES" mode.!!!***/
 static float player_render_texture_vertex[] = {
 	0.8f, 1.0f,
@@ -87,5 +91,7 @@ static float default_cube_color[] =
 };
 /*共column列，row行；取第x列 第y行（以该子纹理右上角坐标为准）*/
 float* GetSpecificTexture(int column, int row, int x, int y);
+/*共column列，row行；取第x列 第y行（以该子纹理右上角坐标为准）*/
+float* GetSpecificTexWithWidthAndHeight(float width_rate, float height_rate,int column, int row, int x, int y);
 float* GetPointSpriteVertex(float size);
 #endif

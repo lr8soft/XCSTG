@@ -116,7 +116,7 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 		glBindTexture(GL_TEXTURE_2D, tbo);
 		/////////////////////////////////////////////
 		UpdateBulletCoord();
-		if (NowX>right||NowX<left||NowY>top||NowY<bottom) 
+		if (NowX >right* 1.1 ||NowX <left* 1.1 ||NowY>top* 1.1 ||NowY<bottom* 1.1)
 		{
 			should_render = false;
 		}

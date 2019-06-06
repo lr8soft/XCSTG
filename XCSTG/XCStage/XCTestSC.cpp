@@ -4,16 +4,17 @@ void XCTestSC::SpellCardInit()
 {
 	int init_count = 100;
 	ptrCBullet = new XCCircleBullet[init_count];
-	auto xfunc = [](float NowX, float NowY, XCGameTimer timer, float v, float p)->float {
+	auto xfunc = [](float NowX, float NowY, XCGameTimer timer, float v, float w,float h)->float {
 		return NowX;
 	};
-	auto yfunc = [](float NowX, float NowY, XCGameTimer timer, float v, float p)->float {
-		if (NowY > -1.0)
+	auto yfunc = [](float NowX, float NowY, XCGameTimer timer, float v, float w, float h)->float {
+		if (NowY > -h)
 			return NowY - v / 100;
 		else
-			return 1.0;
+			return h;
 	};
 	for (int i = 0; i < init_count;i++) {
+		ptrCBullet[i].SetBoundingBox(top, bottom, left, right);
 		ptrCBullet[i].SetMoveFunc(xfunc, yfunc);
 		ptrCBullet[i].SetRotateAngle(rand());
 		ptrCBullet[i].SetVelocity(0.5f);

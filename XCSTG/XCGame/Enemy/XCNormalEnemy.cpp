@@ -73,6 +73,7 @@ void xc_game::XCNormalEnemy::EnemyRender(float nowFrame)
 	if (should_render) {
 		OGLSettingRenderStart();
 		if (IsDead()) {
+			dead_se.SetAbsWidthAndHeight(right, top);
 			if (dead_se.SpecialEffectRender(NowX, NowY, NowZ))//ÕÍ≥…±¨’®‰÷»æ
 				should_render = false;
 		}
@@ -90,8 +91,8 @@ void xc_game::XCNormalEnemy::EnemyRender(float nowFrame)
 					NowY = GetCoordY();
 					break;
 				case FUNCTION_PATH:
-					NowX = coordx_func(NowX, NowY,enemyTimer, velocity, 0);
-					NowY = coordy_func(NowX, NowY,enemyTimer, velocity, 0);
+					NowX = coordx_func(NowX, NowY,enemyTimer, velocity, 0)*right;
+					NowY = coordy_func(NowX, NowY,enemyTimer, velocity, 0)*top;
 					break;
 			}
 			glBindVertexArray(vao);
@@ -106,7 +107,7 @@ void xc_game::XCNormalEnemy::EnemyRender(float nowFrame)
 				break;
 			}
 			transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
-			transform_mat = glm::scale(transform_mat, glm::vec3(0.06f, 0.06f, 0.06f));
+			transform_mat = glm::scale(transform_mat, glm::vec3(0.06f*right, 0.06f*top, 0.06f));
 			auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
 			glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 			glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));

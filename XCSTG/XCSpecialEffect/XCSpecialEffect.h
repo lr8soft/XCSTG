@@ -6,6 +6,7 @@
 namespace xc_se {
 	class XCSpecialEffect {
 	protected:
+			float render_abs_width = 1.0f, render_abs_height = 1.0f;
 		bool should_se_render = true, first_run = true,is_rendering=false;
 		float RenderX, RenderY, RenderZ,RenderTime,RenderSize;
 		GLuint vao, vbo, program;
@@ -19,6 +20,11 @@ namespace xc_se {
 		}
 		inline bool ShouldRender() {
 			return should_se_render;
+		}
+		void SetAbsWidthAndHeight(float absW, float absH)
+		{
+			render_abs_height = absH;
+			render_abs_width = absW;
 		}
 		inline void SetRenderTime(float time) {
 			RenderTime = time;

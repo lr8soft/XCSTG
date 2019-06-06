@@ -33,8 +33,9 @@ public:
 	}
 	virtual void TaskInit() 
 	{
-		if (!have_resource_init) {
+		if (!have_resource_init&&have_abs_bored_set) {
 			for (auto iter = backGroundGroup.begin(); iter != backGroundGroup.end(); iter++) {
+				(*iter)->SetAbsWidthAndHeight(render_abs_width, render_abs_height);
 				(*iter)->BackgroundInit();
 			}
 			have_resource_init = true;

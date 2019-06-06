@@ -16,6 +16,7 @@ void XCEYStage1::TaskInit()
 		pEnemy = new xc_game::XCNormalEnemy[pEnemyCount];//!!!!!这里没有delete的
 		for (int i = 0; i < pEnemyCount; i++)
 		{
+			pEnemy[i].SetBoundingBox(render_abs_height, -render_abs_height, -render_abs_width, render_abs_width);
 			/*pEnemy[i].EnemyInit(pEnemy[i].SINGLE_COORD);
 			if (i % 2 == 0) {
 				pEnemy[i].SetGenerateAndVelocity(rand() / double(RAND_MAX), rand() / double(RAND_MAX), 0.0f, 0.8f, 0.8f, 0.0f, 0.03f);

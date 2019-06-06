@@ -29,7 +29,12 @@ void XCBackgroundStatic::BufferInit()
 	glGenBuffers(1, &vbo);
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(covered_plane_vertex_with_texture), covered_plane_vertex_with_texture, GL_STATIC_DRAW);
+	glBufferData(
+		GL_ARRAY_BUFFER, 
+		sizeof(covered_plane_vertex_with_texture), 
+		GetCoveredPlaneWithTexVertex(render_abs_width,render_abs_height),
+		GL_STATIC_DRAW
+	);
 	auto vertex_info_loc = glGetAttribLocation(program, "vertex_info");
 	glVertexAttribPointer(vertex_info_loc, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glEnableVertexAttribArray(vertex_info_loc);

@@ -11,6 +11,7 @@ void TestBossTask::TaskInit()
 		XCTestSC *pSC = new XCTestSC;
 		pSC->SpellCardInit();
 		XCTestSC *pSC2 = new XCTestSC;
+		pSC2->SetBorder(render_abs_height, -render_abs_height, -render_abs_width, render_abs_width);
 		pSC2->SpellCardInit();
 		AddSpellCardToTask(pSC2, 233);
 		AddSpellCardToTask(pSC, 666);
@@ -21,6 +22,7 @@ void TestBossTask::TaskInit()
 			return NowY;
 		};
 		pTaskBoss = new TestBoss;
+		((TestBoss*)pTaskBoss)->SetBoundingBox(render_abs_height, -render_abs_height, -render_abs_width, render_abs_width);
 		((TestBoss*)pTaskBoss)->SetMoveFunc(xfunc, yfunc);
 		((TestBoss*)pTaskBoss)->SetStartPoint(0.0f, 0.5f, 0.0f);
 		((TestBoss*)pTaskBoss)->SetVelocity(3.0f);

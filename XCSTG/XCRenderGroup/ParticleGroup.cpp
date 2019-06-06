@@ -27,6 +27,7 @@ bool ParticleGroup::GroupRender(float x, float y, float z, float nowFrame)
 	default_random_engine e(particleGroupTimer.getAccumlateTime());
 	uniform_real_distribution<float> rand_engine(-0.5f, 0.5f),rand_engine_small(-0.08,0.08f);
 	for (int i = 0; i < particle_count; i++) {
+		
 		if (!StorageParticleGroup[i].ShouldRender()) {
 			switch (groupRenderType) {
 			case ROTATE_COORD://It should always render.
@@ -35,6 +36,7 @@ bool ParticleGroup::GroupRender(float x, float y, float z, float nowFrame)
 		} else
 		{
 			StorageParticleGroup[i].SetOffset(i);
+			StorageParticleGroup[i].SetAbsWidthAndHeight(render_abs_width, render_abs_height);
 			float temp_x = 0, temp_y = 0, temp_z = z;
 			switch (groupRenderType) {
 			case ALL_ONE_COORD:
@@ -43,8 +45,8 @@ bool ParticleGroup::GroupRender(float x, float y, float z, float nowFrame)
 				is_render_finish = false; 
 				break;
 			case ROTATE_COORD:
-				temp_x = x + sin(particleGroupTimer.getAccumlateTime()+  (2 * 3.141 / particle_count)*i)/4;
-				temp_y = y + cos(particleGroupTimer.getAccumlateTime() + (2 * 3.141 / particle_count)*i)/4;
+				temp_x = x + sin(particleGroupTimer.getAccumlateTime()+  (2 * 3.141 / particle_count)*i)/4 * render_abs_width;
+				temp_y = y + cos(particleGroupTimer.getAccumlateTime() + (2 * 3.141 / particle_count)*i)/4 * render_abs_height;
 				temp_z = z;
 				StorageParticleGroup[i].SetRenderSize(30.0f);
 				StorageParticleGroup[i].SpecialEffectRender(temp_x, temp_y, temp_z);
@@ -69,4 +71,10 @@ void ParticleGroup::GroupRelease()
 {
 	if(particle_count>0)
 		delete[] StorageParticleGroup;
+}
+
+void ParticleGroup::SetAbsWidthAndHeight(float absW, float absH)
+{
+	render_abs_height = absH;
+	render_abs_width = absW;
 }

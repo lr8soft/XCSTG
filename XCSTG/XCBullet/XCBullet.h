@@ -7,8 +7,8 @@
 #include "../XCGame/XCEntity.h"
 #include "../util/GameTimer.h"
 namespace xc_bullet {
-	/*参数:NowX, NowY,XCGameTimer, velocity, parameter*/
-	using BulletFunctionType=std::function<float(float, float, XCGameTimer, float, float)>;
+	/*参数:NowX, NowY,XCGameTimer, velocity, rate_width,rate_height*/
+	using BulletFunctionType=std::function<float(float, float, XCGameTimer, float, float,float)>;
 	class XCBullet:public XCEntity {
 	protected:
 		XCGameTimer BulletTimer;
@@ -17,7 +17,7 @@ namespace xc_bullet {
 		bool should_render = false,have_start_pos=false,have_xyfunc=false,have_velocity=false;
 		bool aim_to_player = false,have_atp_init=false,atp_positive=false;
 		float atp_k, atp_b,atp_theta;
-		float top = 1.1, bottom = -1.1, left = -1.1, right = 1.1;
+		float top = 1.0, bottom = -1.0, left = -1.0, right = 1.0;
 		/*渲染范围 -1.1<NowX<1.1 -1.1<NowY<1.1*/
 		BulletFunctionType coordx_func,coordy_func,coordz_func;
 		GLuint vao, vbo, tbo,program;
@@ -54,8 +54,8 @@ namespace xc_bullet {
 		{
 			rotate_angle = theta;
 		}
-		/*!!xfunc:返回NowX,参数:NowX,NowY,nowTime,deltaTime,velocity,parameter
-		    yfunc:返回NowY,参数:NowX,NowY,nowTime,deltaTime,velocity,parameter*/
+		/*!!xfunc:返回NowX,参数:NowX,NowY,nowTime,deltaTime,velocity,width,height
+		    yfunc:返回NowY,参数:NowX,NowY,nowTime,deltaTime,velocity,width,height*/
 		void SetMoveFunc(BulletFunctionType xfunc, BulletFunctionType yfunc)
 		{
 			coordx_func = xfunc;
@@ -80,12 +80,12 @@ namespace xc_bullet {
 				NowY = atp_k * NowX + atp_b;
 			}
 			else {
-				NowX = coordx_func(NowX, NowY, BulletTimer, velocity, 0);
-				NowY = coordy_func(NowX, NowY, BulletTimer, velocity, 0);
+				NowX = coordx_func(NowX, NowY, BulletTimer, velocity, right, top);
+				NowY = coordy_func(NowX, NowY, BulletTimer, velocity, right, top);
 			}
 		}
 		void SetStartingPoint(float x,float y,float z) {
-			SetCoord(x, y, z);
+			SetCoord(x*right, y*top, z);
 			have_start_pos = true;
 		}
 		void StopBulletWork()

@@ -71,9 +71,9 @@ void PlayerEntity::GroupInit()
 	glGenBuffers(1, &vbo_deci);
 	glBindVertexArray(vao_deci);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_deci);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(covered_plane_vertex), covered_plane_vertex, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(covered_plane_vertex_with_texture), covered_plane_vertex_with_texture, GL_STATIC_DRAW);
 	auto player_loc = glGetAttribLocation(program[DECISIONTEX], "player_pos");
-	glVertexAttribPointer(player_loc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glVertexAttribPointer(player_loc, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glEnableVertexAttribArray(player_loc);
 	//////////////////////////玩家贴图初始化///////////////////////////////////////////////////
 	glGenVertexArrays(1, &vao_player);
@@ -159,13 +159,28 @@ void PlayerEntity::GroupRender(float nowFrame)
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_player);
 	switch (PlayerNowState) {
 	case PLAYER_STANDBY:
-		glBufferSubData(GL_ARRAY_BUFFER, 0, 24 * sizeof(float), GetSpecificTexture(8, 3, 1+(size_t)PlayerSameStateTime,3));
+		glBufferSubData(
+			GL_ARRAY_BUFFER, 
+			0,
+			24 * sizeof(float),
+			GetSpecificTexWithWidthAndHeight(right, top, 8, 3, 1+(size_t)PlayerSameStateTime,3)
+		);
 		break;
 	case PLAYER_TURNRIGHT:
-		glBufferSubData(GL_ARRAY_BUFFER, 0, 24 * sizeof(float), GetSpecificTexture(8, 3, 1+(size_t)PlayerSameStateTime, 1));
+		glBufferSubData(
+			GL_ARRAY_BUFFER, 
+			0, 
+			24 * sizeof(float),
+			GetSpecificTexWithWidthAndHeight(right, top, 8, 3, 1+(size_t)PlayerSameStateTime, 1)
+		);
 		break;
 	case PLAYER_TURNLEFT:
-		glBufferSubData(GL_ARRAY_BUFFER, 0, 24 * sizeof(float), GetSpecificTexture(8, 3, 1+(size_t)PlayerSameStateTime, 2));
+		glBufferSubData(
+			GL_ARRAY_BUFFER,
+			0, 
+			24 * sizeof(float),
+			GetSpecificTexWithWidthAndHeight(right, top, 8, 3, 1+(size_t)PlayerSameStateTime, 2)
+		);
 		break;
 	}
 	glActiveTexture(GL_TEXTURE0);
@@ -186,19 +201,24 @@ void PlayerEntity::GroupRender(float nowFrame)
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, tbo_deci);
 		change_matrix = glm::translate(change_matrix, glm::vec3(NowX, NowY, NowZ));
-		change_matrix = glm::rotate(change_matrix, glm::radians((float)glfwGetTime()*180.0f), glm::vec3(0, 0, 1));
-		change_matrix = glm::scale(change_matrix, glm::vec3(0.14, 0.14, 0.14));
+		change_matrix = glm::scale(change_matrix, glm::vec3(0.14*right, 0.14*top, 0.14));
+		change_matrix = glm::rotate(change_matrix, glm::radians((float)playerTimer.getAccumlateTime()*180.0f), glm::vec3(0, 0, 1));
 		auto rotate_loc = glGetUniformLocation(program[DECISIONTEX], "rotate_mat");
 		glUniformMatrix4fv(rotate_loc, 1, GL_FALSE, glm::value_ptr(change_matrix));
-		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		change_matrix_anti = glm::translate(change_matrix_anti, glm::vec3(NowX, NowY, NowZ));
-		change_matrix_anti = glm::rotate(change_matrix_anti, glm::radians(-(float)glfwGetTime()*180.0f + 90.0f), glm::vec3(0, 0, 1));
-		change_matrix_anti = glm::scale(change_matrix_anti, glm::vec3(0.14, 0.14, 0.14));
+		change_matrix_anti = glm::scale(change_matrix_anti, glm::vec3(0.14*right, 0.14*top, 0.14));
+		change_matrix_anti = glm::rotate(
+			change_matrix_anti, 
+			glm::radians(-(float)playerTimer.getAccumlateTime()*180.0f + 90.0f), 
+			glm::vec3(0, 0, 1)
+		);
 		glUniformMatrix4fv(rotate_loc, 1, GL_FALSE, glm::value_ptr(change_matrix_anti));
-		glDrawArrays(GL_TRIANGLES, 0, sizeof(covered_plane_vertex) / sizeof(float));
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	}
+	playerParticle.SetAbsWidthAndHeight(right, top);
 	playerParticle.GroupRender(NowX, NowY, NowZ, nowFrame);
 	OGLSettingRenderEnd();
 	OGLSettingRenderStart();
@@ -207,6 +227,7 @@ void PlayerEntity::GroupRender(float nowFrame)
 		base_attack[i].AttackRender(nowFrame);
 	}
 	if (dead_time) {
+		dead_se.SetAbsWidthAndHeight(right, top);
 		dead_time=!dead_se.SpecialEffectRender(NowX,NowY,NowZ);
 	}
 	OGLSettingRenderEnd();
@@ -246,27 +267,27 @@ void PlayerEntity::GroupKeyCheck(GLFWwindow* screen)
 	}
 	if (glfwGetKey(screen, keyup) == GLFW_PRESS) {
 		if (NowY+moveSpeed< top)//防止越界
-			NowY += moveSpeed;
+			NowY += moveSpeed*top;
 		SetPlayerDirection(PLAYER_STANDBY);
 		have_player_change_state = true;
 	}
 
 	if (glfwGetKey(screen, keydown) == GLFW_PRESS) {
 		if (NowY - moveSpeed > bottom)
-			NowY -= moveSpeed;
+			NowY -= moveSpeed * top;
 		SetPlayerDirection(PLAYER_STANDBY);
 		have_player_change_state = true;
 	}
 	if (glfwGetKey(screen, keyright) == GLFW_PRESS) {
 		if (NowX + moveSpeed < right)
-			NowX += moveSpeed;
+			NowX += moveSpeed * right;
 		SetPlayerDirection(PLAYER_TURNRIGHT);
 		have_player_change_state = true;
 	}
 
 	if (glfwGetKey(screen, keyleft) == GLFW_PRESS) {
 		if (NowX - moveSpeed > left)
-			NowX -= moveSpeed;
+			NowX -= moveSpeed * right;
 		SetPlayerDirection(PLAYER_TURNLEFT);
 		have_player_change_state = true;
 	}
@@ -275,6 +296,7 @@ void PlayerEntity::GroupKeyCheck(GLFWwindow* screen)
 		auto attack_count = sizeof(base_attack) / sizeof(xc_game::XCAttack);
 		for (int i = 0; i < attack_count; i++) {//deltaX, deltaY + 0.12+0.3*i, deltaZ,12.0f
 			base_attack[i].SetPositionAndVelocity(NowX, NowY, NowZ, player_fire_power);
+			base_attack[i].SetBorder(top, bottom, left, right);
 			base_attack[i].SetAttack();
 		}
 	}

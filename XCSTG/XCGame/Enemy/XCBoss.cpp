@@ -76,13 +76,15 @@ void xc_game::XCBoss::EnemyRender(float nowFrame)
 		glBindTexture(GL_TEXTURE_2D, use_tbo);
 		glm::mat4 transform_mat;
 		transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
-		transform_mat = glm::scale(transform_mat, glm::vec3(0.16f,0.20f,0.0f));
+		transform_mat = glm::scale(transform_mat, glm::vec3(0.16f*right,0.20f*top,0.0f));
 		auto transform_mat_loc = glGetUniformLocation(program, "transform_mat");
 		glUniformMatrix4fv(transform_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		infoSlot.BossHPRender();
+		infoSlot.SetAbsWidthAndHeight(right, top);
 		infoSlot.SpellCardInfoRender(infoSlot.GET_SPELL_CARD);
 		if (is_dead) {
+			explode_se.SetAbsWidthAndHeight(right, top);
 			if (explode_se.SpecialEffectRender(NowX, NowY, NowZ))//返回true即渲染完成
 				is_dead = false;//should_render = false;boss不会主动停止渲染
 		}

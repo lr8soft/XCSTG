@@ -7,6 +7,7 @@
 #include "../XCTask/XCTaskCollisonInfo.h"
 class XCSpellCard {
 protected:
+	float top = 1.0f, bottom = -1.0f, left = 1.0f, right = 1.0f;
 	bool NotSpellCard = false,IsSpellCardFinish=false,IsActived=false;
 	std::string SpellCardName;
 	size_t SustainTime;
@@ -41,6 +42,10 @@ public:
 	bool IsFinish()
 	{
 		return IsSpellCardFinish;
+	}
+	void SetBorder(float t,float b,float l,float r) 
+	{
+		top = t; bottom = b; left = l; right = r;
 	}
 
 };

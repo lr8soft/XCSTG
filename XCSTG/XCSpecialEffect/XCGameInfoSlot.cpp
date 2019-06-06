@@ -88,6 +88,12 @@ void xc_se::XCGameInfoSlot::SetInfo(float * hp, float * mhp, int rtime, int scco
 	SpellCardCount = sccount;
 }
 
+void xc_se::XCGameInfoSlot::SetAbsWidthAndHeight(float absW, float absH)
+{
+	render_abs_height = absH;
+	render_abs_width = absW;
+}
+
 void xc_se::XCGameInfoSlot::SpecialEffectInit()
 {
 	ShaderInit();
@@ -106,7 +112,7 @@ bool xc_se::XCGameInfoSlot::SpellCardInfoRender(int type)
 		glBindTexture(GL_TEXTURE_2D, tbo[SPELLCARD_SLOT]);
 		glm::mat4 transform_mat;
 		transform_mat = glm::translate(transform_mat, glm::vec3(0.0f, 0.6f, 0.0f));
-		transform_mat = glm::scale(transform_mat, glm::vec3(0.8f, 0.08f, 0.0f));
+		transform_mat = glm::scale(transform_mat, glm::vec3(0.8f*render_abs_width, 0.08f*render_abs_height, 0.0f));
 		auto convert_mat_loc = glGetUniformLocation(program[SPELLCARD_SLOT], "convert_mat");
 		auto gradient_number_loc = glGetUniformLocation(program[SPELLCARD_SLOT], "gradient_number");
 		if (accumlateTime < 1.0f) {
@@ -137,7 +143,7 @@ bool xc_se::XCGameInfoSlot::BossHPRender()
 	glBindBuffer(GL_ARRAY_BUFFER,vbo[HP_SLOT]);
 	glm::mat4 transform_mat;
 	transform_mat = glm::translate(transform_mat, glm::vec3(0.0f,0.96f,0.0f));
-	transform_mat = glm::scale(transform_mat, glm::vec3((*BossHP) / (*BossMaxHP)*0.8f,0.008f,0.0f));
+	transform_mat = glm::scale(transform_mat, glm::vec3((*BossHP) / (*BossMaxHP)*0.8f*render_abs_width,0.008f*render_abs_height,0.0f));
 	auto transfom_mat_loc = glGetUniformLocation(program[HP_SLOT], "transform_mat");
 	auto time_loc = glGetUniformLocation(program[HP_SLOT], "time");
 	glUniformMatrix4fv(transfom_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));

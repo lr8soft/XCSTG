@@ -87,7 +87,7 @@ void xc_game::XCAttack::AttackRender(float nowFrame)
 			glBindTexture(GL_TEXTURE_2D, tbo);
 			glm::mat4 transform_mat;
 			transform_mat = glm::translate(transform_mat, glm::vec3(NowX, NowY, NowZ));
-			transform_mat = glm::scale(transform_mat, glm::vec3(0.05f));
+			transform_mat = glm::scale(transform_mat, glm::vec3(0.05f*right,0.05f*top,0.05f));
 			auto transform_mat_loc = glGetUniformLocation(program, "convert_mat");
 			auto gradient_number_loc = glGetUniformLocation(program, "gradient_number");
 			glUniform1f(gradient_number_loc, 0.0f);
@@ -115,6 +115,11 @@ void xc_game::XCAttack::SetPositionAndVelocity(float x, float y, float z, float 
 		should_render_attack = true;
 		destY = finish_dist+y;//超过屏幕一个身位
 	}
+}
+
+void xc_game::XCAttack::SetBorder(float t, float b, float l, float r)
+{
+	top = t; bottom = b; left = l; right = r;
 }
 
 void xc_game::XCAttack::CheckCollisionWithEnemy(xc_game::XCEnemyBase * enemy)
