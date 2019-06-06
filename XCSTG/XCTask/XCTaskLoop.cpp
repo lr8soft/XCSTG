@@ -237,7 +237,7 @@ void XCTaskLoop::TaskProcess(float nowFrame)
 		{
 			RenderInfo.RenderTimer.AfterResume();
 		}
-		
+		renderGroup.CoveredPlaneRender(RenderInfo.render_abs_width, RenderInfo.render_abs_height);
 	}
 	else {
 		if (!have_font_show) {

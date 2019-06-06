@@ -7,15 +7,31 @@ protected:
 	bool is_dead = false;
 	float NowLife=1000, MaxLife=1000,collsion_radius=0.0f;
 	float NowX = 0, NowY = 0, NowZ = 0;
-	/*!返回敌人是否死亡
+	/*!返回未缩放时敌人是否死亡
 !请在检测 should_render=true后调用！*/
-	virtual bool EntityCollideWithEntity(XCEntity* entity) {
+	bool EntityCollideWithEntity(XCEntity* entity) {
 		if (entity == nullptr) return false;
 		if (entity->IsDead()) return false;
 		auto enemy_coord = entity->GetNowCoord();
 		float x = *enemy_coord, y = *(enemy_coord + 1), z = *(enemy_coord + 2);
 		float dist = sqrt(pow(x - NowX, 2) + pow(y - NowY, 2) + pow(z - NowZ, 2));
 		if (collsion_radius + entity->GetCollisionRadius() > dist) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	/*!返回缩放后敌人是否死亡
+!请在检测 should_render=true后调用！*/
+	bool ScaleEntityCollideWithPoint(float width_rate,float height_rate,XCEntity* entity) {
+		if (entity == nullptr) return false;
+		if (entity->IsDead()) return false;
+		auto enemy_coord = entity->GetNowCoord();
+		float x = *enemy_coord, y = *(enemy_coord + 1), z = *(enemy_coord + 2);
+		float para_a = width_rate * collsion_radius,para_b= height_rate * collsion_radius;
+		float para_ret = pow(x - NowX, 2) / pow(para_a, 2) + pow(y - NowY, 2) / pow(para_b, 2);
+		if (para_ret <1.0f) {
 			return true;
 		}
 		else {

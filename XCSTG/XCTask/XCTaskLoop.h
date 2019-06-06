@@ -6,6 +6,7 @@
 #include<iostream>
 #include "XCTask.h"
 #include "../XCFont/XCFont.h"
+#include "../XCSpecialEffect/XCGameInfoSlot.h"
 class XCTaskLoop {
 protected:	/*UUID   Task*/
 	bool IsReplayMode = false,ShouldProcessRun=true,have_font_show=false;
@@ -16,6 +17,7 @@ protected:	/*UUID   Task*/
 	XCTask* pPlayerTask=nullptr,*pEnemyTask=nullptr,*pBulletTask=nullptr,*pBackgroundTask=nullptr;
 	XCFont taskFont;
 	const float game_width = 720.0f, game_height = 730.f;
+	xc_se::XCGameInfoSlot renderGroup;
 	void BeforeProcess();
 	void SetPlayer(XCTask* ptask);
 	void SetEnemy(XCTask* ptask);

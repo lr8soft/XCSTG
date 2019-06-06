@@ -9,7 +9,7 @@ int exit_code = 0;
 std::mutex mutex;
 void SetExitType() {
 	mutex.lock();
-	exit_code++;
+	exit_code=-1;
 	mutex.unlock();
 }
 int GetExitType() {
@@ -19,8 +19,7 @@ int GetExitType() {
 	return code;
 }
 void GameThead() {
-	xc_ogl::AppFrameWork app(1280, 720, "XCDSTG v0.68pre2");
-	//xc_ogl::AppFrameWork app(720, 730, "XCDSTG v0.67");
+	xc_ogl::AppFrameWork app(1280, 720, "XCSTG v0.69");
 	app.init();
 	app.message_loop();
 	SetExitType();

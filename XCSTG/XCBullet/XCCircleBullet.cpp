@@ -153,7 +153,7 @@ void xc_bullet::XCCircleBullet::BulletCollisionWithPlayer(PlayerEntity * player)
 	if (player == nullptr) return;
 	if (should_render)
 	{
-		bool have_collide_with_player = EntityCollideWithEntity(player);
+		bool have_collide_with_player = ScaleEntityCollideWithPoint(right,top,player);
 		if (have_collide_with_player) {
 			player->SetDamage(attack_damage);
 			should_render = false;

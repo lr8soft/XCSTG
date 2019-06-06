@@ -11,14 +11,14 @@ using namespace xc_ogl;
 using namespace xc_se;
 bool xc_se::XCGameInfoSlot::have_resource_init = false;
 bool xc_se::XCGameInfoSlot::have_program_init = false;
-GLuint xc_se::XCGameInfoSlot::vao[5];
-GLuint xc_se::XCGameInfoSlot::vbo[5];
-GLuint xc_se::XCGameInfoSlot::tbo[2];
+GLuint xc_se::XCGameInfoSlot::vao[3];
+GLuint xc_se::XCGameInfoSlot::vbo[3];
+GLuint xc_se::XCGameInfoSlot::tbo[3];
 GLuint xc_se::XCGameInfoSlot::program[2];
 void xc_se::XCGameInfoSlot::ShaderInit()
 {
 	if (!have_program_init) {
-		ShaderReader BossHP, SpellCardSlot;
+		ShaderReader BossHP, SpellCardSlot,RenderCoverPlane;
 		BossHP.loadFromFile("Shader/se/BossSE.vert", GL_VERTEX_SHADER);
 		BossHP.loadFromFile("Shader/se/BossSE.frag", GL_FRAGMENT_SHADER);
 		BossHP.linkAllShader();
@@ -28,6 +28,11 @@ void xc_se::XCGameInfoSlot::ShaderInit()
 		SpellCardSlot.loadFromFile("Shader/general/generalShader.frag", GL_FRAGMENT_SHADER);
 		SpellCardSlot.linkAllShader();
 		program[SPELLCARD_SLOT] = SpellCardSlot.getProgramHandle();
+
+		RenderCoverPlane.loadFromFile("Shader/info/renderCover.vert", GL_VERTEX_SHADER);
+		RenderCoverPlane.loadFromFile("Shader/info/renderCover.frag", GL_FRAGMENT_SHADER);
+		RenderCoverPlane.linkAllShader();
+		program[RENDER_PLANE] = RenderCoverPlane.getProgramHandle();
 		have_program_init = true;
 	}
 
@@ -36,17 +41,19 @@ void xc_se::XCGameInfoSlot::ShaderInit()
 void xc_se::XCGameInfoSlot::TextureInit()
 {
 	if (!have_resource_init) {
-		ImageLoader spellCardSlot;
+		ImageLoader spellCardSlot,renderGameCoverPlane;
 		spellCardSlot.loadTextureFromFile("Image/font/spellcard_word.png");
+		renderGameCoverPlane.loadTextureFromFile("Image/bg/testbg_ÇÖÉ¾.jpeg");
 		tbo[SPELLCARD_SLOT] = spellCardSlot.getTextureBufferObjectHandle();
+		tbo[RENDER_PLANE] = renderGameCoverPlane.getTextureBufferObjectHandle();
 		have_resource_init = true;
 	}
 }
 
 void xc_se::XCGameInfoSlot::BufferInit()
 {
-	glGenVertexArrays(5, vao);
-	glGenBuffers(5, vbo);
+	glGenVertexArrays(3, vao);
+	glGenBuffers(3, vbo);
 ///////////////////////////////////Boss HP slot init///////////////////////////////////////////////
 	glBindVertexArray(vao[HP_SLOT]);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo[HP_SLOT]);
@@ -58,26 +65,22 @@ void xc_se::XCGameInfoSlot::BufferInit()
 ///////////////////////////////////SpellCard slot init///////////////////////////////////////////////
 	auto render_pos_loc = glGetAttribLocation(program[SPELLCARD_SLOT],"render_pos");
 	auto tex_pos_loc = glGetAttribLocation(program[SPELLCARD_SLOT], "tex_pos");
-	for (int i = 0; i < 3;i++) {
-		glBindVertexArray(vao[SPELLCARD_SLOT+i]);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo[SPELLCARD_SLOT+i]);
-		switch(i){
-		case GET_SPELL_CARD:
-			glBufferData(GL_ARRAY_BUFFER, 24 * sizeof(float), GetSpecificTexture(1, 3, 1, 3), GL_STATIC_DRAW);
-			break;
-		case BONUS_FAILED:
-			glBufferData(GL_ARRAY_BUFFER, 24 * sizeof(float), GetSpecificTexture(1, 3, 1, 2), GL_STATIC_DRAW);
-			break;
-		case NEXT_STAGE:
-			glBufferData(GL_ARRAY_BUFFER, 24 * sizeof(float), GetSpecificTexture(1, 3, 1, 1), GL_STATIC_DRAW);
-			break;
-		}
-		glVertexAttribPointer(render_pos_loc, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(0));
-		glVertexAttribPointer(tex_pos_loc, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-		glEnableVertexAttribArray(render_pos_loc);
-		glEnableVertexAttribArray(tex_pos_loc);
-	}
+	glBindVertexArray(vao[SPELLCARD_SLOT]);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo[SPELLCARD_SLOT]);
+	glBufferData(GL_ARRAY_BUFFER, 24 * sizeof(float), nullptr, GL_DYNAMIC_DRAW);
+	glVertexAttribPointer(render_pos_loc, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(0));
+	glVertexAttribPointer(tex_pos_loc, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+	glEnableVertexAttribArray(render_pos_loc);
+	glEnableVertexAttribArray(tex_pos_loc);
 	glUniform1i(glGetUniformLocation(program[SPELLCARD_SLOT], "tex"), 0);
+///////////////////////////////////RenderPlane slot init///////////////////////////////////////////////
+	auto vertex_info_loc = glGetAttribLocation(program[RENDER_PLANE], "vertex_info");
+	glBindVertexArray(vao[RENDER_PLANE]);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo[RENDER_PLANE]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(covered_plane_vertex_with_texture), covered_plane_vertex_with_texture, GL_STATIC_DRAW);
+	glVertexAttribPointer(vertex_info_loc, 4, GL_FLOAT, GL_FALSE, 0, (void*)(0));
+	glEnableVertexAttribArray(vertex_info_loc);
+	glUniform1i(glGetUniformLocation(program[RENDER_PLANE], "tex"), 0);
 }
 
 void xc_se::XCGameInfoSlot::SetInfo(float * hp, float * mhp, int rtime, int sccount)
@@ -107,8 +110,9 @@ bool xc_se::XCGameInfoSlot::SpellCardInfoRender(int type)
 	float accumlateTime = spellCardSlotTimer.getAccumlateTime();
 	if (accumlateTime <3.0f) {
 		glUseProgram(program[SPELLCARD_SLOT]);
-		glBindVertexArray(vao[SPELLCARD_SLOT + type]);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo[SPELLCARD_SLOT + type]);
+		glBindVertexArray(vao[SPELLCARD_SLOT]);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo[SPELLCARD_SLOT]);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, 24 * sizeof(float), GetSpecificTexture(1, 3, 1, 1+ type));
 		glBindTexture(GL_TEXTURE_2D, tbo[SPELLCARD_SLOT]);
 		glm::mat4 transform_mat;
 		transform_mat = glm::translate(transform_mat, glm::vec3(0.0f, 0.6f, 0.0f));
@@ -135,7 +139,16 @@ bool xc_se::XCGameInfoSlot::SpellCardInfoRender(int type)
 	}
 
 }
-
+void xc_se::XCGameInfoSlot::CoveredPlaneRender(float absW, float absH)
+{
+	glUseProgram(program[RENDER_PLANE]);
+	glBindVertexArray(vao[RENDER_PLANE]);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo[RENDER_PLANE]);
+	glBindTexture(GL_TEXTURE_2D, tbo[RENDER_PLANE]);
+	auto abs_loc=glGetUniformLocation(program[RENDER_PLANE],"render_rate");
+	glUniform2f(abs_loc, absW, absH);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+}
 bool xc_se::XCGameInfoSlot::BossHPRender()
 {
 	glUseProgram(program[HP_SLOT]);

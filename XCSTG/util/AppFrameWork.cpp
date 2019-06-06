@@ -7,7 +7,7 @@
 #include <sstream>
 #include <al/alut.h>
 xc_ogl::AppFrameWork* xc_ogl::AppFrameWork::app_ptr = nullptr;
-std::wstring xc_ogl::AppFrameWork::xcstg_version =L"XCSTG≤‚ ‘ v0.68pre2";
+std::wstring xc_ogl::AppFrameWork::xcstg_version =L"xcstg≤‚ ‘ v0.69";
 void xc_ogl::AppFrameWork::finalizer()
 {
 	glfwDestroyWindow(screen);
@@ -105,13 +105,13 @@ void xc_ogl::AppFrameWork::render()
 			0.8f,
 			0.0f,
 			0.3f,
-			glm::vec4(0.1, 0.2f, 0.2f, 1.0f)
+			glm::vec4(0.6, 0.2f, 0.6f, 1.0f)
 		);
 	}
 }
 
-
-xc_ogl::AppFrameWork::AppFrameWork() :height(720), width(1280), title("OGL Test")
+ 
+xc_ogl::AppFrameWork::AppFrameWork() :height(720), width(1280), title("XCSTG")
 {
 	if (have_init)
 		throw ("Can't create two OpenGL instance.");
