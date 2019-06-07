@@ -109,6 +109,12 @@
     <Filter Include="头文件\XCStage0">
       <UniqueIdentifier>{3476c0b9-9fb7-42b4-a580-a03c103cd307}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\XCModel">
+      <UniqueIdentifier>{12cfe809-b985-4670-accc-28f6a4af4531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\XCModel">
+      <UniqueIdentifier>{5e6ef8cb-83fc-4307-af72-4dd78f759c00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="util\AppFrameWork.cpp">
@@ -206,6 +212,9 @@
     </ClCompile>
     <ClCompile Include="XCBackground\XCBackgroundStatic.cpp">
       <Filter>源文件\XCBackground</Filter>
+    </ClCompile>
+    <ClCompile Include="XCModel\XCModel.cpp">
+      <Filter>源文件\XCModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -343,6 +352,9 @@
     </ClInclude>
     <ClInclude Include="XCStage\XCTestBG.h">
       <Filter>头文件\XCStage0</Filter>
+    </ClInclude>
+    <ClInclude Include="XCModel\XCModel.h">
+      <Filter>头文件\XCModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

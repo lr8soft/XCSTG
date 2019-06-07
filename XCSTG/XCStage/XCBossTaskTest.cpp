@@ -8,13 +8,14 @@ void TestBossTask::TaskInit()
 	if (!have_resource_init) 
 	{
 		bossTaskUUID = "TESTBOSS0";
-		XCTestSC *pSC = new XCTestSC;
-		pSC->SpellCardInit();
-		XCTestSC *pSC2 = new XCTestSC;
-		pSC2->SetBorder(render_abs_height, -render_abs_height, -render_abs_width, render_abs_width);
-		pSC2->SpellCardInit();
-		AddSpellCardToTask(pSC2, 233);
-		AddSpellCardToTask(pSC, 666);
+		XCTestSC *pSpellCard = new XCTestSC;
+		pSpellCard->SetBorder(render_abs_height, -render_abs_height, -render_abs_width, render_abs_width);
+		pSpellCard->SpellCardInit();
+		XCTestSC *pSpellCard2 = new XCTestSC;
+		pSpellCard2->SetBorder(render_abs_height, -render_abs_height, -render_abs_width, render_abs_width);
+		pSpellCard2->SpellCardInit();
+		AddSpellCardToTask(pSpellCard2, 50);
+		AddSpellCardToTask(pSpellCard, 50);
 		auto xfunc = [](float NowX, float NowY, XCGameTimer timer, float v, float b) {
 			return NowX;
 		};

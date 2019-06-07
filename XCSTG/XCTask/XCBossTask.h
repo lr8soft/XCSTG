@@ -26,11 +26,14 @@ protected:
 	}
 	void WorkSpellCardRender(float nowFrame)
 	{
-		if (spellCardGroup.empty()) task_should_delete = true;
+		if (spellCardGroup.empty()) {
+			task_should_delete = true;
+			return;
+		}
 		pTaskBoss->EnemyRender(nowFrame);
 
 		auto now_hp_iter = bossSpellCardHP.begin();
-		for (auto iter = spellCardGroup.begin(); iter != spellCardGroup.end(),now_hp_iter!= bossSpellCardHP.end();) {
+		for (auto iter = spellCardGroup.begin(); iter != spellCardGroup.end() && now_hp_iter!= bossSpellCardHP.end();) {
 			if (!(*iter)->GetIsActive()) {
 				ptrBoss->SetInfo((*now_hp_iter), (*now_hp_iter));
 			}
