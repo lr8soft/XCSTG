@@ -1,31 +1,45 @@
 #pragma once
 #ifndef _XCMODEL_H_
 #define _XCMODEL_H_
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <GL/glcorearb.h>
-#include <string>
+#include "XCMesh.h"
 #include <vector>
-struct XCVertex {
-	glm::vec3 Position;
-	glm::vec3 Normal;
-	glm::vec2 TexCoord;
-};
-struct XCTexture {
-	size_t id;
-	std::string type;
-};
 class XCModel {
-protected:
-	GLuint vao, vbo, ebo;
-	void InitModel();
 public:
-	std::vector<XCVertex> vertexGroup;
-	std::vector<size_t> indexGroup;
-	std::vector<XCTexture> textureGroup;
-	XCModel(std::vector<XCVertex> vertex, std::vector<size_t> index, std::vector<XCTexture> tex);
-	void RenderModel(GLuint programHandle);
+	/*  Model Data */
+	std::vector<XCTexture> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
+	std::vector<XCMesh> meshes;
+	std::string directory;
+	bool gammaCorrection;
 
+	/*  Functions   */
+	// constructor, expects a filepath to a 3D model.
+	XCModel(std::string const &path, bool gamma = false) : gammaCorrection(gamma)
+	{
+		loadModel(path);
+	}
+
+	// draws the model, and thus all its meshes
+	void Draw()
+	{
+		for (unsigned int i = 0; i < meshes.size(); i++)
+			meshes[i].MeshRender();
+	}
+
+private:
+	/*  Functions   */
+	// loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
+	void loadModel(std::string const &path);
+
+	// processes a node in a recursive fashion. Processes each individual mesh located at the node and repeats this process on its children nodes (if any).
+	void processNode(aiNode *node, const aiScene *scene);
+
+	XCMesh processMesh(aiMesh *mesh, const aiScene *scene);
+
+	// checks all material textures of a given type and loads the textures if they're not loaded yet.
+	// the required info is returned as a Texture struct.
+	std::vector<XCTexture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
 };
+
+
+
 #endif

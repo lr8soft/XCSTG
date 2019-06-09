@@ -216,6 +216,9 @@
     <ClCompile Include="XCModel\XCModel.cpp">
       <Filter>源文件\XCModel</Filter>
     </ClCompile>
+    <ClCompile Include="XCModel\XCMesh.cpp">
+      <Filter>源文件\XCModel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util\AppFrameWork.h">
@@ -352,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="XCStage\XCTestBG.h">
       <Filter>头文件\XCStage0</Filter>
+    </ClInclude>
+    <ClInclude Include="XCModel\XCMesh.h">
+      <Filter>头文件\XCModel</Filter>
     </ClInclude>
     <ClInclude Include="XCModel\XCModel.h">
       <Filter>头文件\XCModel</Filter>

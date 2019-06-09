@@ -7,7 +7,7 @@
 #include <sstream>
 #include <al/alut.h>
 xc_ogl::AppFrameWork* xc_ogl::AppFrameWork::app_ptr = nullptr;
-std::wstring xc_ogl::AppFrameWork::xcstg_version =L"xcstg测试 v0.69_f1";
+std::wstring xc_ogl::AppFrameWork::xcstg_version =L"xcstg测试版本 v0.70pre";
 void xc_ogl::AppFrameWork::finalizer()
 {
 	glfwDestroyWindow(screen);
@@ -31,7 +31,7 @@ void xc_ogl::AppFrameWork::init()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);//核心模式牛 逼
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);//No resizable.
-	//glfwWindowHint(GLFW_SCALE_TO_MONITOR, GL_TRUE);//Auto change size
+	glfwWindowHint(GLFW_SCALE_TO_MONITOR, GL_TRUE);//Auto change size
 	screen = glfwCreateWindow(width, height, title, nullptr, nullptr);
 	if (screen == nullptr) {
 		MessageBox(NULL, "无法创建窗口！","ERROR",MB_ICONERROR);

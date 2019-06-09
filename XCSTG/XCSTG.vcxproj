@@ -141,6 +141,7 @@
     <ClCompile Include="XCGame\Enemy\XCEnemyBase.cpp" />
     <ClCompile Include="XCGame\Enemy\XCEnemyInfo.cpp" />
     <ClCompile Include="XCGame\Enemy\XCNormalEnemy.cpp" />
+    <ClCompile Include="XCModel\XCMesh.cpp" />
     <ClCompile Include="XCModel\XCModel.cpp" />
     <ClCompile Include="XCRenderGroup\ParticleGroup.cpp" />
     <ClCompile Include="XCRenderGroup\PlayerEntity.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="XCGame\Enemy\XCEnemyInfo.h" />
     <ClInclude Include="XCGame\Enemy\XCNormalEnemy.h" />
     <ClInclude Include="XCGame\XCEntity.h" />
+    <ClInclude Include="XCModel\XCMesh.h" />
     <ClInclude Include="XCModel\XCModel.h" />
     <ClInclude Include="XCRenderGroup\ParticleGroup.h" />
     <ClInclude Include="XCRenderGroup\PlayerEntity.h" />
