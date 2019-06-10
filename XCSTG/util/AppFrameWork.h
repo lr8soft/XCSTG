@@ -9,11 +9,13 @@
 #include "../XCStage/XCBossTaskTest.h"
 #include "../XCFont/XCFont.h"
 #include "../XCStage/XCTestBG.h"
+#include "../XCModel/XCModel.h"
 #include "GameTimer.h"
 namespace xc_ogl {
 	class AppFrameWork
 	{
 	private:
+		XCModel *modeltest;
 		XCEYStage1 enemyTask;
 		XCTestBG bgtask;
 		XCPlayerTask playerTask;

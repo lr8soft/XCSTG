@@ -31,7 +31,7 @@ void XCTaskLoop::SetWidthHeight(float w, float h)
 
 void XCTaskLoop::BeforeProcess()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 
 void XCTaskLoop::SetPlayer(XCTask* ptask)

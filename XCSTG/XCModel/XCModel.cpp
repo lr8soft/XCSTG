@@ -1,6 +1,11 @@
 #include "XCModel.h"
 #include "../util/stb_image.h"
+#include "../util/ShaderReader.h"
 #include <GL3/gl3w.h>
+#include <glfw/glfw3.h>
+using namespace xc_ogl;
+GLuint XCModel::programHnd = 0;
+bool XCModel::have_program_init = false;
 unsigned int TextureFromFile(const char *path, const std::string &directory, bool gamma = false)
 {
 	std::string filename = std::string(path);
@@ -39,8 +44,39 @@ unsigned int TextureFromFile(const char *path, const std::string &directory, boo
 
 	return textureID;
 }
+void XCModel::Draw()
+{
+	
+	for (unsigned int i = 0; i < meshes.size(); i++)
+	{ 
+		glUseProgram(programHnd);
+		auto convert_mat_loc = glGetUniformLocation(programHnd, "mvp_mat");	
+		glm::mat4 model_mat,project_mat,view_mat;
+		project_mat = glm::perspective(glm::radians(45.0f), 1280.0f / 720.0f, 0.1f, 200.0f);
+		view_mat = glm::lookAt(
+			glm::vec3(0.0f,0.0f,10.0f),
+			glm::vec3(0.0f, 0.0f, 5.0f),
+			glm::vec3(0.0f, 1.0f, 0.0f)
+		);
+		model_mat = glm::translate(model_mat, glm::vec3(0.0f,0.0f,-100.0f));
+		model_mat = glm::rotate(model_mat, glm::radians((float)glfwGetTime()*30.0f),glm::vec3(0,1,0));
+		model_mat = glm::scale(model_mat, glm::vec3(0.2f));
+		glUniformMatrix4fv(convert_mat_loc, 1, GL_FALSE, glm::value_ptr(project_mat*view_mat*model_mat));
+		meshes[i].MeshRender();
+	}
+	glUseProgram(0);
+}
 void XCModel::loadModel(std::string const & path)
 {
+	if (!have_program_init)
+	{
+		ShaderReader shaderLoader;
+		shaderLoader.loadFromFile("Shader/model/generalModel.vert", GL_VERTEX_SHADER);
+		shaderLoader.loadFromFile("Shader/model/generalModel.frag", GL_FRAGMENT_SHADER);
+		shaderLoader.linkAllShader();
+		programHnd = shaderLoader.getProgramHandle();
+		have_program_init = true;
+	}
 	// read file via ASSIMP
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
@@ -79,24 +115,24 @@ XCMesh XCModel::processMesh(aiMesh * mesh, const aiScene * scene)
 {
 	// data to fill
 	std::vector<XCVertex> vertices;
-	std::vector<unsigned int> indices;
+	std::vector<size_t> indices;
 	std::vector<XCTexture> textures;
 
 	// Walk through each of the mesh's vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
-		XCVertex vertex;
+		XCVertex retvertex;
 		glm::vec3 vector; // we declare a placeholder vector since assimp uses its own vector class that doesn't directly convert to glm's vec3 class so we transfer the data to this placeholder glm::vec3 first.
 		// positions
 		vector.x = mesh->mVertices[i].x;
 		vector.y = mesh->mVertices[i].y;
 		vector.z = mesh->mVertices[i].z;
-		vertex.Position = vector;
+		retvertex.Position = vector;
 		// normals
 		vector.x = mesh->mNormals[i].x;
 		vector.y = mesh->mNormals[i].y;
 		vector.z = mesh->mNormals[i].z;
-		vertex.Normal = vector;
+		retvertex.Normal = vector;
 		// texture coordinates
 		if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
 		{
@@ -105,21 +141,23 @@ XCMesh XCModel::processMesh(aiMesh * mesh, const aiScene * scene)
 			// use models where a vertex can have multiple texture coordinates so we always take the first set (0).
 			vec.x = mesh->mTextureCoords[0][i].x;
 			vec.y = mesh->mTextureCoords[0][i].y;
-			vertex.TexCoords = vec;
+			retvertex.TexCoords = vec;
 		}
-		else
-			vertex.TexCoords = glm::vec2(0.0f, 0.0f);
+		else {
+			retvertex.TexCoords = glm::vec2(0.0f, 0.0f);
+		}
 		// tangent
 		vector.x = mesh->mTangents[i].x;
 		vector.y = mesh->mTangents[i].y;
 		vector.z = mesh->mTangents[i].z;
-		vertex.Tangent = vector;
+		retvertex.Tangent = vector;
 		// bitangent
 		vector.x = mesh->mBitangents[i].x;
 		vector.y = mesh->mBitangents[i].y;
 		vector.z = mesh->mBitangents[i].z;
-		vertex.Bitangent = vector;
-		vertices.push_back(vertex);
+		retvertex.Bitangent = vector;
+
+		vertices.push_back(retvertex);
 	}
 	// now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
 	for (unsigned int i = 0; i < mesh->mNumFaces; i++)
@@ -129,14 +167,8 @@ XCMesh XCModel::processMesh(aiMesh * mesh, const aiScene * scene)
 		for (unsigned int j = 0; j < face.mNumIndices; j++)
 			indices.push_back(face.mIndices[j]);
 	}
-	// process materials
+	// process texture material
 	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-	// we assume a convention for sampler names in the shaders. Each diffuse texture should be named
-	// as 'texture_diffuseN' where N is a sequential number ranging from 1 to MAX_SAMPLER_NUMBER. 
-	// Same applies to other texture as the following list summarizes:
-	// diffuse: texture_diffuseN
-	// specular: texture_specularN
-	// normal: texture_normalN
 
 	// 1. diffuse maps
 	std::vector<XCTexture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
@@ -152,7 +184,7 @@ XCMesh XCModel::processMesh(aiMesh * mesh, const aiScene * scene)
 	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
 	// return a mesh object created from the extracted mesh data
-	return XCMesh(vertices, indices, textures);
+	return XCMesh(programHnd, vertices, indices, textures);
 }
 
 std::vector<XCTexture> XCModel::loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName)

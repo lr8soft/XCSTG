@@ -10,7 +10,8 @@ public:
 	std::vector<XCMesh> meshes;
 	std::string directory;
 	bool gammaCorrection;
-
+	static GLuint programHnd;
+	static bool have_program_init;
 	/*  Functions   */
 	// constructor, expects a filepath to a 3D model.
 	XCModel(std::string const &path, bool gamma = false) : gammaCorrection(gamma)
@@ -19,11 +20,7 @@ public:
 	}
 
 	// draws the model, and thus all its meshes
-	void Draw()
-	{
-		for (unsigned int i = 0; i < meshes.size(); i++)
-			meshes[i].MeshRender();
-	}
+	void Draw();
 
 private:
 	/*  Functions   */

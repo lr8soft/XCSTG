@@ -24,15 +24,13 @@ struct XCTexture {
 };
 class XCMesh {
 protected:
-	static GLuint program;
-	static bool have_program_init;
-	GLuint vao, vbo, ebo;
+	GLuint vao, vbo, ebo, program;
 	void ModelInit();
 public:
 	std::vector<XCVertex> vertexGroup;
 	std::vector<size_t> indexGroup;
 	std::vector<XCTexture> textureGroup;
-	XCMesh(std::vector<XCVertex> vertex, std::vector<size_t> index, std::vector<XCTexture> tex);
+	XCMesh(GLuint pHnd, std::vector<XCVertex> vertex, std::vector<size_t> index, std::vector<XCTexture> tex);
 	void MeshRender();
 };
 #endif

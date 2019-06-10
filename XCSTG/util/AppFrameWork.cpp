@@ -84,6 +84,8 @@ void xc_ogl::AppFrameWork::shader_init()
 
 	testFont.FontSetWidthAndHeight(height, width);
 	testFont.FontASCIIInit();
+
+	modeltest = new XCModel("Model/testblade.obj");
 }
 void xc_ogl::AppFrameWork::render()
 {
@@ -91,6 +93,7 @@ void xc_ogl::AppFrameWork::render()
 	taskLoop.TaskProcess(glfwGetTime());
 	if (taskLoop.IsProcessing())
 	{
+	
 		static char fpsShow[64];
 		_itoa_s(gameTimer.getFPS(), fpsShow, 10);
 		testFont.FontASCIIRender(
@@ -108,6 +111,9 @@ void xc_ogl::AppFrameWork::render()
 			glm::vec4(0.6, 0.2f, 0.6f, 1.0f)
 		);
 	}
+	glEnable(GL_DEPTH_TEST);
+	modeltest->Draw();
+	glDisable(GL_DEPTH_TEST);
 }
 
  
