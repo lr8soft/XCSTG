@@ -1,6 +1,6 @@
 #include "XCModel.h"
-#include "../util/stb_image.h"
-#include "../util/ShaderReader.h"
+#include "../../util/stb_image.h"
+#include "../../util/ShaderReader.h"
 #include <GL3/gl3w.h>
 #include <glfw/glfw3.h>
 using namespace xc_ogl;
@@ -46,22 +46,21 @@ unsigned int TextureFromFile(const char *path, const std::string &directory, boo
 }
 void XCModel::Draw()
 {
-	
+	glUseProgram(programHnd);
+	auto convert_mat_loc = glGetUniformLocation(programHnd, "mvp_mat");
+	glm::mat4 model_mat, project_mat, view_mat;
+	project_mat = glm::perspective(glm::radians(45.0f), 1280.0f / 720.0f, 0.1f, 200.0f);
+	view_mat = glm::lookAt(
+		glm::vec3(0.0f, 0.0f, 10.0f),
+		glm::vec3(0.0f, 0.0f, 5.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f)
+	);
+	model_mat = glm::translate(model_mat, glm::vec3(0.0f, 0.0f, -100.0f));
+	model_mat = glm::rotate(model_mat, glm::radians((float)glfwGetTime()*30.0f), glm::vec3(0, 1, 0));
+	model_mat = glm::scale(model_mat, glm::vec3(0.2f));
+	glUniformMatrix4fv(convert_mat_loc, 1, GL_FALSE, glm::value_ptr(project_mat*view_mat*model_mat));
 	for (unsigned int i = 0; i < meshes.size(); i++)
 	{ 
-		glUseProgram(programHnd);
-		auto convert_mat_loc = glGetUniformLocation(programHnd, "mvp_mat");	
-		glm::mat4 model_mat,project_mat,view_mat;
-		project_mat = glm::perspective(glm::radians(45.0f), 1280.0f / 720.0f, 0.1f, 200.0f);
-		view_mat = glm::lookAt(
-			glm::vec3(0.0f,0.0f,10.0f),
-			glm::vec3(0.0f, 0.0f, 5.0f),
-			glm::vec3(0.0f, 1.0f, 0.0f)
-		);
-		model_mat = glm::translate(model_mat, glm::vec3(0.0f,0.0f,-100.0f));
-		model_mat = glm::rotate(model_mat, glm::radians((float)glfwGetTime()*30.0f),glm::vec3(0,1,0));
-		model_mat = glm::scale(model_mat, glm::vec3(0.2f));
-		glUniformMatrix4fv(convert_mat_loc, 1, GL_FALSE, glm::value_ptr(project_mat*view_mat*model_mat));
 		meshes[i].MeshRender();
 	}
 	glUseProgram(0);
@@ -218,4 +217,12 @@ std::vector<XCTexture> XCModel::loadMaterialTextures(aiMaterial * mat, aiTexture
 		}
 		return textures;
 	}
+}
+
+GLuint XCModel::getProgramHandle()
+{
+	if (have_program_init)
+		return programHnd;
+	else
+		return 0;
 }

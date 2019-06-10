@@ -1,5 +1,5 @@
 #include "XCMesh.h"
-#include "../util/ImageLoader.h"
+#include "../../util/ImageLoader.h"
 #include <GL3/gl3w.h>
 #include <iostream>
 using namespace xc_ogl;

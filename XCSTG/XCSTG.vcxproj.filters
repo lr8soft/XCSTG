@@ -109,10 +109,16 @@
     <Filter Include="头文件\XCStage0">
       <UniqueIdentifier>{3476c0b9-9fb7-42b4-a580-a03c103cd307}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\XCModel">
+    <Filter Include="头文件\XCScene">
+      <UniqueIdentifier>{328c766f-4416-45e6-aaa2-195fa8ae5e5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\XCScene\XCModel">
       <UniqueIdentifier>{12cfe809-b985-4670-accc-28f6a4af4531}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\XCModel">
+    <Filter Include="源文件\XCScene">
+      <UniqueIdentifier>{dae2fca2-7875-4ce4-bf2b-ec560313e152}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\XCScene\XCModel">
       <UniqueIdentifier>{5e6ef8cb-83fc-4307-af72-4dd78f759c00}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -213,11 +219,11 @@
     <ClCompile Include="XCBackground\XCBackgroundStatic.cpp">
       <Filter>源文件\XCBackground</Filter>
     </ClCompile>
-    <ClCompile Include="XCModel\XCModel.cpp">
-      <Filter>源文件\XCModel</Filter>
+    <ClCompile Include="XCScene\XCModel\XCMesh.cpp">
+      <Filter>源文件\XCScene\XCModel</Filter>
     </ClCompile>
-    <ClCompile Include="XCModel\XCMesh.cpp">
-      <Filter>源文件\XCModel</Filter>
+    <ClCompile Include="XCScene\XCModel\XCModel.cpp">
+      <Filter>源文件\XCScene\XCModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -356,11 +362,17 @@
     <ClInclude Include="XCStage\XCTestBG.h">
       <Filter>头文件\XCStage0</Filter>
     </ClInclude>
-    <ClInclude Include="XCModel\XCMesh.h">
-      <Filter>头文件\XCModel</Filter>
+    <ClInclude Include="XCScene\XCModel\XCMesh.h">
+      <Filter>头文件\XCScene\XCModel</Filter>
     </ClInclude>
-    <ClInclude Include="XCModel\XCModel.h">
-      <Filter>头文件\XCModel</Filter>
+    <ClInclude Include="XCScene\XCModel\XCModel.h">
+      <Filter>头文件\XCScene\XCModel</Filter>
+    </ClInclude>
+    <ClInclude Include="XCScene\XCCamera.h">
+      <Filter>头文件\XCScene</Filter>
+    </ClInclude>
+    <ClInclude Include="XCScene\XCScene.h">
+      <Filter>头文件\XCScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
