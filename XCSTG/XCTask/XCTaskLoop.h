@@ -4,12 +4,14 @@
 #include<map>
 #include<vector>
 #include<iostream>
+#include<fstream>
 #include "XCTask.h"
 #include "../XCFont/XCFont.h"
 #include "../XCSpecialEffect/XCGameInfoSlot.h"
 class XCTaskLoop {
 protected:	/*UUID   Task*/
-	bool IsReplayMode = false,ShouldProcessRun=true,have_font_show=false;
+	bool IsReplayMode = false,ShouldProcessRun=true,have_font_show=false,use_ogl_log=false;
+	std::fstream taskLog;
 	std::multimap<std::string, XCTask*> tasklist;
 	std::vector<int> taskCommandList;
 	XCTaskCollisionInfo CollisionInfo;
@@ -32,10 +34,13 @@ public:
 	void SetIsReplay(bool isreplay);
 	void SetScreen(GLFWwindow* screen);
 	void SetWidthHeight(float w,float h);
+	/*开启记录后可能会影响性能*/
+	void SetUseLog(bool uselog);
 	void AddTask(XCTask* task,std::string priority);
 	void DeleteTask(std::string uuid);
 	void ActiveTask(std::string uuid);
 	void TaskProcess(float nowFrame);
 	void TaskProcessCommand(int command);
+	
 };
 #endif

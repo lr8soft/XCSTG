@@ -69,19 +69,15 @@ void xc_game::XCAttack::AttackRender(float nowFrame)
 			glUseProgram(program);
 			if (attackTimer.getAccumlateTime() < 0.1) {
 				glBindVertexArray(vao[1]);
-				glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
 			}
 			else if (attackTimer.getAccumlateTime() < 0.15) {
 				glBindVertexArray(vao[2]);
-				glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
 			}
 			else if (attackTimer.getAccumlateTime() < 0.20) {
 				glBindVertexArray(vao[3]);
-				glBindBuffer(GL_ARRAY_BUFFER, vbo[3]);
 			}
 			else {
 				glBindVertexArray(vao[0]);
-				glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
 			}
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, tbo);
@@ -100,6 +96,8 @@ void xc_game::XCAttack::AttackRender(float nowFrame)
 			attackTimer.Clear();
 			attackAudioEffect.MusicStop();
 		}
+		glUseProgram(0);
+		glBindVertexArray(0);
 	}
 
 }

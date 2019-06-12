@@ -22,6 +22,13 @@ struct XCTexture {
 	std::string type;
 	aiString path;
 };
+struct ShaderTexMaterial {
+	bool isEnable;
+	int useDiffuse;
+	int useSpecular;
+	int useNormal;
+	int useHeight;
+};
 class XCMesh {
 protected:
 	GLuint vao, vbo, ebo, program;

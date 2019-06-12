@@ -90,6 +90,9 @@ void xc_game::XCBoss::EnemyRender(float nowFrame)
 				is_dead = false;//should_render = false;boss不会主动停止渲染
 		}
 		OGLSettingRenderEnd();
+
+		glUseProgram(0);
+		glBindVertexArray(0);
 	}
 }
 

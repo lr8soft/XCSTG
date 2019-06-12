@@ -121,5 +121,8 @@ void xc_game::XCNormalEnemy::EnemyRender(float nowFrame)
 			CheckShouldEnd();
 		}
 		OGLSettingRenderEnd();	
+
+		glUseProgram(0);
+		glBindVertexArray(0);
 	}
 }

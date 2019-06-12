@@ -54,9 +54,11 @@ void XCBackgroundStatic::BackgroundRender()
 {
 	glUseProgram(program);
 	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBindTexture(GL_TEXTURE_2D, tbo);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	glUseProgram(0);
+	glBindVertexArray(0);
 }
 
 void XCBackgroundStatic::BackgroundRelease()

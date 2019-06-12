@@ -12,7 +12,7 @@ namespace xc_ogl {
 		bool have_release;
 	public:
 		ImageLoader();
-		ImageLoader(GLenum type,GLuint tbo);
+		ImageLoader(GLenum type, GLuint itbo);
 		~ImageLoader();
 		void Release();
 		void loadTextureFromFile(const char* path);

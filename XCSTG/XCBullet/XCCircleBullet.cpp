@@ -111,7 +111,6 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 		}
 		glUseProgram(program);
 		glBindVertexArray(vao);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, tbo);
 		/////////////////////////////////////////////
@@ -140,6 +139,8 @@ void xc_bullet::XCCircleBullet::BulletRender(float nowFrame)
 	else {
 		DataReset();
 	}
+	glUseProgram(0);
+	glBindVertexArray(0);
 }
 
 void xc_bullet::XCCircleBullet::BulletRelease()

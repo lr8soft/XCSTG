@@ -151,6 +151,7 @@ void XCFont::FontASCIIRender(std::string text, float x, float y, float scale, gl
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		x += (CharacterTemp.advance >> 6) * scale;
 	}
+	glUseProgram(0);
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }

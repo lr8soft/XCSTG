@@ -120,8 +120,9 @@ bool xc_se::XCGameInfoSlot::SpellCardInfoRender(int type)
 		
 		glUniformMatrix4fv(convert_mat_loc, 1, GL_FALSE, glm::value_ptr(transform_mat));
 		glDrawArrays(GL_TRIANGLES, 0, 6);
-		glBindVertexArray(0);
+		
 		glUseProgram(0);
+		glBindVertexArray(0);
 		return false;
 	}
 	else {
@@ -145,19 +146,18 @@ void xc_se::XCGameInfoSlot::CoveredPlaneRender(float absW, float absH)
 {
 	glUseProgram(program[RENDER_PLANE]);
 	glBindVertexArray(vao[RENDER_PLANE]);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo[RENDER_PLANE]);
 	glBindTexture(GL_TEXTURE_2D, tbo[RENDER_PLANE]);
 	auto abs_loc=glGetUniformLocation(program[RENDER_PLANE],"render_rate");
 	glUniform2f(abs_loc, absW, absH);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindVertexArray(0);
+	
 	glUseProgram(0);
+	glBindVertexArray(0);
 }
 bool xc_se::XCGameInfoSlot::BossHPRender()
 {
 	glUseProgram(program[HP_SLOT]);
 	glBindVertexArray(vao[HP_SLOT]);
-	glBindBuffer(GL_ARRAY_BUFFER,vbo[HP_SLOT]);
 	glm::mat4 transform_mat;
 	transform_mat = glm::translate(transform_mat, glm::vec3(0.0f,0.96f,0.0f));
 	transform_mat = glm::scale(transform_mat, glm::vec3((*BossHP) / (*BossMaxHP)*0.8f*render_abs_width,0.008f*render_abs_height,0.0f));
@@ -167,8 +167,8 @@ bool xc_se::XCGameInfoSlot::BossHPRender()
 	glUniform1f(time_loc, glfwGetTime());
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
-	glBindVertexArray(0);
 	glUseProgram(0);
+	glBindVertexArray(0);
 	return false;
 }
 

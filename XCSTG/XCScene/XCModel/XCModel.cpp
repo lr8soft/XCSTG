@@ -1,63 +1,30 @@
 #include "XCModel.h"
-#include "../../util/stb_image.h"
+#include "../../util/ImageArrayLoader.h"
 #include "../../util/ShaderReader.h"
 #include <GL3/gl3w.h>
 #include <glfw/glfw3.h>
 using namespace xc_ogl;
 GLuint XCModel::programHnd = 0;
 bool XCModel::have_program_init = false;
-unsigned int TextureFromFile(const char *path, const std::string &directory, bool gamma = false)
-{
-	std::string filename = std::string(path);
-	filename = directory + '/' + filename;
-
-	unsigned int textureID;
-	glGenTextures(1, &textureID);
-
-	int width, height, nrComponents;
-	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, STBI_rgb_alpha);
-	if (data)
-	{
-		GLenum format;
-		if (nrComponents == 1)
-			format = GL_RED;
-		else if (nrComponents == 3)
-			format = GL_RGB;
-		else if (nrComponents == 4)
-			format = GL_RGBA;
-
-		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		stbi_image_free(data);
-	}
-	else
-	{
-		stbi_image_free(data);
-	}
-
-	return textureID;
-}
 void XCModel::Draw()
 {
 	glUseProgram(programHnd);
 	auto convert_mat_loc = glGetUniformLocation(programHnd, "mvp_mat");
 	glm::mat4 model_mat, project_mat, view_mat;
-	project_mat = glm::perspective(glm::radians(45.0f), 1280.0f / 720.0f, 0.1f, 200.0f);
+	project_mat = glm::perspective(glm::radians(45.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
+	/*view_mat = glm::lookAt(
+		glm::vec3(0.0f, 80.0f, 10.0f),
+		glm::vec3(0.0f, 78.5f, 5.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f)
+	);*/
 	view_mat = glm::lookAt(
 		glm::vec3(0.0f, 0.0f, 10.0f),
 		glm::vec3(0.0f, 0.0f, 5.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f)
 	);
-	model_mat = glm::translate(model_mat, glm::vec3(0.0f, 0.0f, -100.0f));
-	model_mat = glm::rotate(model_mat, glm::radians((float)glfwGetTime()*30.0f), glm::vec3(0, 1, 0));
-	model_mat = glm::scale(model_mat, glm::vec3(0.2f));
+	model_mat = glm::translate(model_mat, glm::vec3(0.0f, 0.0f,0.0f));
+	model_mat = glm::rotate(model_mat, glm::radians((float)glfwGetTime()*15.0f), glm::vec3(0, 1, 0));
+	model_mat = glm::scale(model_mat, glm::vec3(0.02f));
 	glUniformMatrix4fv(convert_mat_loc, 1, GL_FALSE, glm::value_ptr(project_mat*view_mat*model_mat));
 	for (unsigned int i = 0; i < meshes.size(); i++)
 	{ 
@@ -185,11 +152,19 @@ XCMesh XCModel::processMesh(aiMesh * mesh, const aiScene * scene)
 	// return a mesh object created from the extracted mesh data
 	return XCMesh(programHnd, vertices, indices, textures);
 }
+unsigned int TextureFromFile(const char *path, const std::string &directory, int count, ImageArrayLoader &loader)
+{
+	std::string filename = std::string(path);
+	filename = directory + '/' + filename;
+	loader.loadTextureFromFile(count, filename.c_str());
 
+	return loader.getTextureBufferObjectHandle();
+}
 std::vector<XCTexture> XCModel::loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName)
 {
 	{
 		std::vector<XCTexture> textures;
+		ImageArrayLoader texLoader;
 		for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 		{
 			aiString str;
@@ -208,7 +183,7 @@ std::vector<XCTexture> XCModel::loadMaterialTextures(aiMaterial * mat, aiTexture
 			if (!skip)
 			{   // if texture hasn't been loaded already, load it
 				XCTexture texture;
-				texture.id = TextureFromFile(str.C_Str(), this->directory);
+				texture.id = TextureFromFile(str.C_Str(), this->directory, mat->GetTextureCount(type), texLoader);
 				texture.type = typeName;
 				texture.path = str.C_Str();
 				textures.push_back(texture);

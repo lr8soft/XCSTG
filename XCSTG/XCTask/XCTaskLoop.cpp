@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <string>
 #include "XCTaskLoop.h"
 #include "XCPlayerTask.h"
@@ -57,6 +58,22 @@ void XCTaskLoop::SetBackground(XCTask * ptask)
 void XCTaskLoop::TaskProcessCommand(int command)
 {
 	taskCommandList.push_back(command);
+}
+
+void XCTaskLoop::SetUseLog(bool uselog)
+{
+	use_ogl_log = uselog;
+	if(use_ogl_log){
+		time_t rawtime;
+		struct tm *ptminfo;
+		time(&rawtime);
+		ptminfo = localtime(&rawtime);
+		system("mkdir log");
+		taskLog.open(("log/"+std::to_string(1900 + ptminfo->tm_year)+
+			std::to_string(1 + ptminfo->tm_mon)+ std::to_string(ptminfo->tm_mday)+
+			std::to_string(ptminfo->tm_hour)+ std::to_string(ptminfo->tm_min)+
+			std::to_string(ptminfo->tm_sec) + ".xcstg.log").c_str(), ios::out);
+	}
 }
 
 void XCTaskLoop::AddTask(XCTask * task, std::string priority)
@@ -232,15 +249,41 @@ void XCTaskLoop::TaskProcess(float nowFrame)
 					}
 				}
 			}
+			if (use_ogl_log)
+			{
+				time_t rawtime;
+				struct tm *ptminfo;
+				time(&rawtime);
+				ptminfo = localtime(&rawtime);
+				auto errorid = glGetError();
+				std::string errorName;
+				switch (errorid) {
+				case GL_INVALID_ENUM:
+					errorName = "GL_INVALID_ENUM"; break;
+				case GL_INVALID_VALUE:
+					errorName = "GL_INVALID_VALUE"; break;
+				case GL_INVALID_OPERATION:
+					errorName = "GL_INVALID_OPERATION"; break;
+				case GL_INVALID_FRAMEBUFFER_OPERATION:
+					errorName = "GL_INVALID_FRAMEBUFFER_OPERATION"; break;
+				case GL_OUT_OF_MEMORY:
+					errorName = "GL_OUT_OF_MEMORY"; break;
+				case GL_STACK_UNDERFLOW:
+					errorName = "GL_STACK_UNDERFLOW"; break;
+				}
+				if(errorid != GL_NO_ERROR){
+					taskLog << 1900 + ptminfo->tm_year<<"/"<< 1 + ptminfo->tm_mon<<"/"<<ptminfo->tm_mday
+					<<" "<< ptminfo->tm_hour <<":"<< ptminfo->tm_min<<":" <<ptminfo->tm_sec
+					<<" taskName:"<<iter->second->GetTaskType()<<" taskPriority:"<< iter->first << " " << errorName << "\n";//No std::endl!
+				}
+			}
 			iter++;
-			
 		}
 		renderGroup.CoveredPlaneRender(RenderInfo.render_abs_width, RenderInfo.render_abs_height);
 		if (last_core_command == PROCESS_RESUME) 
 		{
 			RenderInfo.RenderTimer.AfterResume();
 		}
-		
 	}
 	else {
 		if (!have_font_show) {

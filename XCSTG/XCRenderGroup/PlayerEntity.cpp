@@ -191,13 +191,14 @@ void PlayerEntity::GroupRender(float nowFrame)
 	glUniformMatrix4fv(tx_loc, 1, GL_FALSE, glm::value_ptr(tx_matrix));
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	OGLSettingRenderEnd();
+	glUseProgram(0);
+	glBindVertexArray(0);
 ////////////////////////////////////////‰÷»æ≈–∂®µ„Ã˘Õº/////////////////////////////////
 	OGLSettingRenderStart();
 	if (RenderDecisionPoint)
 	{
 		glUseProgram(program[DECISIONTEX]);
 		glBindVertexArray(vao_deci);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo_deci);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, tbo_deci);
 		change_matrix = glm::translate(change_matrix, glm::vec3(NowX, NowY, NowZ));
@@ -216,7 +217,8 @@ void PlayerEntity::GroupRender(float nowFrame)
 		);
 		glUniformMatrix4fv(rotate_loc, 1, GL_FALSE, glm::value_ptr(change_matrix_anti));
 		glDrawArrays(GL_TRIANGLES, 0, 6);
-
+		glUseProgram(0);
+		glBindVertexArray(0);
 	}
 	playerParticle.SetAbsWidthAndHeight(right, top);
 	playerParticle.GroupRender(NowX, NowY, NowZ, nowFrame);

@@ -84,12 +84,15 @@ void xc_ogl::AppFrameWork::shader_init()
 
 	testFont.FontSetWidthAndHeight(height, width);
 	testFont.FontASCIIInit();
-
-	modeltest = new XCModel("Model/testblade.obj");
+#ifdef _DEBUG
+	taskLoop.SetUseLog(true);
+#endif
+	modeltest = new XCModel("Model/testblade/testblade.obj");
 }
 void xc_ogl::AppFrameWork::render()
 {
 	gameTimer.Tick();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	taskLoop.TaskProcess(glfwGetTime());
 	if (taskLoop.IsProcessing())
 	{

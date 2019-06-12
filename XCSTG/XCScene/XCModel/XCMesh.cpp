@@ -41,7 +41,7 @@ void XCMesh::ModelInit()
 	glVertexAttribPointer(bitangent_loc, 2, GL_FLOAT, GL_FALSE, sizeof(XCVertex), (void*)offsetof(XCVertex, Bitangent));
 	glEnableVertexAttribArray(bitangent_loc);
 
-	glUniform1i(glGetUniformLocation(program, "texture_diffuse1"), 0);
+	glUniform1i(glGetUniformLocation(program, "textureGroup"), 0);
 }
 
 XCMesh::XCMesh(GLuint pHnd, std::vector<XCVertex> vertex, std::vector<size_t> index, std::vector<XCTexture> tex)
@@ -55,31 +55,42 @@ XCMesh::XCMesh(GLuint pHnd, std::vector<XCVertex> vertex, std::vector<size_t> in
 
 void XCMesh::MeshRender()
 {
-	unsigned int diffuseNr = 1;
-	unsigned int specularNr = 1;
-	unsigned int normalNr = 1;
-	unsigned int heightNr = 1;
+	size_t diffuseNr = 0, specularNr = 0, normalNr = 0, heightNr = 0;
+	bool texEnable[10] = {false};
+	int useTexType[10] = { -1 };
+	glEnable(GL_TEXTURE_2D_ARRAY);
+	//glActiveTexture(GL_TEXTURE0 + textureGroup.size());
 	for (unsigned int i = 0; i < textureGroup.size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0+i);
-		string number;
 		string name = textureGroup[i].type;
-		if (name == "texture_diffuse")
-			number = std::to_string(diffuseNr++);
-		else if (name == "texture_specular")
-			number = std::to_string(specularNr++); // transfer unsigned int to stream
-		else if (name == "texture_normal")
-			number = std::to_string(normalNr++); // transfer unsigned int to stream
-		else if (name == "texture_height")
-			number = std::to_string(heightNr++); // transfer unsigned int to stream
-		glUniform1i(glGetUniformLocation(program, (name + number).c_str()), i);
-		glBindTexture(GL_TEXTURE_2D, textureGroup[i].id);
+		if (name == "texture_diffuse") {
+			texEnable[i] = true;
+			diffuseNr++;
+			useTexType[i] = 0;
+		}
+		else if (name == "texture_specular") {
+			texEnable[i] = true;
+			specularNr++;
+			useTexType[i] = 1;
+		}
+		else if (name == "texture_normal") {
+			texEnable[i] = true;
+			normalNr++;
+			useTexType[i] = 2;
+		}
+		else if (name == "texture_height") {
+			texEnable[i] = true;
+			heightNr++;
+			useTexType[i] = 3;
+		}
+		glBindTexture(GL_TEXTURE_2D_ARRAY, textureGroup[i].id);
 	}
-
+	glUniform1iv(glGetUniformLocation(program,"materialInfo.isEnable"),10, (GLint*)texEnable);
+	glUniform1iv(glGetUniformLocation(program, "materialInfo.useTexType"), 10, useTexType);
+	glUniform1i(glGetUniformLocation(program, "materialInfo.texCount"), textureGroup.size());
 	// draw mesh
 	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glDrawElements(GL_TRIANGLES, indexGroup.size(), GL_UNSIGNED_INT, 0);
 
 	glBindVertexArray(0);

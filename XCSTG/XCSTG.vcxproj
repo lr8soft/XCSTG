@@ -130,6 +130,7 @@
     <ClCompile Include="util\ConfigManager.cpp" />
     <ClCompile Include="util\GameTimer.cpp" />
     <ClCompile Include="util\gl3w.c" />
+    <ClCompile Include="util\ImageArrayLoader.cpp" />
     <ClCompile Include="XCAudio\XCAudioEffect.cpp" />
     <ClCompile Include="XCBackground\XCBackground3d.cpp" />
     <ClCompile Include="XCBackground\XCBackgroundStatic.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="util\AppFrameWork.h" />
     <ClInclude Include="util\ConfigManager.h" />
     <ClInclude Include="util\GameTimer.h" />
+    <ClInclude Include="util\ImageArrayLoader.h" />
     <ClInclude Include="util\ImageLoader.h" />
     <ClInclude Include="util\ShaderReader.h" />
     <ClInclude Include="XCAudio\XCAudio.h" />
