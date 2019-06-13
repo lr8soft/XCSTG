@@ -7,7 +7,8 @@ namespace xc_ogl {
 	class ImageArrayLoader {
 	private:
 		GLuint tbo = -1;
-		int width, height, channel, texCount = 0;
+		int width, height, channel, texIndex = 0;
+		int first_w, first_h;
 		bool have_init=false;
 	public:
 		ImageArrayLoader();

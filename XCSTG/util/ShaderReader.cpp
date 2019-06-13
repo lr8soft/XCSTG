@@ -7,7 +7,6 @@
 using namespace std;
 void xc_ogl::ShaderReader::show_failed_info(GLuint temp_shader,string sre,int type)
 {
-	//glGetProgramiv(temp_program, GL_INFO_LOG_LENGTH, &len);
 	GLsizei len;
 	GLchar* log = nullptr;
 	switch (type) {
@@ -26,15 +25,6 @@ void xc_ogl::ShaderReader::show_failed_info(GLuint temp_shader,string sre,int ty
 		delete[] log;
 		break;
 	}
-/*	stringstream ss; string filename;
-	ss <<  glfwGetTimerValue()<<"_error_log.txt";
-	fstream fs(ss.str(),ios::out);
-	fs.write(log,len+1);
-	fs.close();
-	sprintf_s(show_info,len+256,"[ERROR]%s failed.",sre.c_str());
-	MessageBox(NULL, show_info,"ERROR", MB_OKCANCEL| MB_ICONERROR);
-	delete[] log; 
-	delete[] show_info;*/
 }
 const GLchar * xc_ogl::ShaderReader::read_from_file(const char* path)
 {

@@ -6,30 +6,71 @@
 using namespace xc_ogl;
 GLuint XCModel::programHnd = 0;
 bool XCModel::have_program_init = false;
+unsigned int TextureFromFile(const char *path, const std::string &directory, bool gamma = false)
+{
+	std::string filename = std::string(path);
+	filename = directory + '/' + filename;
+
+	unsigned int textureID;
+	glGenTextures(1, &textureID);
+
+	int width, height, nrComponents;
+	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
+	if (data)
+	{
+		GLenum format;
+		if (nrComponents == 1)
+			format = GL_RED;
+		else if (nrComponents == 3)
+			format = GL_RGB;
+		else if (nrComponents == 4)
+			format = GL_RGBA;
+
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		stbi_image_free(data);
+	}
+	else
+	{
+		stbi_image_free(data);
+	}
+
+	return textureID;
+}
 void XCModel::Draw()
 {
 	glUseProgram(programHnd);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 	auto convert_mat_loc = glGetUniformLocation(programHnd, "mvp_mat");
 	glm::mat4 model_mat, project_mat, view_mat;
 	project_mat = glm::perspective(glm::radians(45.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
-	/*view_mat = glm::lookAt(
+	view_mat = glm::lookAt(
 		glm::vec3(0.0f, 80.0f, 10.0f),
 		glm::vec3(0.0f, 78.5f, 5.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f)
-	);*/
-	view_mat = glm::lookAt(
+	);
+	/*view_mat = glm::lookAt(
 		glm::vec3(0.0f, 0.0f, 10.0f),
 		glm::vec3(0.0f, 0.0f, 5.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f)
-	);
-	model_mat = glm::translate(model_mat, glm::vec3(0.0f, 0.0f,0.0f));
+	);*/
+	model_mat = glm::translate(model_mat, glm::vec3(0.0f, 0.0f, 0.0f));
 	model_mat = glm::rotate(model_mat, glm::radians((float)glfwGetTime()*15.0f), glm::vec3(0, 1, 0));
-	model_mat = glm::scale(model_mat, glm::vec3(0.02f));
+	//model_mat = glm::scale(model_mat, glm::vec3(0.03f));
 	glUniformMatrix4fv(convert_mat_loc, 1, GL_FALSE, glm::value_ptr(project_mat*view_mat*model_mat));
 	for (unsigned int i = 0; i < meshes.size(); i++)
 	{ 
 		meshes[i].MeshRender();
 	}
+	//glDisable(GL_CULL_FACE);
 	glUseProgram(0);
 }
 void XCModel::loadModel(std::string const & path)
@@ -136,58 +177,89 @@ XCMesh XCModel::processMesh(aiMesh * mesh, const aiScene * scene)
 	// process texture material
 	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-	// 1. diffuse maps
+	//ambient maps
+	std::vector<XCTexture> ambientMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_ambient");
+	textures.insert(textures.end(), ambientMaps.begin(), ambientMaps.end());
+
+	//diffuse maps
 	std::vector<XCTexture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-	// 2. specular maps
+
+	// specular maps
 	std::vector<XCTexture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-	// 3. normal maps
-	std::vector<XCTexture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
+	//normal maps
+	std::vector<XCTexture> normalMaps = loadMaterialTextures(material, aiTextureType_NORMALS, "texture_normal");
 	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-	// 4. height maps
-	std::vector<XCTexture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+
+	//height maps
+	std::vector<XCTexture> heightMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_height");
 	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+
+	//displacement maps
+	std::vector<XCTexture> displacementMaps = loadMaterialTextures(material, aiTextureType_DISPLACEMENT, "texture_displacement");
+	textures.insert(textures.end(), displacementMaps.begin(), displacementMaps.end());
+
+	//emissive maps
+	std::vector<XCTexture> emissiveMaps = loadMaterialTextures(material, aiTextureType_EMISSIVE, "texture_emissive");
+	textures.insert(textures.end(), emissiveMaps.begin(), emissiveMaps.end());
+
+	//light maps
+	std::vector<XCTexture> lightMaps = loadMaterialTextures(material, aiTextureType_LIGHTMAP, "texture_light");
+	textures.insert(textures.end(), lightMaps.begin(), lightMaps.end());
+
+	//opacity maps
+	std::vector<XCTexture> opacityMaps = loadMaterialTextures(material, aiTextureType_OPACITY, "texture_opacity");
+	textures.insert(textures.end(), opacityMaps.begin(), opacityMaps.end());
+
+	//reflection maps
+	std::vector<XCTexture> reflectionMaps = loadMaterialTextures(material, aiTextureType_REFLECTION, "texture_reflection");
+	textures.insert(textures.end(), reflectionMaps.begin(), reflectionMaps.end());
+
+	//shininess maps
+	std::vector<XCTexture> shininessMaps = loadMaterialTextures(material, aiTextureType_SHININESS, "texture_shininess");
+	textures.insert(textures.end(), shininessMaps.begin(), shininessMaps.end());
 
 	// return a mesh object created from the extracted mesh data
 	return XCMesh(programHnd, vertices, indices, textures);
-}
-unsigned int TextureFromFile(const char *path, const std::string &directory, int count, ImageArrayLoader &loader)
-{
-	std::string filename = std::string(path);
-	filename = directory + '/' + filename;
-	loader.loadTextureFromFile(count, filename.c_str());
-
-	return loader.getTextureBufferObjectHandle();
 }
 std::vector<XCTexture> XCModel::loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName)
 {
 	{
 		std::vector<XCTexture> textures;
-		ImageArrayLoader texLoader;
 		for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 		{
 			aiString str;
 			mat->GetTexture(type, i, &str);
-			// check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
-			bool skip = false;
+			bool exist = false;
+			GLuint exist_id = 0;
+			aiString exist_str;
 			for (unsigned int j = 0; j < textures_loaded.size(); j++)
 			{
 				if (std::strcmp(textures_loaded[j].path.data, str.C_Str()) == 0)
 				{
-					textures.push_back(textures_loaded[j]);
-					skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
+					exist_id = textures_loaded[j].id;
+					exist_str = textures_loaded[j].path;
+					exist = true;
 					break;
 				}
 			}
-			if (!skip)
-			{   // if texture hasn't been loaded already, load it
+			if (!exist)
+			{ 
 				XCTexture texture;
-				texture.id = TextureFromFile(str.C_Str(), this->directory, mat->GetTextureCount(type), texLoader);
+				texture.id = TextureFromFile(str.C_Str(), this->directory);
 				texture.type = typeName;
 				texture.path = str.C_Str();
 				textures.push_back(texture);
-				textures_loaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
+				textures_loaded.push_back(texture);
+			}
+			else {
+				XCTexture texture;
+				texture.id = exist_id;
+				texture.type = typeName;
+				texture.path = exist_str;
+				textures.push_back(texture);
+				textures_loaded.push_back(texture);
 			}
 		}
 		return textures;

@@ -6,6 +6,7 @@ using namespace xc_ogl;
 using namespace std;
 void XCMesh::ModelInit()
 {
+
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &ebo);
@@ -41,7 +42,7 @@ void XCMesh::ModelInit()
 	glVertexAttribPointer(bitangent_loc, 2, GL_FLOAT, GL_FALSE, sizeof(XCVertex), (void*)offsetof(XCVertex, Bitangent));
 	glEnableVertexAttribArray(bitangent_loc);
 
-	glUniform1i(glGetUniformLocation(program, "textureGroup"), 0);
+	glBindVertexArray(0);
 }
 
 XCMesh::XCMesh(GLuint pHnd, std::vector<XCVertex> vertex, std::vector<size_t> index, std::vector<XCTexture> tex)
@@ -55,45 +56,59 @@ XCMesh::XCMesh(GLuint pHnd, std::vector<XCVertex> vertex, std::vector<size_t> in
 
 void XCMesh::MeshRender()
 {
-	size_t diffuseNr = 0, specularNr = 0, normalNr = 0, heightNr = 0;
-	bool texEnable[10] = {false};
 	int useTexType[10] = { -1 };
-	glEnable(GL_TEXTURE_2D_ARRAY);
-	//glActiveTexture(GL_TEXTURE0 + textureGroup.size());
-	for (unsigned int i = 0; i < textureGroup.size(); i++)
+
+	for (int i = 0; i < textureGroup.size(); i++)
 	{
-		glActiveTexture(GL_TEXTURE0+i);
 		string name = textureGroup[i].type;
 		if (name == "texture_diffuse") {
-			texEnable[i] = true;
-			diffuseNr++;
 			useTexType[i] = 0;
 		}
 		else if (name == "texture_specular") {
-			texEnable[i] = true;
-			specularNr++;
 			useTexType[i] = 1;
 		}
 		else if (name == "texture_normal") {
-			texEnable[i] = true;
-			normalNr++;
 			useTexType[i] = 2;
 		}
 		else if (name == "texture_height") {
-			texEnable[i] = true;
-			heightNr++;
 			useTexType[i] = 3;
 		}
-		glBindTexture(GL_TEXTURE_2D_ARRAY, textureGroup[i].id);
+		else if (name == "texture_ambient") {
+			useTexType[i] = 4;
+		}
+		else if (name == "texture_displacement") {
+			useTexType[i] = 5;
+		}
+		else if (name == "texture_emissive") {
+			useTexType[i] = 6;
+		}
+		else if (name == "texture_light") {
+			useTexType[i] = 7;
+		}
+		else if (name == "texture_opacity") {
+			useTexType[i] = 8;
+		}
+		else if (name == "texture_reflection") {
+			useTexType[i] = 9;
+		}
+		else if (name == "texture_shininess") {
+			useTexType[i] = 10;
+		}
+		auto texHandle = glGetUniformLocation(program, ("TexHandle" + std::to_string(i)).c_str());
+		glUniform1i(texHandle, i);
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, textureGroup[i].id);
 	}
-	glUniform1iv(glGetUniformLocation(program,"materialInfo.isEnable"),10, (GLint*)texEnable);
-	glUniform1iv(glGetUniformLocation(program, "materialInfo.useTexType"), 10, useTexType);
-	glUniform1i(glGetUniformLocation(program, "materialInfo.texCount"), textureGroup.size());
+
+	glUniform1iv(glGetUniformLocation(program, "useTexType"), 10, useTexType);
+	glUniform1i(glGetUniformLocation(program, "texCount"), textureGroup.size());
 	// draw mesh
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, indexGroup.size(), GL_UNSIGNED_INT, 0);
 
 	glBindVertexArray(0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 

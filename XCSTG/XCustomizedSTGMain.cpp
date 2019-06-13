@@ -19,7 +19,7 @@ int GetExitType() {
 	return code;
 }
 void GameThead() {
-	xc_ogl::AppFrameWork app(1280, 720, "XCSTG v0.70pre3");
+	xc_ogl::AppFrameWork app(1280, 720, "XCSTG v0.72");
 	app.init();
 	app.message_loop();
 	SetExitType();
