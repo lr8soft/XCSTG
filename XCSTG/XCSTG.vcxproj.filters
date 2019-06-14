@@ -228,6 +228,9 @@
     <ClCompile Include="util\ImageArrayLoader.cpp">
       <Filter>源文件\util</Filter>
     </ClCompile>
+    <ClCompile Include="XCScene\XCMountainScene.cpp">
+      <Filter>源文件\XCScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util\AppFrameWork.h">
@@ -379,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="util\ImageArrayLoader.h">
       <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="XCScene\XCMountainScene.h">
+      <Filter>头文件\XCScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

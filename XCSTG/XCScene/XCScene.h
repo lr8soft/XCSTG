@@ -11,7 +11,7 @@ protected:
 	XCGameTimer sceneTimer;
 public:
 	virtual void SceneInit() = 0;
-	virtual void SceneRender(XCCamera *camera, float nowFrame) = 0;
+	virtual void SceneRender(float nowFrame) = 0;
 	virtual void SceneRelease() = 0;
 };
 #endif

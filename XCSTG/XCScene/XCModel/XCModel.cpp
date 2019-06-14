@@ -46,32 +46,10 @@ unsigned int TextureFromFile(const char *path, const std::string &directory, boo
 }
 void XCModel::Draw()
 {
-	glUseProgram(programHnd);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	auto convert_mat_loc = glGetUniformLocation(programHnd, "mvp_mat");
-	glm::mat4 model_mat, project_mat, view_mat;
-	project_mat = glm::perspective(glm::radians(45.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
-	view_mat = glm::lookAt(
-		glm::vec3(0.0f, 80.0f, 10.0f),
-		glm::vec3(0.0f, 78.5f, 5.0f),
-		glm::vec3(0.0f, 1.0f, 0.0f)
-	);
-	/*view_mat = glm::lookAt(
-		glm::vec3(0.0f, 0.0f, 10.0f),
-		glm::vec3(0.0f, 0.0f, 5.0f),
-		glm::vec3(0.0f, 1.0f, 0.0f)
-	);*/
-	model_mat = glm::translate(model_mat, glm::vec3(0.0f, 0.0f, 0.0f));
-	model_mat = glm::rotate(model_mat, glm::radians((float)glfwGetTime()*15.0f), glm::vec3(0, 1, 0));
-	//model_mat = glm::scale(model_mat, glm::vec3(0.03f));
-	glUniformMatrix4fv(convert_mat_loc, 1, GL_FALSE, glm::value_ptr(project_mat*view_mat*model_mat));
 	for (unsigned int i = 0; i < meshes.size(); i++)
 	{ 
 		meshes[i].MeshRender();
 	}
-	//glDisable(GL_CULL_FACE);
-	glUseProgram(0);
 }
 void XCModel::loadModel(std::string const & path)
 {

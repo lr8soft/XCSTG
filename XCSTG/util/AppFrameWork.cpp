@@ -7,7 +7,7 @@
 #include <sstream>
 #include <al/alut.h>
 xc_ogl::AppFrameWork* xc_ogl::AppFrameWork::app_ptr = nullptr;
-std::wstring xc_ogl::AppFrameWork::xcstg_version =L"xcstg²âÊÔ°æ±¾ v0.72";
+std::wstring xc_ogl::AppFrameWork::xcstg_version =L"xcstg²âÊÔ°æ±¾ v0.73pre1";
 void xc_ogl::AppFrameWork::finalizer()
 {
 	glfwDestroyWindow(screen);
@@ -87,7 +87,7 @@ void xc_ogl::AppFrameWork::shader_init()
 #ifdef _DEBUG
 	taskLoop.SetUseLog(true);
 #endif
-	modeltest = new XCModel("Model/Mountains/Mountains2.obj");
+	modeltest = new XCMountainScene;
 }
 void xc_ogl::AppFrameWork::render()
 {
@@ -114,9 +114,7 @@ void xc_ogl::AppFrameWork::render()
 			glm::vec4(0.6, 0.2f, 0.6f, 1.0f)
 		);
 	}
-	glEnable(GL_DEPTH_TEST);
-	modeltest->Draw();
-	glDisable(GL_DEPTH_TEST);
+	modeltest->SceneRender(gameTimer.getNowFrame());
 }
 
  

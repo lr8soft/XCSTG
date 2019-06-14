@@ -4,7 +4,7 @@
 #include "XCMesh.h"
 #include <vector>
 class XCModel {
-public:
+private:
 	/*  Model Data */
 	std::vector<XCTexture> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
 	std::vector<XCMesh> meshes;
@@ -12,12 +12,16 @@ public:
 	bool gammaCorrection;
 	static GLuint programHnd;
 	static bool have_program_init;
+public:
+
 	/*  Functions   */
 	// constructor, expects a filepath to a 3D model.
 	XCModel(std::string const &path, bool gamma = false) : gammaCorrection(gamma)
 	{
 		loadModel(path);
 	}
+
+	static GLuint getProgramHandle();
 
 	// draws the model, and thus all its meshes
 	void Draw();
@@ -35,8 +39,6 @@ private:
 	// checks all material textures of a given type and loads the textures if they're not loaded yet.
 	// the required info is returned as a Texture struct.
 	std::vector<XCTexture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
-
-	static GLuint getProgramHandle();
 };
 
 
