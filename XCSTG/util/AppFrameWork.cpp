@@ -7,7 +7,7 @@
 #include <sstream>
 #include <al/alut.h>
 xc_ogl::AppFrameWork* xc_ogl::AppFrameWork::app_ptr = nullptr;
-std::wstring xc_ogl::AppFrameWork::xcstg_version =L"xcstg²âÊÔ°æ±¾ v0.73pre1";
+std::wstring xc_ogl::AppFrameWork::xcstg_version =L"xcstg²âÊÔ°æ±¾ v0.73";
 void xc_ogl::AppFrameWork::finalizer()
 {
 	glfwDestroyWindow(screen);
@@ -27,8 +27,8 @@ void xc_ogl::AppFrameWork::init()
 {
 	have_init = true;
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);//OpenGL 4.2 Core Mode
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);//OpenGL 4.2 Core Mode
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);//ºËÐÄÄ£Ê½Å£ ±Æ
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);//No resizable.
 	glfwWindowHint(GLFW_SCALE_TO_MONITOR, GL_TRUE);//Auto change size
@@ -87,16 +87,13 @@ void xc_ogl::AppFrameWork::shader_init()
 #ifdef _DEBUG
 	taskLoop.SetUseLog(true);
 #endif
-	modeltest = new XCMountainScene;
 }
 void xc_ogl::AppFrameWork::render()
 {
 	gameTimer.Tick();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//taskLoop.TaskProcess(glfwGetTime());
+	taskLoop.TaskProcess(glfwGetTime());
 	if (taskLoop.IsProcessing())
 	{
-	
 		static char fpsShow[64];
 		_itoa_s(gameTimer.getFPS(), fpsShow, 10);
 		testFont.FontASCIIRender(
@@ -114,7 +111,6 @@ void xc_ogl::AppFrameWork::render()
 			glm::vec4(0.6, 0.2f, 0.6f, 1.0f)
 		);
 	}
-	modeltest->SceneRender(gameTimer.getNowFrame());
 }
 
  

@@ -85,7 +85,7 @@ vec4 getRenderColor(sampler2D texHnd,vec2 texCoord,int useType,out bool isNormal
         {                                /*light position*/
             vec3 lightDir = normalize(vec3(80.0,80.0,0.0) - vec3(RenderCoords));
             float diff = max(dot(normalVec3, lightDir), 0.0);
-            vec3 diffuse = diff * vec3(0.0,0.0,0.0);/*light color*/
+            vec3 diffuse = diff * vec3(1.0,0.0,1.0);/*light color*/
             return vec4(diffuse,1.0);            
         }else{
             return samplerValue;
@@ -101,7 +101,7 @@ void main()
     for(int i=0; i < texCount; i++)
     {
         if(haveUnrenderVec3){
-            renderColor += vec4(tempColor.rgb,renderColor.a) * renderColor;
+            renderColor += vec4(tempColor) * renderColor;
             haveUnrenderVec3=false;
         }
         switch(i)

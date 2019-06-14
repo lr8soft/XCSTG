@@ -40,6 +40,11 @@ void XCBackgroundStatic::BufferInit()
 	glEnableVertexAttribArray(vertex_info_loc);
 }
 
+XCBackgroundStatic::XCBackgroundStatic()
+{
+	backgroundType = STATIC_Background;
+}
+
 void XCBackgroundStatic::LoadBackGround(std::string tex_path)
 {
 	texturePath = tex_path;
@@ -50,7 +55,7 @@ void XCBackgroundStatic::LoadBackGround(GLuint textureHandle)
 	tbo = textureHandle;
 }
 
-void XCBackgroundStatic::BackgroundRender()
+void XCBackgroundStatic::BackgroundRender(float nowFrame)
 {
 	glUseProgram(program);
 	glBindVertexArray(vao);

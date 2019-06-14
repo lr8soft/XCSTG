@@ -207,9 +207,6 @@
     <ClCompile Include="XCSpecialEffect\XCDialog.cpp">
       <Filter>源文件\XCSpecialEffect</Filter>
     </ClCompile>
-    <ClCompile Include="XCBackground\XCBackground3d.cpp">
-      <Filter>源文件\XCBackground</Filter>
-    </ClCompile>
     <ClCompile Include="XCReplay\XCReplay.cpp">
       <Filter>源文件\XCReplay</Filter>
     </ClCompile>
@@ -230,6 +227,9 @@
     </ClCompile>
     <ClCompile Include="XCScene\XCMountainScene.cpp">
       <Filter>源文件\XCScene</Filter>
+    </ClCompile>
+    <ClCompile Include="XCBackground\XCBackgroundDynamic.cpp">
+      <Filter>源文件\XCBackground</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -350,9 +350,6 @@
     <ClInclude Include="XCBackground\XCBackground.h">
       <Filter>头文件\XCBackground</Filter>
     </ClInclude>
-    <ClInclude Include="XCBackground\XCBackground3d.h">
-      <Filter>头文件\XCBackground</Filter>
-    </ClInclude>
     <ClInclude Include="XCBackground\XCBackgroundStatic.h">
       <Filter>头文件\XCBackground</Filter>
     </ClInclude>
@@ -385,6 +382,12 @@
     </ClInclude>
     <ClInclude Include="XCScene\XCMountainScene.h">
       <Filter>头文件\XCScene</Filter>
+    </ClInclude>
+    <ClInclude Include="XCBackground\XCBackgroundDynamic.h">
+      <Filter>头文件\XCBackground</Filter>
+    </ClInclude>
+    <ClInclude Include="XCStage\XCTestDynamicBG.h">
+      <Filter>头文件\XCStage0</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

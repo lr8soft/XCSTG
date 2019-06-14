@@ -132,7 +132,7 @@
     <ClCompile Include="util\gl3w.c" />
     <ClCompile Include="util\ImageArrayLoader.cpp" />
     <ClCompile Include="XCAudio\XCAudioEffect.cpp" />
-    <ClCompile Include="XCBackground\XCBackground3d.cpp" />
+    <ClCompile Include="XCBackground\XCBackgroundDynamic.cpp" />
     <ClCompile Include="XCBackground\XCBackgroundStatic.cpp" />
     <ClCompile Include="XCBullet\XCCircleBullet.cpp" />
     <ClCompile Include="XCFont\XCFont.cpp" />
@@ -175,7 +175,7 @@
     <ClInclude Include="XCAudio\XCAudio.h" />
     <ClInclude Include="XCAudio\XCAudioEffect.h" />
     <ClInclude Include="XCBackground\XCBackground.h" />
-    <ClInclude Include="XCBackground\XCBackground3d.h" />
+    <ClInclude Include="XCBackground\XCBackgroundDynamic.h" />
     <ClInclude Include="XCBackground\XCBackgroundStatic.h" />
     <ClInclude Include="XCBullet\XCBullet.h" />
     <ClInclude Include="XCBullet\XCCircleBullet.h" />
@@ -206,6 +206,7 @@
     <ClInclude Include="XCStage\XCBTStage1.h" />
     <ClInclude Include="XCStage\XCEYStage1.h" />
     <ClInclude Include="XCStage\XCTestBG.h" />
+    <ClInclude Include="XCStage\XCTestDynamicBG.h" />
     <ClInclude Include="XCStage\XCTestSC.h" />
     <ClInclude Include="XCTask\XCBackgroundTask.h" />
     <ClInclude Include="XCTask\XCBossTask.h" />

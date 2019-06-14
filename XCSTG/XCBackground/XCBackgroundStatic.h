@@ -11,9 +11,10 @@ protected:
 	virtual void TextureInit();
 	virtual void BufferInit();
 public:
+	XCBackgroundStatic();
 	void LoadBackGround(std::string tex_path);
 	void LoadBackGround(GLuint textureHandle);
-	virtual void BackgroundRender();
+	virtual void BackgroundRender(float nowFrame);
 	virtual void BackgroundRelease();
 };
 #endif

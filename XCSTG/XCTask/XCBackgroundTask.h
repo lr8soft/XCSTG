@@ -45,7 +45,7 @@ public:
 	{
 		for (auto iter = backGroundGroup.begin(); iter != backGroundGroup.end(); iter++) {
 			if((*iter)->IsBackGroundRender()){
-				(*iter)->BackgroundRender(); break;//一次只渲染一个
+				(*iter)->BackgroundRender(pInfo->RenderTimer.getNowFrame()); break;//一次只渲染一个
 			}
 			else {
 				if (std::next(iter)!= backGroundGroup.end()) {
