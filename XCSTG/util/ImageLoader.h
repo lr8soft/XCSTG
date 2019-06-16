@@ -16,6 +16,7 @@ namespace xc_ogl {
 		~ImageLoader();
 		void Release();
 		void loadTextureFromFile(const char* path);
+		static void* getTexturePointer(const char* tex,int &width,int &height,int &channels);
 		GLuint getTextureBufferObjectHandle();
 	};
 }

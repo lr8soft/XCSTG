@@ -62,6 +62,18 @@ void xc_ogl::ImageLoader::loadTextureFromFile(const char * path)
 	stbi_image_free(texture_ptr);
 }
 
+void * xc_ogl::ImageLoader::getTexturePointer(const char* tex, int &width, int &height, int &channels)
+{
+	stbi_set_flip_vertically_on_load(true);
+	void* texture_ptr = stbi_load(tex, &width, &height, &channels, 0);
+	if (texture_ptr) {
+		return texture_ptr;
+	}
+	else {
+		return nullptr;
+	}
+}
+
 GLuint xc_ogl::ImageLoader::getTextureBufferObjectHandle()
 {
 	return tbo;

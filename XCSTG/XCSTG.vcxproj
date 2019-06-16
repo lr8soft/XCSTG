@@ -148,6 +148,7 @@
     <ClCompile Include="XCScene\XCModel\XCMesh.cpp" />
     <ClCompile Include="XCScene\XCModel\XCModel.cpp" />
     <ClCompile Include="XCScene\XCMountainScene.cpp" />
+    <ClCompile Include="XCScene\XCSkyBox.cpp" />
     <ClCompile Include="XCShape\XCDefaultShape.cpp" />
     <ClCompile Include="XCSpecialEffect\XCDialog.cpp" />
     <ClCompile Include="XCSpecialEffect\XCGameInfoSlot.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="XCScene\XCModel\XCModel.h" />
     <ClInclude Include="XCScene\XCMountainScene.h" />
     <ClInclude Include="XCScene\XCScene.h" />
+    <ClInclude Include="XCScene\XCSkyBox.h" />
     <ClInclude Include="XCShape\XCDefaultShape.h" />
     <ClInclude Include="XCSpecialEffect\XCDialog.h" />
     <ClInclude Include="XCSpecialEffect\XCGameInfoSlot.h" />

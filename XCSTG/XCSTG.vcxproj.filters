@@ -231,6 +231,9 @@
     <ClCompile Include="XCBackground\XCBackgroundDynamic.cpp">
       <Filter>源文件\XCBackground</Filter>
     </ClCompile>
+    <ClCompile Include="XCScene\XCSkyBox.cpp">
+      <Filter>源文件\XCScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util\AppFrameWork.h">
@@ -388,6 +391,9 @@
     </ClInclude>
     <ClInclude Include="XCStage\XCTestDynamicBG.h">
       <Filter>头文件\XCStage0</Filter>
+    </ClInclude>
+    <ClInclude Include="XCScene\XCSkyBox.h">
+      <Filter>头文件\XCScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
